@@ -1,4 +1,4 @@
-import api from "../../services/api";
+// import api from "../../services/api";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
@@ -6,6 +6,7 @@ import { TextField } from "@material-ui/core";
 import { useHistory, Link } from "react-router-dom";
 import { Container, InputContainer } from "./styles";
 import Button from "../../components/Button";
+import { useAuth } from "../../providers/AuthContext";
 
 const Login = () => {
   const schema = yup.object().shape({
@@ -34,21 +35,19 @@ const Login = () => {
 
   const history = useHistory();
 
-  const onSubmitForm = (data) => {
-    api
-      .post("/sessions/", data)
-      .then((response) => {
-        const { access } = response.data;
+  const { signIn } = useAuth();
 
-        localStorage.setItem("@habit:token", access);
-      })
-      .catch((err) => console.log(err.response.data));
+  const handleSignIn = (data) => {
+    signIn(data)
+      .then((_) => console.log("success"))
+      .catch((err) => console.log("invalid data"));
+    return history.push("/dashboard");
   };
 
   return (
     <Container>
       <InputContainer>
-        <form onSubmit={handleSubmit(onSubmitForm)}>
+        <form onSubmit={handleSubmit(handleSignIn)}>
           <h2>Login</h2>
           <TextField
             id="outlined-basic"
