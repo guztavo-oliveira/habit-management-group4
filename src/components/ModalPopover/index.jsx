@@ -1,7 +1,7 @@
 import { Popover } from "@material-ui/core";
 import { useState } from "react";
 
-export const ModalPopover = ({ children, ele }) => {
+export const ModalPopover = ({ children, ele, msg="fechar" }) => {
   const [open, setOpen] = useState(false);
   const [alvo, setAlvo] = useState("")
   const abriModal = (e) => {
@@ -26,7 +26,7 @@ export const ModalPopover = ({ children, ele }) => {
           }}
         >
           <div>
-            Teste <span onClick={abriModal}>X</span>
+            {msg} <span onClick={abriModal}>X</span>
           </div>
           {children}
         </Popover>

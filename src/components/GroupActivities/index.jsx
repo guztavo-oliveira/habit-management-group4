@@ -11,6 +11,7 @@ import { ModalPopover } from "../ModalPopover";
 
 const GroupActivities = ({ refresh, setRefresh }) => {
   const { tokenBearer, groupId, activ } = useAuth();
+  const {access} = useAuth()
   // const [userInput, setUserInput] = useState("");
 
 
@@ -136,6 +137,8 @@ const GroupActivities = ({ refresh, setRefresh }) => {
           </ul>
         </ModalPopover>
       )) }
+
+      {access}
       {/* <Popover
         id={add}
         open={open}
