@@ -21,6 +21,16 @@ const AuthProvider = ({ children }) => {
     return {};
   });
 
+  const [token] = useState(
+    JSON.parse(localStorage.getItem("@gestaohabitos:access"))
+  );
+
+  const tokenBearer = {
+    headers: {
+      Authorization: `Bearer: ${token}`,
+    },
+  };
+
   const signIn = async (data) => {
     const response = await api.post("/sessions/", data);
 
@@ -48,6 +58,7 @@ const AuthProvider = ({ children }) => {
         id: data.id,
         signIn,
         signOut,
+        tokenBearer,
       }}
     >
       {children}

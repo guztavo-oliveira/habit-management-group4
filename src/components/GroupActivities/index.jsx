@@ -1,15 +1,20 @@
 import { useState } from "react";
-import { api } from "../../services/api";
-import { useForm, Controller } from "react-router-dom";
+import api from "../../services/api";
+import { useForm, Controller } from "react-hook-form";
 import Toastify from "toastify";
 import { Button, TextField, Popover } from "@material-ui/core";
+import { useAuth } from "../../providers/AuthContext";
+import { ModalDialog } from "../ModalDialog";
+import { ActivitiesContainer } from "../GroupActivities/styles";
+import { useModal } from "../../providers/ModalContext";
 
-import { ActivitiesContainer, EditActivForm, AddActivForm } from ".";
+const GroupActivities = ({ refresh, setRefresh }) => {
+  const { tokenBearer, groupId, activ } = useAuth();
+  const [userInput, setUserInput] = useState("");
+  const { handleClickOpen } = useModal();
+  //const [anchorEl, setAnchorEl] = useState(null);
 
-export const GroupActivities = ({ groupId, refresh, setRefresh }) => {
-  const [anchorEl, setAnchorEl] = useState(null);
-
-  const handleClick = (event) => {
+  /*const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
@@ -19,12 +24,11 @@ export const GroupActivities = ({ groupId, refresh, setRefresh }) => {
 
   const open = Boolean(anchorEl);
   const edit = open ? "simple-popover" : undefined;
-  const add = open ? "simple-popover" : undefined;
+  const add = open ? "simple-popover" : undefined;*/
 
-  const [activ, setActiv] = useState([]);
   const { handleSubmit, control } = useForm();
 
-  const getActivities = () => {
+  /*const getActivities = () => {
     api
       .get(`/activities/?grupo=${groupId}`)
       .then((response) => {
@@ -34,33 +38,24 @@ export const GroupActivities = ({ groupId, refresh, setRefresh }) => {
       .catch((err) => {
         console.log(err);
       });
-  };
+  };*/
 
   const addActiv = (data) => {
     data = { ...data, group: `${groupId}` };
     api
-      .post("/activities/", data, {
-        headers: {
-          Authorization: `Bearer: ${JSON.parse(
-            localStorage.getItem("@habits:token")
-          )}`,
-        },
-      })
+      .post("/activities/", data, tokenBearer)
       .then((response) => {
         Toastify.success("Tudo certo!", "Atividade adicionada com sucesso.");
         refresh === true ? setRefresh(false) : setRefresh(true);
+      })
+      .catch((err) => {
+        Toastify.error("Oops!", "Se o erro persistir, faça login novamente.");
       });
   };
 
   const deleteActiv = (activId) => {
     api
-      .delete(`/activities/${activId}`, {
-        headers: {
-          Authorization: `Bearer: ${JSON.parse(
-            localStorage.getItem("@habits:token")
-          )}`,
-        },
-      })
+      .delete(`/activities/${activId}`, tokenBearer)
       .then((response) => {
         Toastify.success(
           "Tudo certo!",
@@ -95,8 +90,10 @@ export const GroupActivities = ({ groupId, refresh, setRefresh }) => {
   };
   return (
     <ActivitiesContainer>
-      <Button onClick={handleClick}>+</Button>
-      <Popover
+      <ModalDialog>
+        <Button onClick={handleClickOpen}>Teste</Button>
+      </ModalDialog>
+      {/*<Popover
         id={add}
         open={open}
         anchorEl={anchorEl}
@@ -129,6 +126,7 @@ export const GroupActivities = ({ groupId, refresh, setRefresh }) => {
                 label="Data limite"
                 variant="outlined"
                 type="datetime-local"
+                required
                 sx={{ width: "80%" }}
                 {...field}
               />
@@ -141,14 +139,14 @@ export const GroupActivities = ({ groupId, refresh, setRefresh }) => {
             ADICIONAR
           </Button>
         </AddActivForm>
-      </Popover>
+            </Popover>*/}
       {activ.map((item) => {
         return (
           <>
             <div>{item.title}</div>
             <div>{item.realization_time}</div>
             <button onClick={() => deleteActiv(item.id)}>X</button>
-            <button onClick={handleClick}>Edit</button>
+            {/*<button onClick={handleClick}>Edit</button>
             <Popover
               id={edit}
               open={open}
@@ -159,31 +157,24 @@ export const GroupActivities = ({ groupId, refresh, setRefresh }) => {
                 horizontal: "left",
               }}
             >
-              <EditActivForm onSubmit={handleSubmit(editActiv)}>
-                <Controller
-                  render={({ field }) => (
-                    <TextField
-                      id="outlined-basic"
-                      label="Título da atividade"
-                      variant="outlined"
-                      type="text"
-                      sx={{ width: "80%" }}
-                      {...field}
-                    />
-                  )}
-                  name="title"
-                  activId={item.id}
-                  control={control}
-                  defaultValue=""
-                />
-                <Button variant="contained" type="submit">
-                  SALVAR
-                </Button>
-              </EditActivForm>
-            </Popover>
+              <TextField
+                type="text"
+                value={userInput}
+                onChange={(e) => setUserInput(e.currentTarget.value)}
+              />
+              <Button
+                variant="contained"
+                type="submit"
+                onClick={() => editActiv(item.id, userInput)}
+              >
+                SALVAR
+              </Button>
+            </Popover>*/}
           </>
         );
       })}
     </ActivitiesContainer>
   );
 };
+
+export default GroupActivities;

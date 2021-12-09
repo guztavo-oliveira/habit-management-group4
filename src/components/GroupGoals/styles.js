@@ -8,4 +8,4 @@ export const GoalsContainer = styled.div`
   display: flex;
 `;
 
-export const EditGoalsForm = styled.form``;
+export const AddGoalsForm = styled.form``;
