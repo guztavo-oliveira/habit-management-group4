@@ -7,9 +7,11 @@ import { Container, InputContainer } from "./styles";
 import Button from "../../components/Button";
 import jwt_decode from "jwt-decode";
 import api from "../../services/api";
+import { useAuth } from "../../providers/AuthContext";
 
 const Login = () => {
   const history = useHistory();
+  const {atulizarToken} = useAuth()
   const schema = yup.object().shape({
     username: yup
       .string()
@@ -36,19 +38,20 @@ const Login = () => {
 
 
   const addData = (response) => {
-
     const { access } = response.data;
 
     const { user_id } = jwt_decode(access);
 
     localStorage.setItem("@gestaodehabitos:id", user_id);
     localStorage.setItem("@gestaodehabitos:access", access);
+    atulizarToken()
+    history.push("/dashboard")
     console.log(access, user_id, "teste")
   };
 
   const handleSignIn = (data) => {
     api.post("/sessions/", data)
-      .then((response) => {addData(response);console.log("success");history.push("/dashboard")})
+      .then((response) => {addData(response);console.log("success")})
       .catch((err) => console.log("invalid data"));
   };
 
