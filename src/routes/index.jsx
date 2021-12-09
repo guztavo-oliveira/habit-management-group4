@@ -12,13 +12,14 @@ const Routes = () => {
       {/* <Route>
         <LandingPage />
       </Route> */}
-      <Route exact path="/">
+      <Route path="/login">
         <Login />
       </Route>
 
-      {/* <Route>
+      <Route path="/register">
         <Register />
       </Route>
+      {/*
       <Route>
         <Dashboard />
       </Route> */}
