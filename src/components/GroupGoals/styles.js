@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const ActivitiesContainer = styled.div`
+export const GoalsContainer = styled.div`
   width: 90%;
   height: 20%;
   border: none;
@@ -8,4 +8,4 @@ export const ActivitiesContainer = styled.div`
   display: flex;
 `;
 
-export const ActivitiesCard = styled.div``;
+export const EditGoalsForm = styled.form``;
