@@ -11,7 +11,8 @@ import { useModal } from "../../providers/ModalContext";
 const GroupActivities = ({ refresh, setRefresh }) => {
   const { tokenBearer, groupId, activ } = useAuth();
   const [userInput, setUserInput] = useState("");
-  const { handleClickOpen } = useModal();
+  const { abriModal, open } = useModal();
+
   //const [anchorEl, setAnchorEl] = useState(null);
 
   /*const handleClick = (event) => {
@@ -90,8 +91,38 @@ const GroupActivities = ({ refresh, setRefresh }) => {
   };
   return (
     <ActivitiesContainer>
-      <ModalDialog>
-        <Button onClick={handleClickOpen}>Teste</Button>
+      {/* <ModalDialog exibirModal={abriModal} open={open}>
+        <Button onClick={abriModal}>Teste</Button>
+      </ModalDialog>
+      <button onClick={abriModal}>exibir modal</button>
+      <ModalDialog exibirModal={abriModal2} open={open2}>
+        <Button onClick={abriModal2}>modal 2 fechar</Button>
+      </ModalDialog>
+      <button onClick={abriModal2}>exibir modal1</button> */}
+      
+      {[1,2,3].map((e, ind) => (
+        <ModalDialog ele={e} key={ind}>
+          <Button>{e}</Button>
+        </ModalDialog>
+      ))}
+
+      <ModalDialog ele={"nome botao"}>
+          <ul>
+            <li>limao</li>
+            <li>limao</li>
+            <li>limao</li>
+            <li>limao</li>
+            <li>limao</li>
+          </ul>
+      </ModalDialog>
+      <ModalDialog ele={"mostrar atividades"}>
+          <ul>
+            <li>caminhar</li>
+            <li>ler</li>
+            <li>escrever</li>
+            <li>limao</li>
+            <li>limao</li>
+          </ul>
       </ModalDialog>
       {/*<Popover
         id={add}
@@ -140,12 +171,12 @@ const GroupActivities = ({ refresh, setRefresh }) => {
           </Button>
         </AddActivForm>
             </Popover>*/}
-      {activ.map((item) => {
+      {/* {activ.map((item) => {
         return (
           <>
             <div>{item.title}</div>
             <div>{item.realization_time}</div>
-            <button onClick={() => deleteActiv(item.id)}>X</button>
+            <button onClick={() => deleteActiv(item.id)}>X</button> */}
             {/*<button onClick={handleClick}>Edit</button>
             <Popover
               id={edit}
@@ -170,9 +201,9 @@ const GroupActivities = ({ refresh, setRefresh }) => {
                 SALVAR
               </Button>
             </Popover>*/}
-          </>
+          {/* </>
         );
-      })}
+      })} */}
     </ActivitiesContainer>
   );
 };
