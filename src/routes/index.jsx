@@ -1,28 +1,29 @@
 import { Route, Switch } from "react-router-dom";
 import { useState, useEffect } from "react";
-import useLocalStorage from "use-local-storage";
+// import useLocalStorage from "use-local-storage";
 import { LandingPage } from "../pages/LandingPage";
 import { Dashboard } from "../pages/Dashboard";
-import { Login } from "../pages/Login";
-import { Register } from "../pages/Register";
+import Login from "../pages/Login";
+import Register from "../pages/Register";
 
-function Routes() {
+const Routes = () => {
   return (
     <Switch>
-      <Route>
+      {/* <Route>
         <LandingPage />
-      </Route>
-      <Route>
+      </Route> */}
+      <Route exact path="/">
         <Login />
       </Route>
-      <Route>
+
+      {/* <Route>
         <Register />
       </Route>
       <Route>
         <Dashboard />
-      </Route>
+      </Route> */}
     </Switch>
   );
-}
+};
 
 export default Routes;

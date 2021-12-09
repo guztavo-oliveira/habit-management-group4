@@ -1,3 +1,7 @@
 import axios from "axios";
 
-export const api = () => {};
+const api = axios.create({
+  baseURL: "https://kenzie-habits.herokuapp.com/",
+});
+
+export default api;
