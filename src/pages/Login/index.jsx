@@ -1,4 +1,3 @@
-// import api from "../../services/api";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
@@ -6,9 +5,11 @@ import { TextField } from "@material-ui/core";
 import { useHistory, Link } from "react-router-dom";
 import { Container, InputContainer } from "./styles";
 import Button from "../../components/Button";
-import { useAuth } from "../../providers/AuthContext";
+import jwt_decode from "jwt-decode";
+import api from "../../services/api";
 
 const Login = () => {
+  const history = useHistory();
   const schema = yup.object().shape({
     username: yup
       .string()
@@ -33,15 +34,22 @@ const Login = () => {
     resolver: yupResolver(schema),
   });
 
-  const history = useHistory();
 
-  const { signIn } = useAuth();
+  const addData = (response) => {
+
+    const { access } = response.data;
+
+    const { user_id } = jwt_decode(access);
+
+    localStorage.setItem("@gestaodehabitos:id", user_id);
+    localStorage.setItem("@gestaodehabitos:access", access);
+    console.log(access, user_id, "teste")
+  };
 
   const handleSignIn = (data) => {
-    signIn(data)
-      .then((_) => console.log("success"))
+    api.post("/sessions/", data)
+      .then((response) => {addData(response);console.log("success");history.push("/dashboard")})
       .catch((err) => console.log("invalid data"));
-    return history.push("/dashboard");
   };
 
   return (

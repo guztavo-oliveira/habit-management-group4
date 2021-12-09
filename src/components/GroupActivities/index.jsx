@@ -6,12 +6,13 @@ import { Button, TextField, Popover } from "@material-ui/core";
 import { useAuth } from "../../providers/AuthContext";
 import { ModalDialog } from "../ModalDialog";
 import { ActivitiesContainer } from "../GroupActivities/styles";
-import { useModal } from "../../providers/ModalContext";
+import { ModalPopover } from "../ModalPopover";
+
 
 const GroupActivities = ({ refresh, setRefresh }) => {
   const { tokenBearer, groupId, activ } = useAuth();
-  const [userInput, setUserInput] = useState("");
-  const { abriModal, open } = useModal();
+  // const [userInput, setUserInput] = useState("");
+
 
   //const [anchorEl, setAnchorEl] = useState(null);
 
@@ -124,7 +125,18 @@ const GroupActivities = ({ refresh, setRefresh }) => {
             <li>limao</li>
           </ul>
       </ModalDialog>
-      {/*<Popover
+      {["a", "b,", "c"].map((ele, ind) => (
+        <ModalPopover ele={ele} key={ind}>
+          <ul>
+            <li>caminhar</li>
+            <li>ler</li>
+            <li>escrever</li>
+            <li>limao</li>
+            <li>limao</li>
+          </ul>
+        </ModalPopover>
+      )) }
+      {/* <Popover
         id={add}
         open={open}
         anchorEl={anchorEl}
@@ -133,7 +145,8 @@ const GroupActivities = ({ refresh, setRefresh }) => {
           vertical: "bottom",
           horizontal: "left",
         }}
-      >
+      > */}
+        {/*
         <AddActivForm onSubmit={handleSubmit(addActiv)}>
           <Controller
             render={({ field }) => (
