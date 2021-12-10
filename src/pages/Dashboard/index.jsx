@@ -1,4 +1,5 @@
-// import ListGroups from "../../components/ListGroups";
+import GroupActivities from "../../components/GroupActivities";
+import ListGroups from "../../components/ListGroups";
 import { Container, Header, MenuBar, ContainerHabits } from "./styles";
 import { BiUser, BiGroup } from "react-icons/bi";
 import { BsGear } from "react-icons/bs";
@@ -17,10 +18,13 @@ const Dashboard = () => {
           <BsGear className="gear" />
         </div>
       </Header>
-      <ContainerHabits />
-      <Habits />
+      <ContainerHabits>
+        <Habits />
+      </ContainerHabits>
+
       {/* <GroupActivities /> */}
       {/*<ListGroups/>*/}
+
       <MenuBar>
         <div className="icons">
           <BiGroup />

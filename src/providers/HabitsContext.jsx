@@ -9,9 +9,7 @@ const useHabits = () => {
 };
 
 const HabitsProvider = ({ children }) => {
-  const [access] = useState(
-    JSON.parse(localStorage.getItem("@gestaodehabitos:access"))
-  );
+  const [access] = useState(localStorage.getItem("@gestaodehabitos:access"));
 
   const authorization = {
     headers: {
