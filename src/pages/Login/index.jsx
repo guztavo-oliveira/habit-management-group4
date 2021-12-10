@@ -15,7 +15,7 @@ import { useAuth } from "../../providers/AuthContext";
 
 const Login = () => {
   const history = useHistory();
-  const {atulizarToken} = useAuth()
+  const { atualizarToken } = useAuth();
   const schema = yup.object().shape({
     username: yup
       .string()
@@ -41,7 +41,6 @@ const Login = () => {
     resolver: yupResolver(schema),
   });
 
-
   const addData = (response) => {
     const { access } = response.data;
 
@@ -49,14 +48,17 @@ const Login = () => {
 
     localStorage.setItem("@gestaodehabitos:id", user_id);
     localStorage.setItem("@gestaodehabitos:access", access);
-    atulizarToken()
-    history.push("/dashboard")
-    console.log(access, user_id, "teste")
+    atualizarToken();
+    history.push("/dashboard");
   };
 
   const handleSignIn = (data) => {
-    api.post("/sessions/", data)
-      .then((response) => {addData(response);console.log("success")})
+    api
+      .post("/sessions/", data)
+      .then((response) => {
+        addData(response);
+        console.log("success");
+      })
       .catch((err) => console.log("invalid data"));
   };
 
