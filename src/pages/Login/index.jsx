@@ -3,11 +3,15 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { TextField } from "@material-ui/core";
 import { useHistory, Link } from "react-router-dom";
-import { Container, InputContainer } from "./styles";
+import { Container, InputContainer, Bar, RegisterLogo } from "./styles";
 import Button from "../../components/Button";
+
+import { useLayoutEffect, useState } from "react";
+
 import jwt_decode from "jwt-decode";
 import api from "../../services/api";
 import { useAuth } from "../../providers/AuthContext";
+
 
 const Login = () => {
   const history = useHistory();
@@ -27,6 +31,7 @@ const Login = () => {
     // .matches(/(?=.*[A-Z])(?=.{8,})/, "Sem letra maiúscula")
     // .matches(/(?=.*[!@#$%^&*])(?=.{8,})/, "Sem caractere especial"),
   });
+  
 
   const {
     register,
@@ -56,6 +61,10 @@ const Login = () => {
   };
 
   return (
+
+    <>
+      <Bar />
+      <RegisterLogo />
     <Container>
       <InputContainer>
         <form onSubmit={handleSubmit(handleSignIn)}>
@@ -88,6 +97,7 @@ const Login = () => {
         </form>
       </InputContainer>
     </Container>
+    </>    
   );
 };
 
