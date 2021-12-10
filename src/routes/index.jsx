@@ -14,7 +14,7 @@ const Routes = () => {
       </Route> */}
       <Route path="/login" component={Login} />
 
-      <Route path="/register" component={Register}/>
+      <Route path="/signup" component={Register}/>
 
       <Route path="/dashboard" component={Dashboard} isPrivate/>
     </Switch>
