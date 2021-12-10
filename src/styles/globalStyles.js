@@ -2,6 +2,13 @@ import { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
 
+* {
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+	text-decoration: none;
+}
+
 	@font-face {
   font-family: logoFont;
   src: url('./assets/fonts/planetncond.ttf') format(truetype);
