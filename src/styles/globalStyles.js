@@ -1,11 +1,11 @@
 import { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
-
 	@font-face {
   font-family: logoFont;
-  src: url('./assets/fonts/planetncond.ttf') format(truetype);
-
+  src: url('./assets/fonts/planetncond.ttf') format(truetype)
+	}
+	
 	*{
 		padding: 0;
     margin: 0;
@@ -24,6 +24,6 @@ const GlobalStyle = createGlobalStyle`
 		--white: #fff;
 	}
 		
-}`;
+`;
 
 export default GlobalStyle;

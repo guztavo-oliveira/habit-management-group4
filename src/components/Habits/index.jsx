@@ -3,9 +3,9 @@ import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useHabits } from "../../providers/HabitsContext";
-import { ModalDialog } from "../../components/ModalDialog";
+import { ModalDialog } from "../ModalDialog";
 import { Button, TextField } from "@material-ui/core";
-import HabitsCard from "../../components/HabitsCard";
+import HabitsCard from "../HabitsCard";
 import { useAuth } from "../../providers/AuthContext";
 
 const Habits = () => {
@@ -19,7 +19,7 @@ const Habits = () => {
     // user: yup.number().required("Required field"),
   });
 
-  const { userId } = useAuth();
+  const { id } = useAuth();
 
   const {
     register,
@@ -37,7 +37,7 @@ const Habits = () => {
       ...data,
       achieved: true,
       how_much_achieved: 1,
-      user: userId,
+      user: id,
     };
     addHabits(newData);
     reset();
