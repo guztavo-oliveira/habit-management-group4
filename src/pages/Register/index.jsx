@@ -4,7 +4,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { TextField } from "@material-ui/core";
 import { useHistory, Link } from "react-router-dom";
-import { Container, InputContainer } from "./styles";
+import { Container, InputContainer, Bar, RegisterLogo } from "./styles";
 import Button from "../../components/Button";
 
 const Register = () => {
@@ -49,63 +49,67 @@ const Register = () => {
   };
 
   return (
-    <Container>
-      <InputContainer>
-        <form onSubmit={handleSubmit(onSubmitForm)}>
-          <h2>Registrar</h2>
-          <TextField
-            id="outlined-basic"
-            label="Nome"
-            // type="email"
-            variant="outlined"
-            sx={{ marginTop: 5 }}
-            fullWidth
-            helperText={errors.username?.message}
-            {...register("username")}
-            error={!!errors.username}
-          />
-          <TextField
-            id="outlined-basic"
-            label="E-mail"
-            variant="outlined"
-            sx={{ marginTop: 10 }}
-            fullWidth
-            name="email"
-            type="email"
-            {...register("email")}
-            error={!!errors.email}
-            helperText={errors.email?.message}
-          />
-          <TextField
-            id="outlined-basic"
-            label="Senha"
-            variant="outlined"
-            sx={{ marginTop: 3 }}
-            fullWidth
-            name="password"
-            {...register("password")}
-            error={!!errors.password}
-            helperText={errors.password?.message}
-            type="password"
-          />
-          <TextField
-            id="outlined-basic"
-            label="Confirmar senha"
-            variant="outlined"
-            sx={{ marginTop: 3 }}
-            fullWidth
-            name="passwordConfirm"
-            {...register("passwordConfirm")}
-            error={!!errors.passwordConfirm}
-            helperText={errors.passwordConfirm?.message}
-            type="password"
-          />
-          <Button>Registrar</Button>
-          <p>Já tem conta?</p>
-          <Link to="/login">Entrar</Link>
-        </form>
-      </InputContainer>
-    </Container>
+    <>
+      <Bar />
+      <RegisterLogo />
+      <Container>
+        <InputContainer>
+          <form onSubmit={handleSubmit(onSubmitForm)}>
+            <h2>Registrar</h2>
+            <TextField
+              id="outlined-basic"
+              label="Nome"
+              // type="email"
+              variant="outlined"
+              sx={{ marginTop: 5 }}
+              fullWidth
+              helperText={errors.username?.message}
+              {...register("username")}
+              error={!!errors.username}
+            />
+            <TextField
+              id="outlined-basic"
+              label="E-mail"
+              variant="outlined"
+              sx={{ marginTop: 10 }}
+              fullWidth
+              name="email"
+              type="email"
+              {...register("email")}
+              error={!!errors.email}
+              helperText={errors.email?.message}
+            />
+            <TextField
+              id="outlined-basic"
+              label="Senha"
+              variant="outlined"
+              sx={{ marginTop: 3 }}
+              fullWidth
+              name="password"
+              {...register("password")}
+              error={!!errors.password}
+              helperText={errors.password?.message}
+              type="password"
+            />
+            <TextField
+              id="outlined-basic"
+              label="Confirmar senha"
+              variant="outlined"
+              sx={{ marginTop: 3 }}
+              fullWidth
+              name="passwordConfirm"
+              {...register("passwordConfirm")}
+              error={!!errors.passwordConfirm}
+              helperText={errors.passwordConfirm?.message}
+              type="password"
+            />
+            <Button>Registrar</Button>
+            <p>Já tem conta?</p>
+            <Link to="/login">Entrar</Link>
+          </form>
+        </InputContainer>
+      </Container>
+    </>
   );
 };
 
