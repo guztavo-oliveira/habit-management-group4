@@ -1,12 +1,15 @@
 import GroupActivities from "../../components/GroupActivities";
-import ListGroups from "../../components/ListGroups"
+import ListGroups from "../../components/ListGroups";
+import Habits from "../Habits";
+
 const Dashboard = () => {
   return (
-  <>
-  <GroupActivities />
-  <ListGroups/>
-  </>
-  )
+    <>
+      <Habits />
+      <GroupActivities />
+      <ListGroups />
+    </>
+  );
 };
 
 export default Dashboard;
