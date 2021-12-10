@@ -1,4 +1,3 @@
-import api from "../../services/api";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
@@ -6,9 +5,17 @@ import { TextField } from "@material-ui/core";
 import { useHistory, Link } from "react-router-dom";
 import { Container, InputContainer, Bar, RegisterLogo } from "./styles";
 import Button from "../../components/Button";
+
 import { useLayoutEffect, useState } from "react";
 
+import jwt_decode from "jwt-decode";
+import api from "../../services/api";
+import { useAuth } from "../../providers/AuthContext";
+
+
 const Login = () => {
+  const history = useHistory();
+  const {atulizarToken} = useAuth()
   const schema = yup.object().shape({
     username: yup
       .string()
@@ -24,27 +31,7 @@ const Login = () => {
     // .matches(/(?=.*[A-Z])(?=.{8,})/, "Sem letra maiúscula")
     // .matches(/(?=.*[!@#$%^&*])(?=.{8,})/, "Sem caractere especial"),
   });
-
-  function useWindowSize() {
-    const [size, setSize] = useState([0, 0]);
-    useLayoutEffect(() => {
-      function updateSize() {
-        setSize([window.innerWidth, window.innerHeight]);
-      }
-      window.addEventListener("resize", updateSize);
-      updateSize();
-      return () => window.removeEventListener("resize", updateSize);
-    }, []);
-    return size;
-  }
-
-  function ShowWindowDimensions(props) {
-    return useWindowSize();
-  }
-
-  const [width, height] = ShowWindowDimensions();
-
-  console.log(width, height);
+  
 
   const {
     register,
@@ -54,56 +41,63 @@ const Login = () => {
     resolver: yupResolver(schema),
   });
 
-  const history = useHistory();
 
-  const onSubmitForm = (data) => {
-    api
-      .post("/sessions/", data)
-      .then((response) => {
-        const { access } = response.data;
+  const addData = (response) => {
+    const { access } = response.data;
 
-        localStorage.setItem("@habit:token", access);
-      })
-      .catch((err) => console.log(err.response.data));
+    const { user_id } = jwt_decode(access);
+
+    localStorage.setItem("@gestaodehabitos:id", user_id);
+    localStorage.setItem("@gestaodehabitos:access", access);
+    atulizarToken()
+    history.push("/dashboard")
+    console.log(access, user_id, "teste")
+  };
+
+  const handleSignIn = (data) => {
+    api.post("/sessions/", data)
+      .then((response) => {addData(response);console.log("success")})
+      .catch((err) => console.log("invalid data"));
   };
 
   return (
+
     <>
       <Bar />
       <RegisterLogo />
-      <Container>
-        <InputContainer>
-          <form onSubmit={handleSubmit(onSubmitForm)}>
-            <h2>Login</h2>
-            <TextField
-              id="outlined-basic"
-              label="Login"
-              // type="email"
-              variant="outlined"
-              sx={{ marginTop: 5 }}
-              fullWidth
-              helperText={errors.username?.message}
-              {...register("username")}
-              error={!!errors.username}
-            />
-            <TextField
-              id="outlined-basic"
-              label="Senha"
-              variant="outlined"
-              sx={{ marginTop: 3 }}
-              fullWidth
-              helperText={errors.password?.message}
-              {...register("password")}
-              error={!!errors.password}
-              type="password"
-            />
-            <Button>Entrar</Button>
-            <p>Ainda não tem conta?</p>
-            <Link to="/signup">Cadastre-se</Link>
-          </form>
-        </InputContainer>
-      </Container>
-    </>
+    <Container>
+      <InputContainer>
+        <form onSubmit={handleSubmit(handleSignIn)}>
+          <h2>Login</h2>
+          <TextField
+            id="outlined-basic"
+            label="Login"
+            // type="email"
+            variant="outlined"
+            sx={{ marginTop: 5 }}
+            fullWidth
+            helperText={errors.username?.message}
+            {...register("username")}
+            error={!!errors.username}
+          />
+          <TextField
+            id="outlined-basic"
+            label="Senha"
+            variant="outlined"
+            sx={{ marginTop: 3 }}
+            fullWidth
+            helperText={errors.password?.message}
+            {...register("password")}
+            error={!!errors.password}
+            type="password"
+          />
+          <Button>Entrar</Button>
+          <p>Ainda não tem conta?</p>
+          <Link to="/signup">Cadastre-se</Link>
+        </form>
+      </InputContainer>
+    </Container>
+    </>    
   );
 };
 

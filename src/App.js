@@ -1,6 +1,6 @@
 import "./App.css";
 import Routes from "./routes";
-import Login from "./pages/Login";
+// import Login from "./pages/Login";
 import GlobalStyles from "./styles/globalStyles";
 
 function App() {
