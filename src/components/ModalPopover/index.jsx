@@ -1,10 +1,10 @@
 import { Popover } from "@material-ui/core";
 import { useState } from "react";
-
+import "./styles.css";
 export const ModalPopover = ({
   children,
   ele,
-  msg = "fechar",
+  msg = "enviar",
   msgButton = false,
 }) => {
   const [open, setOpen] = useState(false);
@@ -37,11 +37,13 @@ export const ModalPopover = ({
             horizontal: "left",
           }}
         >
-          <div>
-            {msg} <span onClick={abriModal}>X</span>
+          <div className="modalPopover">
+            <div>
+              {msg} <span onClick={abriModal}>X</span>
+            </div>
+            {children}
+            {msgButton && <button onClick={abriModal}>{msgButton}</button>}
           </div>
-          {children}
-          {msgButton && <button onClick={abriModal}>{msgButton}</button>}
         </Popover>
       )}
     </div>

@@ -11,17 +11,19 @@ const AuthProvider = ({ children }) => {
   const [access, setAccess] = useState(
     localStorage.getItem("@gestaodehabitos:access")
   );
-  const [id, setId] = useState(localStorage.getItem("@gestaodehabitos:id"));
+  const [id, setId] = useState(
+    Number(localStorage.getItem("@gestaodehabitos:id"))
+  );
+
   const atualizarToken = () => {
-    setId(localStorage.getItem("@gestaodehabitos:id") || "");
+    setId(Number(localStorage.getItem("@gestaodehabitos:id")));
     setAccess(localStorage.getItem("@gestaodehabitos:access"));
   };
   const tokenBearer = {
     headers: {
-      Authorization: `Bearer: ${access}`,
+      Authorization: `Bearer ${access}`,
     },
   };
-  console.log(access, "este e o acesso");
   const signOut = () => {
     localStorage.removeItem("@gestaodehabitos:id");
     localStorage.removeItem("@gestaodehabitos:access");

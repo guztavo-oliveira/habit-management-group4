@@ -9,7 +9,6 @@ export const ModalDialog = ({ children, ele , msg="fechar"}) => {
   };
 
   return (
-    <div>
       <div onClick={() => {setOpen(true)}}>
         {ele}
         {open && (
@@ -21,6 +20,5 @@ export const ModalDialog = ({ children, ele , msg="fechar"}) => {
           </Dialog>
         )}
       </div>
-    </div>
   );
 };
