@@ -1,5 +1,6 @@
 import styled from "styled-components";
-import logo from "../../assets/images/login-logo.png";
+import logo from "../../assets/images/simbolo-color.png";
+import logoPreto from "../../assets/images/simbolo-preto.png";
 
 export const Container = styled.div`
   height: 100vh;
@@ -16,24 +17,30 @@ export const Header = styled.header`
   display: flex;
   align-items: center;
 
+  .header__icon {
+    width: 36px;
+    height: 36px;
+  }
+
   svg {
     font-size: 36px;
     background-color: var(--light-blue);
     border-radius: 50%;
     color: var(--white);
     padding: 7px;
-    margin-left: 10px;
   }
 
   .content {
+    width: 100%;
     display: flex;
     margin-left: 10px;
+    justify-content: space-between;
   }
 
   .gear {
     background-color: var(--white);
     color: black;
-    margin-left: 120px;
+    /* margin-left: 120px; */
     cursor: pointer;
   }
 
@@ -54,11 +61,12 @@ export const MenuBar = styled.div`
 
   svg {
     font-size: 36px;
-    background-color: var(--dark-blue);
+    background-color: var(--white);
     border-radius: 50%;
-    color: var(--white);
+    color: var(--dark-blue);
     padding: 7px;
     margin-left: 10px;
+    cursor: pointer;
   }
 
   .icons {
@@ -71,14 +79,26 @@ export const MenuBar = styled.div`
 
   .logo {
     background-color: var(--light-blue);
+    background-image: url(${logoPreto});
+    background-size: contain;
+    background-repeat: no-repeat;
     width: 100px;
     height: 100px;
     border-radius: 50% 50% 0 0;
+    position: absolute;
+    left: 100px;
+    bottom: -10px;
   }
 `;
 
 export const ContainerHabits = styled.div`
   width: 90%;
   height: 100%;
-  border: 1px solid red;
+  /* border: 1px solid red; */
+`;
+
+export const ContainerGroups = styled.div`
+  width: 90%;
+  height: 100%;
+  /* border: 1px solid red; */
 `;
