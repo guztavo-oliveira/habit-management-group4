@@ -3,60 +3,86 @@ import { useAuth } from "../../providers/AuthContext";
 import api from "../../services/api";
 import { ModalDialog } from "../ModalDialog";
 import { TextField } from "@mui/material";
-import * as yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { useForm } from "react-hook-form";
 import Button from "../Button";
 import { FiUser } from "react-icons/fi";
 import { toast } from "react-toastify";
 import { useGroup } from "../../providers/JsonGroups";
 import { useState } from "react";
-const EditGroup = ({ id, updateGroup}) => {
+
+const EditGroup = ({ id, updateGroup }) => {
   const { tokenBearer } = useAuth();
 
-  const [updateData, setUpdateData] = useState({});
+  const [category, setCategory] = useState("");
+  const [description, setDescription] = useState("");
+  const [name, setName] = useState("");
 
-  const formSchema = yup.object().shape({
-    description: yup.string(),
-    name: yup.string(),
-    category: yup.string(),
-  });
-
-  const { register, handleSubmit } = useForm({
-    resolver: yupResolver(formSchema),
-  });
-
-  const submit = (data) => {
-    if (data.name !== "") {
-      setUpdateData({ ...updateData, name: data.name });
+  const submit = () => {
+    if (!!name) {
+      api
+        .patch(`/groups/${id}/`, { name: name }, tokenBearer)
+        .then((res) => {
+          toast.success("Nome do grupo atualizado com sucesso!");
+          updateGroup();
+        })
+        .catch((_) =>
+          toast.error("Algo deu errado ao tentar atualizar o nome grupo...")
+        );
     }
-    if (data.description !== "") {
-      setUpdateData({ ...updateData, description: data.description });
+    if (!!description) {
+      api
+        .patch(`/groups/${id}/`, { description: description }, tokenBearer)
+        .then((res) => {
+          toast.success("Descrição  atualizada com sucesso!");
+          updateGroup();
+        })
+        .catch((_) =>
+          toast.error("Algo deu errado ao tentar atualizar a descrição grupo...")
+        );
     }
-    if (data.category !== "") {
-      setUpdateData({ ...updateData, category: data.category });
+    if (!!category) {
+      api
+        .patch(`/groups/${id}/`, { category: category }, tokenBearer)
+        .then((res) => {
+          toast.success("Categoria atualizada com sucesso!");
+          updateGroup();
+        })
+        .catch((_) =>
+          toast.error("Algo deu errado ao tentar atualizar a categoria grupo...")
+        );
     }
-
-    api
-      .patch(`/groups/${id}/`, updateData, tokenBearer)
-      .then((res) => {
-        toast.success("Grupo atualizado com sucesso!");
-        updateGroup();
-      })
-      .catch((err) =>
-        toast.error("Algo deu errado ao tentar atualizar o grupo...")
-      );
   };
 
   return (
-    <form onSubmit={handleSubmit(submit)}>
-      <TextField {...register("name")} label="name" variant="filled" />
+    <form
+      onSubmit={(evt) => {
+        evt.preventDefault();
+        submit();
+      }}
+    >
       <TextField
-        {...register("description")}
+        onChange={(evt) => {
+          setName(evt.target.value);
+        }}
+        value={name}
+        label="name"
+        variant="filled"
+      />
+      <TextField
+        onChange={(evt) => {
+          setDescription(evt.target.value);
+        }}
+        value={description}
         label="description"
         variant="filled"
       />
-      <TextField {...register("category")} label="category" variant="filled" />
+      <TextField
+        onChange={(evt) => {
+          setCategory(evt.target.value);
+        }}
+        valuie={category}
+        label="category"
+        variant="filled"
+      />
       <Button type="submit" children="Atualizar" />
     </form>
   );
@@ -113,7 +139,7 @@ const CardGroups = ({ props, updateGroup }) => {
         {props.creator.id === id && (
           <ButtonGroup>
             <ModalDialog ele={"Editar"}>
-              <EditGroup id={props.id} updateGroup={updateGroup}/>
+              <EditGroup id={props.id} updateGroup={updateGroup} />
             </ModalDialog>
           </ButtonGroup>
         )}
