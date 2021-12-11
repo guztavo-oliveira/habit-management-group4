@@ -1,5 +1,4 @@
 import { Content, Container, ButtonGroup } from "./style";
-import { useEffect, useState } from "react";
 import { useAuth } from "../../providers/AuthContext";
 import api from "../../services/api";
 import { ModalDialog } from "../ModalDialog";
@@ -8,35 +7,38 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import Button from "../Button";
-import {FiUser} from 'react-icons/fi'
+import { FiUser } from "react-icons/fi";
 import { toast } from "react-toastify";
-const EditGroup = () => {
-  
+import { useGroup } from "../../providers/JsonGroups";
+
+const EditGroup = ({ id }) => {
+  const { tokenBearer } = useAuth();
+
   const formSchema = yup.object().shape({
-    description: yup.string().required("Campo Obrigatório"),
-    name: yup.string().required("Campo Obrigatório"),
-    category: yup.string().required("Campo Obrigatório")
+    description: yup.string(),
+    name: yup.string(),
+    category: yup.string(),
   });
 
-  // description: yup.string(),
-  //   name: yup.string(),
-  //   category: yup.string(),
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    
   } = useForm({
     resolver: yupResolver(formSchema),
   });
 
-  const submit = () => {
-    api.patch(`/groups/:group_id/`);
+  const submit = (data) => {
+    if (data.name === "" && data.description === "" && data.category === "") {
+      toast.error("Preencha ao menos um campo para atualizar!");
+    } else {
+      console.log(data);
+      api.patch(`/groups/${id}/`, tokenBearer).catch((err) => console.log(err));
+    }
   };
 
   return (
     <form onSubmit={handleSubmit(submit)}>
-      {/* {errors && toast.error(errors)} */}
-
       <TextField {...register("name")} label="name" variant="filled" />
       <TextField
         {...register("description")}
@@ -49,68 +51,62 @@ const EditGroup = () => {
   );
 };
 
-const CardGroups = ({props,updateGroup}) => {
-  const { id,tokenBearer } = useAuth();
-  // const {updateGroup} = useGroup()
-  // console.log(props, id, "teste")
+const CardGroups = ({ props, updateGroup }) => {
+  const { id, tokenBearer } = useAuth();
 
-  // const [isIntegrant, setIsIntegrant] = useState(false);
+  const { myGroups } = useGroup();
   
-  // useEffect(() => {
-  //   setIsIntegrant(props.users_on_group.includes((obj) => obj.id === id));
-  //   if (props.creator.id === id) {
-  //     setIsCreator(true);
-  //   }
-  // }, []);
+  const subscribe = () =>{
+    api.post(`/groups/${props.id}/subscribe`, tokenBearer)
+    .then(() => {
+      updateGroup();
+      toast("Você se increveu no grupo");
+    })
+    .catch((err) => toast("Algo deu erradoao tentar se increver no grupo..."));
+  }
 
   const unsubscribe = () => {
-      // api.post(`/groups/${props.id}/subscribe`);
-    // } else {
-    //   api.delete(`/groups/${props.id}/unsubscribe`);
-    // }
-    
-    api.delete(`/groups/${props.id}/unsubscribe/`, tokenBearer).then(() => {updateGroup();toast("Wow so easy!")}).catch(err => console.log(err))
-    
+    api
+      .delete(`/groups/${props.id}/unsubscribe/`, tokenBearer)
+      .then(() => {
+        updateGroup();
+        toast("Você saiu do grupo!");
+      })
+      .catch((err) => toast("Algo deu errado ao tentar sair do grupo..."));
   };
 
   return (
     <Container>
       <div className="container">
-      <FiUser size={60} />
-      <Content>
-        <div>
-          <h2>{props.name}</h2>
-          <span> {props.category}</span>
-        </div>
-        <p>
-          <span> Criador:</span> {props.creator.username}
-        </p>
-        <p>
-          <span>Descrição:</span> {props.description}
-        </p>
-        <p>
-          <span>Integrantes: </span> {props.users_on_group.length}
-        </p>
-      </Content>
+        <FiUser size={60} />
+        <Content>
+          <div>
+            <h2>{props.name}</h2>
+            <span> {props.category}</span>
+          </div>
+          <p>
+            <span> Criador:</span> {props.creator.username}
+          </p>
+          <p>
+            <span>Descrição:</span> {props.description}
+          </p>
+          <p>
+            <span>Integrantes: </span> {props.users_on_group.length}
+          </p>
+        </Content>
       </div>
       <div className="containerEditar">
-      {props.creator.id === id && 
-        <ButtonGroup>
-          <ModalDialog ele={"Editar"}>
-            <EditGroup/>
-          </ModalDialog>
-        </ButtonGroup>
-      }
-      <ButtonGroup onClick={unsubscribe}>
-        Sair do grupo
-      </ButtonGroup>
+        {props.creator.id === id && (
+          <ButtonGroup>
+            <ModalDialog ele={"Editar"}>
+              <EditGroup id={props.id} />
+            </ModalDialog>
+          </ButtonGroup>
+        )}
+        <ButtonGroup onClick={myGroups.some((group)=> group.id === props.id) ? unsubscribe : subscribe}>{myGroups.some((group)=> group.id === props.id) ? 'Sair do grupo' : 'Entrar no grupo' }</ButtonGroup>
       </div>
     </Container>
   );
 };
 
 export default CardGroups;
-
-//selecionar imagens e renderizar de acordo com a categoria do grupo (assets, objeto contendo todas as imagens  e suas descricoes)
-
-//requisicao para edicao do grupo (esta incrito????)
