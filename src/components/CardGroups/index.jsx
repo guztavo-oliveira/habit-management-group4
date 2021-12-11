@@ -10,9 +10,11 @@ import Button from "../Button";
 import { FiUser } from "react-icons/fi";
 import { toast } from "react-toastify";
 import { useGroup } from "../../providers/JsonGroups";
-
-const EditGroup = ({ id }) => {
+import { useState } from "react";
+const EditGroup = ({ id, updateGroup}) => {
   const { tokenBearer } = useAuth();
+
+  const [updateData, setUpdateData] = useState({});
 
   const formSchema = yup.object().shape({
     description: yup.string(),
@@ -20,21 +22,30 @@ const EditGroup = ({ id }) => {
     category: yup.string(),
   });
 
-  const {
-    register,
-    handleSubmit,
-    
-  } = useForm({
+  const { register, handleSubmit } = useForm({
     resolver: yupResolver(formSchema),
   });
 
   const submit = (data) => {
-    if (data.name === "" && data.description === "" && data.category === "") {
-      toast.error("Preencha ao menos um campo para atualizar!");
-    } else {
-      console.log(data);
-      api.patch(`/groups/${id}/`, tokenBearer).catch((err) => console.log(err));
+    if (data.name !== "") {
+      setUpdateData({ ...updateData, name: data.name });
     }
+    if (data.description !== "") {
+      setUpdateData({ ...updateData, description: data.description });
+    }
+    if (data.category !== "") {
+      setUpdateData({ ...updateData, category: data.category });
+    }
+
+    api
+      .patch(`/groups/${id}/`, updateData, tokenBearer)
+      .then((res) => {
+        toast.success("Grupo atualizado com sucesso!");
+        updateGroup();
+      })
+      .catch((err) =>
+        toast.error("Algo deu errado ao tentar atualizar o grupo...")
+      );
   };
 
   return (
@@ -55,15 +66,18 @@ const CardGroups = ({ props, updateGroup }) => {
   const { id, tokenBearer } = useAuth();
 
   const { myGroups } = useGroup();
-  
-  const subscribe = () =>{
-    api.post(`/groups/${props.id}/subscribe`, tokenBearer)
-    .then(() => {
-      updateGroup();
-      toast("Você se increveu no grupo");
-    })
-    .catch((err) => toast("Algo deu erradoao tentar se increver no grupo..."));
-  }
+
+  const subscribe = () => {
+    api
+      .post(`/groups/${props.id}/subscribe`, tokenBearer)
+      .then(() => {
+        updateGroup();
+        toast("Você se increveu no grupo");
+      })
+      .catch((err) =>
+        toast("Algo deu erradoao tentar se increver no grupo...")
+      );
+  };
 
   const unsubscribe = () => {
     api
@@ -99,11 +113,21 @@ const CardGroups = ({ props, updateGroup }) => {
         {props.creator.id === id && (
           <ButtonGroup>
             <ModalDialog ele={"Editar"}>
-              <EditGroup id={props.id} />
+              <EditGroup id={props.id} updateGroup={updateGroup}/>
             </ModalDialog>
           </ButtonGroup>
         )}
-        <ButtonGroup onClick={myGroups.some((group)=> group.id === props.id) ? unsubscribe : subscribe}>{myGroups.some((group)=> group.id === props.id) ? 'Sair do grupo' : 'Entrar no grupo' }</ButtonGroup>
+        <ButtonGroup
+          onClick={
+            myGroups.some((group) => group.id === props.id)
+              ? unsubscribe
+              : subscribe
+          }
+        >
+          {myGroups.some((group) => group.id === props.id)
+            ? "Sair do grupo"
+            : "Entrar no grupo"}
+        </ButtonGroup>
       </div>
     </Container>
   );
