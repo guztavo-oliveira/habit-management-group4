@@ -7,13 +7,12 @@ import { useAuth } from "../../providers/AuthContext";
 import { ModalDialog } from "../ModalDialog";
 import { ActivitiesContainer } from "../GroupActivities/styles";
 import { ModalPopover } from "../ModalPopover";
-
+import TesteModal from "../testeModal";
 
 const GroupActivities = ({ refresh, setRefresh }) => {
   const { tokenBearer, groupId, activ } = useAuth();
-  const {access} = useAuth()
+  const { access } = useAuth();
   // const [userInput, setUserInput] = useState("");
-
 
   //const [anchorEl, setAnchorEl] = useState(null);
 
@@ -101,33 +100,33 @@ const GroupActivities = ({ refresh, setRefresh }) => {
         <Button onClick={abriModal2}>modal 2 fechar</Button>
       </ModalDialog>
       <button onClick={abriModal2}>exibir modal1</button> */}
-      
-      {[1,2,3].map((e, ind) => (
+
+      {[1, 2, 3].map((e, ind) => (
         <ModalDialog ele={e} key={ind}>
           <Button>{e}</Button>
         </ModalDialog>
       ))}
 
       <ModalDialog ele={"nome botao"}>
-          <ul>
-            <li>limao</li>
-            <li>limao</li>
-            <li>limao</li>
-            <li>limao</li>
-            <li>limao</li>
-          </ul>
+        <ul>
+          <li>limao</li>
+          <li>limao</li>
+          <li>limao</li>
+          <li>limao</li>
+          <li>limao</li>
+        </ul>
       </ModalDialog>
       <ModalDialog ele={"mostrar atividades"}>
-          <ul>
-            <li>caminhar</li>
-            <li>ler</li>
-            <li>escrever</li>
-            <li>limao</li>
-            <li>limao</li>
-          </ul>
+        <ul>
+          <li>caminhar</li>
+          <li>ler</li>
+          <li>escrever</li>
+          <li>limao</li>
+          <li>limao</li>
+        </ul>
       </ModalDialog>
       {["a", "b", "c"].map((ele, ind) => (
-        <ModalPopover ele={ele} key={ind} msgButton="fechar" >
+        <ModalPopover ele={ele} key={ind} msgButton="fechar">
           <ul>
             <li>caminhar</li>
             <li>ler</li>
@@ -136,16 +135,25 @@ const GroupActivities = ({ refresh, setRefresh }) => {
             <li>limao</li>
           </ul>
         </ModalPopover>
-      )) }
-      <ModalPopover ele={"teste"} >
-          <ul>
-            <li>caminhar</li>
-            <li>ler</li>
-            <li>escrever</li>
-            <li>limao</li>
-            <li>limao</li>
-          </ul>
-        </ModalPopover>
+      ))}
+      <ModalPopover ele={"teste"}>
+        <ul>
+          <li>caminhar</li>
+          <li>ler</li>
+          <li>escrever</li>
+          <li>limao</li>
+          <li>limao</li>
+        </ul>
+      </ModalPopover>
+      {/* <TesteModal >
+        <ul>
+          <li>caminhar</li>
+          <li>ler</li>
+          <li>escrever</li>
+          <li>limao</li>
+          <li>limao</li>
+        </ul>
+      </TesteModal> */}
       {/* <Popover
         id={add}
         open={open}
@@ -156,7 +164,7 @@ const GroupActivities = ({ refresh, setRefresh }) => {
           horizontal: "left",
         }}
       > */}
-        {/*
+      {/*
         <AddActivForm onSubmit={handleSubmit(addActiv)}>
           <Controller
             render={({ field }) => (
@@ -200,7 +208,7 @@ const GroupActivities = ({ refresh, setRefresh }) => {
             <div>{item.title}</div>
             <div>{item.realization_time}</div>
             <button onClick={() => deleteActiv(item.id)}>X</button> */}
-            {/*<button onClick={handleClick}>Edit</button>
+      {/*<button onClick={handleClick}>Edit</button>
             <Popover
               id={edit}
               open={open}
@@ -224,7 +232,7 @@ const GroupActivities = ({ refresh, setRefresh }) => {
                 SALVAR
               </Button>
             </Popover>*/}
-          {/* </>
+      {/* </>
         );
       })} */}
     </ActivitiesContainer>

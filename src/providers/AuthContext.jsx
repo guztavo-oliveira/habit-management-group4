@@ -10,10 +10,10 @@ const useAuth = () => {
 
 const AuthProvider = ({ children }) => {
     const [access, setAccess] = useState(localStorage.getItem("@gestaodehabitos:access"))
-    const [id, setId] = useState(localStorage.getItem("@gestaodehabitos:id"))
+    const [id, setId] = useState(Number(localStorage.getItem("@gestaodehabitos:id")))
    
     const atualizarToken = () => {
-      setId(localStorage.getItem("@gestaodehabitos:id"))
+      setId(Number(localStorage.getItem("@gestaodehabitos:id")))
       setAccess(localStorage.getItem("@gestaodehabitos:access"))
     }
     const tokenBearer = {
