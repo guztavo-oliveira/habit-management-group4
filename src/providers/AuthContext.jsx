@@ -1,6 +1,5 @@
 import { createContext, useContext, useState } from "react";
 
-
 const AuthContext = createContext({});
 
 const useAuth = () => {
@@ -9,18 +8,22 @@ const useAuth = () => {
 };
 
 const AuthProvider = ({ children }) => {
-    const [access, setAccess] = useState(localStorage.getItem("@gestaodehabitos:access"))
-    const [id, setId] = useState(Number(localStorage.getItem("@gestaodehabitos:id")))
-   
-    const atualizarToken = () => {
-      setId(Number(localStorage.getItem("@gestaodehabitos:id")))
-      setAccess(localStorage.getItem("@gestaodehabitos:access"))
-    }
-    const tokenBearer = {
-      headers: {
-        Authorization: `Bearer ${access}`,
-      },
-    };
+  const [access, setAccess] = useState(
+    localStorage.getItem("@gestaodehabitos:access")
+  );
+  const [id, setId] = useState(
+    Number(localStorage.getItem("@gestaodehabitos:id"))
+  );
+
+  const atualizarToken = () => {
+    setId(Number(localStorage.getItem("@gestaodehabitos:id")));
+    setAccess(localStorage.getItem("@gestaodehabitos:access"));
+  };
+  const tokenBearer = {
+    headers: {
+      Authorization: `Bearer ${access}`,
+    },
+  };
   const signOut = () => {
     localStorage.removeItem("@gestaodehabitos:id");
     localStorage.removeItem("@gestaodehabitos:access");
@@ -32,7 +35,7 @@ const AuthProvider = ({ children }) => {
         access,
         id,
         tokenBearer,
-        atualizarToken
+        atualizarToken,
       }}
     >
       {children}

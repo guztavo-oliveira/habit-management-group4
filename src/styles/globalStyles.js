@@ -11,9 +11,15 @@ const GlobalStyle = createGlobalStyle`
 
 	@font-face {
   font-family: logoFont;
-  src: url('./assets/fonts/planetncond.ttf') format(truetype);
-  
-}
+  src: url('./assets/fonts/planetncond.ttf') format(truetype)
+	}
+	
+	*{
+		padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+		list-style-type:none;
+	}
 
 	:root{
 		--dark-blue: #0870FF;
@@ -24,7 +30,8 @@ const GlobalStyle = createGlobalStyle`
 		--card-background: #EAEFF5;
 		--black: #1A2F25;
 		--white: #fff;
+	}
 		
-	}`;
+`;
 
 export default GlobalStyle;

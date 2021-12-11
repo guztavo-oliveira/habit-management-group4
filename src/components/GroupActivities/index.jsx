@@ -99,61 +99,6 @@ const GroupActivities = ({ refresh, setRefresh }) => {
       <ModalDialog exibirModal={abriModal2} open={open2}>
         <Button onClick={abriModal2}>modal 2 fechar</Button>
       </ModalDialog>
-      <button onClick={abriModal2}>exibir modal1</button> */}
-
-      {[1, 2, 3].map((e, ind) => (
-        <ModalDialog ele={e} key={ind}>
-          <Button>{e}</Button>
-        </ModalDialog>
-      ))}
-
-      <ModalDialog ele={"nome botao"}>
-        <ul>
-          <li>limao</li>
-          <li>limao</li>
-          <li>limao</li>
-          <li>limao</li>
-          <li>limao</li>
-        </ul>
-      </ModalDialog>
-      <ModalDialog ele={"mostrar atividades"}>
-        <ul>
-          <li>caminhar</li>
-          <li>ler</li>
-          <li>escrever</li>
-          <li>limao</li>
-          <li>limao</li>
-        </ul>
-      </ModalDialog>
-      {["a", "b", "c"].map((ele, ind) => (
-        <ModalPopover ele={ele} key={ind} msgButton="fechar">
-          <ul>
-            <li>caminhar</li>
-            <li>ler</li>
-            <li>escrever</li>
-            <li>limao</li>
-            <li>limao</li>
-          </ul>
-        </ModalPopover>
-      ))}
-      <ModalPopover ele={"teste"}>
-        <ul>
-          <li>caminhar</li>
-          <li>ler</li>
-          <li>escrever</li>
-          <li>limao</li>
-          <li>limao</li>
-        </ul>
-      </ModalPopover>
-      {/* <TesteModal >
-        <ul>
-          <li>caminhar</li>
-          <li>ler</li>
-          <li>escrever</li>
-          <li>limao</li>
-          <li>limao</li>
-        </ul>
-      </TesteModal> */}
       {/* <Popover
         id={add}
         open={open}
