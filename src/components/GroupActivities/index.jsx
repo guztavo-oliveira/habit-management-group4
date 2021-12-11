@@ -99,6 +99,7 @@ const GroupActivities = ({ refresh, setRefresh }) => {
       <ModalDialog exibirModal={abriModal2} open={open2}>
         <Button onClick={abriModal2}>modal 2 fechar</Button>
       </ModalDialog>
+<<<<<<< HEAD
       <button onClick={abriModal2}>exibir modal1</button> */}
 
       {[1, 2, 3].map((e, ind) => (
@@ -154,6 +155,9 @@ const GroupActivities = ({ refresh, setRefresh }) => {
           <li>limao</li>
         </ul>
       </TesteModal> */}
+=======
+
+>>>>>>> feature/habits
       {/* <Popover
         id={add}
         open={open}
