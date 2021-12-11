@@ -7,7 +7,10 @@ import { useAuth } from "../../providers/AuthContext";
 import { ModalDialog } from "../ModalDialog";
 import { ActivitiesContainer } from "../GroupActivities/styles";
 import { ModalPopover } from "../ModalPopover";
+<<<<<<< HEAD
 import TesteModal from "../testeModal";
+=======
+>>>>>>> ee0f0a2dfc10d758f59d8d338614490f7971ba90
 
 const GroupActivities = ({ refresh, setRefresh }) => {
   const { tokenBearer, groupId, activ } = useAuth();
@@ -126,7 +129,10 @@ const GroupActivities = ({ refresh, setRefresh }) => {
         </ul>
       </ModalDialog>
       {["a", "b", "c"].map((ele, ind) => (
+<<<<<<< HEAD
         <ModalPopover ele={ele} key={ind} msgButton="fechar">
+=======
+        <ModalPopover ele={ele} key={ind} msgButton="fechar" >
           <ul>
             <li>caminhar</li>
             <li>ler</li>
@@ -135,6 +141,23 @@ const GroupActivities = ({ refresh, setRefresh }) => {
             <li>limao</li>
           </ul>
         </ModalPopover>
+
+      ))}
+
+      {access}
+
+      )) }
+      <ModalPopover ele={"teste"} >
+>>>>>>> ee0f0a2dfc10d758f59d8d338614490f7971ba90
+          <ul>
+            <li>caminhar</li>
+            <li>ler</li>
+            <li>escrever</li>
+            <li>limao</li>
+            <li>limao</li>
+          </ul>
+        </ModalPopover>
+<<<<<<< HEAD
       ))}
       <ModalPopover ele={"teste"}>
         <ul>
@@ -154,6 +177,9 @@ const GroupActivities = ({ refresh, setRefresh }) => {
           <li>limao</li>
         </ul>
       </TesteModal> */}
+=======
+
+>>>>>>> ee0f0a2dfc10d758f59d8d338614490f7971ba90
       {/* <Popover
         id={add}
         open={open}
