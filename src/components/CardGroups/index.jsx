@@ -7,7 +7,7 @@ import Button from "../Button";
 import { FiUser } from "react-icons/fi";
 import { toast } from "react-toastify";
 import { useGroup } from "../../providers/JsonGroups";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const EditGroup = ({ id, updateGroup }) => {
   const { tokenBearer } = useAuth();
@@ -15,41 +15,38 @@ const EditGroup = ({ id, updateGroup }) => {
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
   const [name, setName] = useState("");
+  const [data,setData] = useState({});
+
+
+  useEffect(()=>{
+    if(!!name){
+      setData({...data, name: name })
+    }
+    if(!!category){
+      setData({...data, category: category })
+    }
+    if(!!description){
+      setData({...data, description: description })
+    }
+  },[name, category, description])
+
+
+
+
 
   const submit = () => {
-    if (!!name) {
-      api
-        .patch(`/groups/${id}/`, { name: name }, tokenBearer)
-        .then((res) => {
-          toast.success("Nome do grupo atualizado com sucesso!");
+console.log(data)
+          api
+        .patch(`/groups/${id}/`,data, tokenBearer)
+        .then((_) => {
+          toast.success("Grupo atualizado com sucesso!");
           updateGroup();
+          setData({});
         })
         .catch((_) =>
-          toast.error("Algo deu errado ao tentar atualizar o nome grupo...")
+          toast.error("Algo deu errado ao tentar atualizar o grupo...")
         );
-    }
-    if (!!description) {
-      api
-        .patch(`/groups/${id}/`, { description: description }, tokenBearer)
-        .then((res) => {
-          toast.success("Descrição  atualizada com sucesso!");
-          updateGroup();
-        })
-        .catch((_) =>
-          toast.error("Algo deu errado ao tentar atualizar a descrição grupo...")
-        );
-    }
-    if (!!category) {
-      api
-        .patch(`/groups/${id}/`, { category: category }, tokenBearer)
-        .then((res) => {
-          toast.success("Categoria atualizada com sucesso!");
-          updateGroup();
-        })
-        .catch((_) =>
-          toast.error("Algo deu errado ao tentar atualizar a categoria grupo...")
-        );
-    }
+  
   };
 
   return (
@@ -79,7 +76,7 @@ const EditGroup = ({ id, updateGroup }) => {
         onChange={(evt) => {
           setCategory(evt.target.value);
         }}
-        valuie={category}
+        value={category}
         label="category"
         variant="filled"
       />
