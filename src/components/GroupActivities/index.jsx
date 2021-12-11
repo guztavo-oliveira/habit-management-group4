@@ -124,8 +124,8 @@ const GroupActivities = ({ refresh, setRefresh }) => {
           <li>limao</li>
         </ul>
       </ModalDialog>
-      {["a", "b,", "c"].map((ele, ind) => (
-        <ModalPopover ele={ele} key={ind}>
+      {["a", "b", "c"].map((ele, ind) => (
+        <ModalPopover ele={ele} key={ind} msgButton="fechar" >
           <ul>
             <li>caminhar</li>
             <li>ler</li>
@@ -134,9 +134,22 @@ const GroupActivities = ({ refresh, setRefresh }) => {
             <li>limao</li>
           </ul>
         </ModalPopover>
+
       ))}
 
-      {/* {access} */}
+      {access}
+
+      )) }
+      <ModalPopover ele={"teste"} >
+          <ul>
+            <li>caminhar</li>
+            <li>ler</li>
+            <li>escrever</li>
+            <li>limao</li>
+            <li>limao</li>
+          </ul>
+        </ModalPopover>
+
       {/* <Popover
         id={add}
         open={open}
