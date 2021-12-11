@@ -79,6 +79,5 @@ export const MenuBar = styled.div`
 
 export const ContainerHabits = styled.div`
   width: 90%;
-  height: 100%;
   border: 1px solid red;
 `;

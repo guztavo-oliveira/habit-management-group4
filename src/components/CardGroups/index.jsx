@@ -55,8 +55,6 @@ const CardGroups = ({props,updateGroup}) => {
   // console.log(props, id, "teste")
 
   // const [isIntegrant, setIsIntegrant] = useState(false);
-
-  const usersQuantity = props.users_on_group.length;
   
   // useEffect(() => {
   //   setIsIntegrant(props.users_on_group.includes((obj) => obj.id === id));
@@ -70,8 +68,8 @@ const CardGroups = ({props,updateGroup}) => {
     // } else {
     //   api.delete(`/groups/${props.id}/unsubscribe`);
     // }
-    toast("Wow so easy!")
-    api.delete(`/groups/${props.id}/unsubscribe/`, tokenBearer).then(() => updateGroup()).catch(err => console.log(err))
+    
+    api.delete(`/groups/${props.id}/unsubscribe/`, tokenBearer).then(() => {updateGroup();toast("Wow so easy!")}).catch(err => console.log(err))
     
   };
 
@@ -91,7 +89,7 @@ const CardGroups = ({props,updateGroup}) => {
           <span>Descrição:</span> {props.description}
         </p>
         <p>
-          <span>Integrantes: </span> {usersQuantity}
+          <span>Integrantes: </span> {props.users_on_group.length}
         </p>
       </Content>
       </div>
