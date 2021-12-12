@@ -57,13 +57,13 @@ const Dashboard = () => {
           <ListGroups />
         </ContainerGroups>
       )}
-      {/* <MenuBar>
+      <MenuBar>
         <div className="icons">
           <BiGroup onClick={() => setHabits(false)} />
           <div className="logo" />
           <BiUser onClick={() => setHabits(true)} />
         </div>
-      </MenuBar> */}
+      </MenuBar>
     </Container>
   );
 };
