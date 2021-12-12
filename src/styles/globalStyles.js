@@ -22,13 +22,16 @@ const GlobalStyle = createGlobalStyle`
 	}
 
 	:root{
+		--black: #1A2F25;
+		--gray:#717976;
+		--red: #e83f5b;
+		--green: #4bbb97;
 		--dark-blue: #0870FF;
 		--light-blue: #08AFFF;
-		--neon-blue: #B7FFF7;
 		--middle-blue: #08F6FF;
-		--background: #FFFCF8;
+		--neon-blue: #B7FFF7;
 		--card-background: #EAEFF5;
-		--black: #1A2F25;
+		--background: #FFFCF8;
 		--white: #fff;
 	}
 		
