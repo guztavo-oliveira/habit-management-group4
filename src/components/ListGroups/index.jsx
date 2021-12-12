@@ -5,12 +5,13 @@ import { Container } from "./styles";
 import api from "../../services/api";
 import InfiniteScroll from "react-infinite-scroll-component";
 import axios from "axios";
+import CircularProgress from '@mui/material/CircularProgress';
 
 const ListGroups = () => {
   const { myGroups, updateGroup } = useGroup();
   const [groups, setGroups] = useState([]);
   const [search, setSearch] = useState("");
-  const [show, setShow] = useState(false);
+  const [show, setShow] = useState(true);
   const getGroups = () => {
     api.get("/groups/").then((resp) => setGroups(resp.data));
   };
@@ -52,6 +53,7 @@ const ListGroups = () => {
         <div className="containerPesquisa">
           {/* {show && <span>carregando...</span>} */}
           <InfiniteScroll
+            style={{overflow:"hidden"}}
             dataLength={
               groups.results.filter((ele) =>
                 ele.name.toLocaleLowerCase().includes(search)
@@ -61,6 +63,7 @@ const ListGroups = () => {
               getNextPage();
               console.log("carregou mais");
             }}
+            loader={ <CircularProgress/>}
             hasMore={true}
             // loader={<h4>Loading...</h4>}
           >
@@ -69,7 +72,7 @@ const ListGroups = () => {
               .map((ele, ind) => (
                 <CardGroups props={ele} updateGroup={updateGroup} key={ind} />
               ))}
-              {show && <span>Carregando</span>}
+              {/* {show && <CircularProgress color="secondary" />} */}
           </InfiniteScroll>
         </div>
       ) : (

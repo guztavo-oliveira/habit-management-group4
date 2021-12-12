@@ -7,4 +7,5 @@ export const Container = styled.div`
     flex-direction: column;
     justify-content: center;
     background: var(--card-background);
+
 `
