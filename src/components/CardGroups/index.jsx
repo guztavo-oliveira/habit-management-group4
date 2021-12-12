@@ -97,7 +97,7 @@ const CardGroups = ({ props, updateGroup }) => {
   const { myGroups } = useGroup();
 
   const subscribe = () => {
-    console.log(typeof(props.id), tokenBearer)
+    console.log(typeof props.id, tokenBearer);
     api
       .post(`/groups/${props.id}/subscribe/`, tokenBearer)
       .then(() => {
