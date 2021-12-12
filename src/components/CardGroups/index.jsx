@@ -97,9 +97,8 @@ const CardGroups = ({ props, updateGroup }) => {
   const { myGroups } = useGroup();
 
   const subscribe = () => {
-    console.log(typeof(props.id), tokenBearer)
     api
-      .post(`/groups/${props.id}/subscribe/`, tokenBearer)
+      .post(`/groups/${props.id}/subscribe/`, {}, tokenBearer)
       .then(() => {
         updateGroup();
         toast("Você se increveu no grupo");
