@@ -36,7 +36,9 @@ const EditGroup = ({ id, updateGroup }) => {
           updateGroup();
         })
         .catch((_) =>
-          toast.error("Algo deu errado ao tentar atualizar a descrição grupo...")
+          toast.error(
+            "Algo deu errado ao tentar atualizar a descrição grupo..."
+          )
         );
     }
     if (!!category) {
@@ -47,7 +49,9 @@ const EditGroup = ({ id, updateGroup }) => {
           updateGroup();
         })
         .catch((_) =>
-          toast.error("Algo deu errado ao tentar atualizar a categoria grupo...")
+          toast.error(
+            "Algo deu errado ao tentar atualizar a categoria grupo..."
+          )
         );
     }
   };
@@ -90,12 +94,12 @@ const EditGroup = ({ id, updateGroup }) => {
 
 const CardGroups = ({ props, updateGroup }) => {
   const { id, tokenBearer } = useAuth();
-
   const { myGroups } = useGroup();
 
   const subscribe = () => {
+    console.log(typeof(props.id), tokenBearer)
     api
-      .post(`/groups/${props.id}/subscribe`, tokenBearer)
+      .post(`/groups/${props.id}/subscribe/`, tokenBearer)
       .then(() => {
         updateGroup();
         toast("Você se increveu no grupo");
