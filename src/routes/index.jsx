@@ -1,7 +1,7 @@
 import { Switch } from "react-router-dom";
 import Route from "./route";
 // import useLocalStorage from "use-local-storage";
-// import { LandingPage } from "../pages/LandingPage";
+import LandingPage from "../pages/LandingPage";
 import Dashboard from "../pages/Dashboard";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
@@ -9,9 +9,8 @@ import Register from "../pages/Register";
 const Routes = () => {
   return (
     <Switch>
-      {/* <Route>
-        <LandingPage />
-      </Route> */}
+      <Route path="/" component={LandingPage} />
+       
       <Route path="/login" component={Login} />
 
       <Route path="/signup" component={Register} />
