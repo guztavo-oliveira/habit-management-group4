@@ -7,6 +7,7 @@ export const Container = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
+  /* padding: 100px 0; */
 `;
 
 export const Header = styled.header`
