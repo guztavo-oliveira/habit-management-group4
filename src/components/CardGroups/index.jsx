@@ -83,7 +83,7 @@ const EditGroup = ({ groupid, updateGroup }) => {
   );
 };
 
-const CardGroups = ({ group, updateGroup, setAlvo=false }) => {
+const CardGroups = ({ group, updateGroup, setAlvo }) => {
   const { id, tokenBearer, refresh } = useAuth();
   const [visibleGroup, setVisibleGroup] = useState(false)
   const { myGroups } = useGroup();
@@ -133,7 +133,7 @@ const CardGroups = ({ group, updateGroup, setAlvo=false }) => {
   };
 
   return (
-    <Container onClick={() => setAlvo(group)}>
+    <Container onClick={() => {!!setAlvo && setAlvo(group)}}>
       
       <div className="container">
         <FiUser size={60} />
@@ -206,6 +206,7 @@ export const RenderOneGroup = ({group, setAlvo}) => {
         <FiUser size={60} />
         <Content>
           <div>
+            <button onClick={() => setAlvo("")}>Voltar</button>
             {/* <ModalDialog ele={"teste"}>
               <Grid container>
                 <GroupActivities activities={activities} groupId={group.id}/>
@@ -214,6 +215,9 @@ export const RenderOneGroup = ({group, setAlvo}) => {
             </ModalDialog> */}
           
           </div>
+          <p>
+            <span> Nome:</span> {group.name}
+          </p>
           <span> {group.category}</span>
           <p>
             <span> Criador:</span> {group.creator.username}
@@ -235,7 +239,7 @@ export const RenderOneGroup = ({group, setAlvo}) => {
           </ButtonGroup>
         )}
         <ButtonGroup
-          onClick={unsubscribe}
+          onClick={() => {unsubscribe();setAlvo("")}}
         >
           Sair do grupo
         </ButtonGroup>

@@ -60,6 +60,7 @@ const ListGroups = () => {
   console.log(groups);
   return (
     <Container>
+      {!!!alvo && 
       <div>
         <input
           value={search}
@@ -104,7 +105,7 @@ const ListGroups = () => {
         <button onClick={() => setShowAllGroups(!showAllGroups)}>
           {showAllGroups ? "Mostrar meus grupos" : "Mostrar todos os grupos"}
         </button>
-      </div>
+      </div>}
 
       {showAllGroups ? (
         <div className="containerPesquisa">
@@ -175,7 +176,7 @@ const ListGroups = () => {
                 <RenderOneGroup group={alvo} setAlvo={setAlvo} />
               ) : (
                 <>
-                  {groups.results?.map((ele, ind) => (
+                  {myGroups.map((ele, ind) => (
                     <CardGroups
                       setAlvo={setAlvo}
                       group={ele}
