@@ -92,7 +92,7 @@ const CardGroups = ({ group, updateGroup, setAlvo }) => {
 
   useEffect(() => {
     api
-      .get(`/activities/?grupo=${group.id}`, tokenBearer)
+      .get(`/activities/?grupo=${group.id}/`, tokenBearer)
       .then((response) => {
         setActivities(response.data.results);
       })
@@ -101,7 +101,7 @@ const CardGroups = ({ group, updateGroup, setAlvo }) => {
       });
 
       api
-      .get(`/goals/?grupo=${group.id}`, tokenBearer)
+      .get(`/goals/?grupo=${group.id}/`, tokenBearer)
       .then((response) => {
         setGoals(response.data.results);
       })
@@ -111,14 +111,15 @@ const CardGroups = ({ group, updateGroup, setAlvo }) => {
   }, [refresh]);
 
   const subscribe = () => {
+    console.log(tokenBearer)
     api
-      .post(`/groups/${group.id}/subscribe`, tokenBearer)
+      .post(`/groups/${group.id}/subscribe/`,{} , tokenBearer)
       .then(() => {
         updateGroup();
         toast("Você se increveu no grupo");
       })
       .catch((err) =>
-        toast("Algo deu erradoao tentar se increver no grupo...")
+        toast("Algo deu errado ao tentar se increver no grupo...")
       );
   };
 

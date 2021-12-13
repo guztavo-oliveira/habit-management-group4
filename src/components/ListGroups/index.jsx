@@ -57,6 +57,13 @@ const ListGroups = () => {
     }).catch(() => toast("Adcione todas a informaçoes para criar!"))
   };
   console.log(groups);
+  const style = {
+    height: "400px",
+    overflowY: "auto",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+}
   return (
     <Container>
       {!!!alvo && 
@@ -109,7 +116,7 @@ const ListGroups = () => {
       {showAllGroups ? (
         <div className="containerPesquisa">
           <InfiniteScroll
-            style={{ overflow: "hidden" }}
+            style={style}
             dataLength={
               groups.results.filter((ele) =>
                 ele.name
@@ -181,6 +188,7 @@ const ListGroups = () => {
               )}
             </>
           )}
+
         </ul>
       )}
     </Container>
