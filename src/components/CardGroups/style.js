@@ -11,6 +11,7 @@ export const Container = styled.div`
   min-width: 300px;
   max-width: 600px;
   background: var(--background);
+  cursor:pointer;
   .container{
     display: flex;
     align-items: center;
