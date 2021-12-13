@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useGroup } from "../../providers/JsonGroups";
-import CardGroups from "../CardGroups";
+import CardGroups, { RenderOneGroup } from "../CardGroups";
 import { Container } from "./styles";
 import api from "../../services/api";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -21,6 +21,8 @@ const ListGroups = () => {
   const [name, setName] = useState("");
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
+  const [visibleGroup, setVisibleGroup] = useState(false);
+  const [alvo, setAlvo] = useState("");
   const getGroups = () => {
     api.get("/groups/").then((resp) => setGroups(resp.data));
   };
@@ -58,6 +60,7 @@ const ListGroups = () => {
   console.log(groups);
   return (
     <Container>
+      {!!!alvo && 
       <div>
         <input
           value={search}
@@ -102,11 +105,10 @@ const ListGroups = () => {
         <button onClick={() => setShowAllGroups(!showAllGroups)}>
           {showAllGroups ? "Mostrar meus grupos" : "Mostrar todos os grupos"}
         </button>
-      </div>
+      </div>}
 
       {showAllGroups ? (
         <div className="containerPesquisa">
-          {/* {show && <span>carregando...</span>} */}
           <InfiniteScroll
             style={{ overflow: "hidden" }}
             dataLength={
@@ -128,7 +130,9 @@ const ListGroups = () => {
               <>
                 {groups.results
                   .filter((ele) =>
-                    ele.name.toLocaleLowerCase().includes(search.trim().toLocaleLowerCase())
+                    ele.name
+                      .toLocaleLowerCase()
+                      .includes(search.trim().toLocaleLowerCase())
                   )
                   .map((ele, ind) => (
                     <CardGroups
@@ -141,11 +145,10 @@ const ListGroups = () => {
             ) : (
               <>
                 {groups.results.map((ele, ind) => (
-                  <CardGroups groupId={ele.id} props={ele} updateGroup={updateGroup} key={ind} />
+                  <CardGroups group={ele} updateGroup={updateGroup} key={ind} />
                 ))}
               </>
             )}
-            {/* {show && <CircularProgress color="secondary" />} */}
           </InfiniteScroll>
         </div>
       ) : (
@@ -153,16 +156,36 @@ const ListGroups = () => {
           {!!search ? (
             <>
               {myGroups
-                .filter((ele) => ele.name.toLocaleLowerCase().includes(search.trim().toLocaleLowerCase()))
+                .filter((ele) =>
+                  ele.name
+                    .toLocaleLowerCase()
+                    .includes(search.trim().toLocaleLowerCase())
+                )
                 .map((ele, ind) => (
-                  <CardGroups props={ele} updateGroup={updateGroup} key={ind} />
+                  <CardGroups group={ele} updateGroup={updateGroup} key={ind} />
                 ))}
             </>
           ) : (
+            // <>
+            //   {myGroups.map((ele, ind) => (
+            //     <CardGroups group={ele} updateGroup={updateGroup} key={ind} />
+            //   ))}
+            // </>
             <>
-              {myGroups.map((ele, ind) => (
-                <CardGroups props={ele} updateGroup={updateGroup} key={ind} />
-              ))}
+              {!!alvo ? (
+                <RenderOneGroup group={alvo} setAlvo={setAlvo} />
+              ) : (
+                <>
+                  {myGroups.map((ele, ind) => (
+                    <CardGroups
+                      setAlvo={setAlvo}
+                      group={ele}
+                      updateGroup={updateGroup}
+                      key={ind}
+                    />
+                  ))}
+                </>
+              )}
             </>
           )}
           {/* {myGroups.map((ele, ind) => (
