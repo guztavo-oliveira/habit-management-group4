@@ -2,29 +2,17 @@ import { useState } from "react";
 import { api } from "../../services/api";
 import { useForm, Controller } from "react-router-dom";
 import Toastify from "toastify";
-import { Button, TextField, Popover } from "@material-ui/core";
+import { Button, TextField } from "@material-ui/core";
 import { useAuth } from "../../providers/AuthContext";
 
 import { GoalsContainer, AddGoalsForm } from ".";
+import { ModalPopover } from "../ModalPopover";
 
-export const GroupGoals = ({ refresh, setRefresh }) => {
-  const { tokenBearer, goals, groupId } = useAuth();
+const GroupGoals = ({ groupId, goals }) => {
+  const { tokenBearer, refresh, setRefresh } = useAuth();
   const [data, setData] = useState("");
-  const [anchorEl, setAnchorEl] = useState(null);
-
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const open = Boolean(anchorEl);
-  const id = open ? "simple-popover" : undefined;
 
   const { handleSubmit, control } = useForm();
-
   /*const getGoals = () => {
     api
       .get(`/activities/?grupo=${groupId}`, tokenBearer)
@@ -42,6 +30,7 @@ export const GroupGoals = ({ refresh, setRefresh }) => {
       .delete(`/goals/${goalId}`, tokenBearer)
       .then((response) => {
         Toastify.success("Tudo certo!", "Meta removida com sucesso.");
+        refresh === true ? setRefresh(false) : setRefresh(true);
       })
       .catch((err) => {
         Toastify.error("Oops!", "Caso o erro persista, faça login novamente.");
@@ -68,6 +57,7 @@ export const GroupGoals = ({ refresh, setRefresh }) => {
       .post("/goals/", data, tokenBearer)
       .then((response) => {
         Toastify.success("Tudo certo!", "Meta adicionada com sucesso.");
+        refresh === true ? setRefresh(false) : setRefresh(true);
       })
       .catch((err) => {
         Toastify.error("Oops!", "Caso o erro permaneça, faça login novamente.");
@@ -76,17 +66,7 @@ export const GroupGoals = ({ refresh, setRefresh }) => {
 
   return (
     <GoalsContainer>
-      <Button onClick={handleClick}>+</Button>
-      <Popover
-        id={id}
-        open={open}
-        anchorEl={anchorEl}
-        onClose={handleClose}
-        anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "left",
-        }}
-      >
+      <ModalPopover ele="Adicionar meta">
         <AddGoalsForm onSubmit={handleSubmit(addGoal)}>
           <Controller
             render={({ field }) => (
@@ -123,7 +103,7 @@ export const GroupGoals = ({ refresh, setRefresh }) => {
             ADICIONAR
           </Button>
         </AddGoalsForm>
-      </Popover>
+      </ModalPopover>
       {goals.map((item) => {
         return (
           <>
@@ -140,3 +120,5 @@ export const GroupGoals = ({ refresh, setRefresh }) => {
     </GoalsContainer>
   );
 };
+
+export default GroupGoals;
