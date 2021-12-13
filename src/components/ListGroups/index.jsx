@@ -6,12 +6,18 @@ import api from "../../services/api";
 import InfiniteScroll from "react-infinite-scroll-component";
 import axios from "axios";
 import CircularProgress from "@mui/material/CircularProgress";
+import { toast } from "react-toastify";
+import { ModalDialog } from "../ModalDialog";
+import { TextField } from "@mui/material";
 
 const ListGroups = () => {
   const { myGroups, updateGroup } = useGroup();
   const [groups, setGroups] = useState([]);
   const [search, setSearch] = useState("");
   const [show, setShow] = useState(true);
+  const [name, setName] = useState("")
+  const [category, setCategory] = useState("")
+  const [description, setDescription] = useState("")
   const getGroups = () => {
     api.get("/groups/").then((resp) => setGroups(resp.data));
   };
@@ -35,20 +41,54 @@ const ListGroups = () => {
       setShow(false);
     }
   };
-  // const groupFilter = groups.results.filter((ele) =>
-  //   ele.name.toLocaleLowerCase().includes(search)
-  // );
+  const criarGrupo = (data) => {
+    api.post("/groups/", data).then(() => {
+      updateGroup();
+      toast("Grupo criado com sucesso");
+    });
+  };
   console.log(groups);
   return (
     <Container>
-      <input
-        type="text"
-        placeholder="Pesquisar grupos"
-        onChange={(evt) =>
-          setSearch(evt.target.value.trim().toLocaleLowerCase())
-        }
-      />
-      <button onClick={getNextPage}>trazer mais</button>
+      <div>
+        <input
+          value={search}
+          type="text"
+          placeholder="Pesquisar grupos"
+          onChange={(evt) =>
+            setSearch(evt.target.value.trim().toLocaleLowerCase())
+          }
+        />
+        <span onClick={() => setSearch("")}>X</span>
+        <ModalDialog ele="Criar um Grupo" msgButton="Criar um Grupo">
+          <TextField
+            id="outlined-basic"
+            label="Name group"
+            type="text"
+            variant="outlined"
+            sx={{ marginTop: 5 }}
+            fullWidth
+          />
+          <TextField
+            id="outlined-basic"
+            label="description"
+            type="text"
+            variant="outlined"
+            sx={{ marginTop: 5 }}
+            fullWidth
+          />
+          <TextField
+            id="outlined-basic"
+            label="category"
+            type="text"
+            variant="outlined"
+            sx={{ marginTop: 5 }}
+            fullWidth
+          />
+        </ModalDialog>
+        {/* <button onClick>Criar grupo</button> */}
+      </div>
+
       {!!search ? (
         <div className="containerPesquisa">
           {/* {show && <span>carregando...</span>} */}
@@ -64,7 +104,7 @@ const ListGroups = () => {
               console.log("carregou mais");
             }}
             loader={<CircularProgress />}
-            hasMore={true}
+            hasMore={show}
             // loader={<h4>Loading...</h4>}
           >
             {groups.results
