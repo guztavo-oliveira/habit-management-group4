@@ -1,6 +1,8 @@
 import styled from "styled-components";
 
-export const Container = styled.section``;
+export const Container = styled.section`
+  margin-bottom: 90px;
+`;
 export const ModalContainer = styled.section``;
 export const Contente = styled.section`
   background-color: #eaeff5;
