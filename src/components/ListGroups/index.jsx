@@ -13,13 +13,14 @@ import { useAuth } from "../../providers/AuthContext";
 
 const ListGroups = () => {
   const { myGroups, updateGroup } = useGroup();
-  const {tokenBearer} = useAuth()
+  const { tokenBearer } = useAuth();
   const [groups, setGroups] = useState([]);
   const [search, setSearch] = useState("");
   const [show, setShow] = useState(true);
-  const [name, setName] = useState("")
-  const [category, setCategory] = useState("")
-  const [description, setDescription] = useState("")
+  const [showAllGroups, setShowAllGroups] = useState(false);
+  const [name, setName] = useState("");
+  const [category, setCategory] = useState("");
+  const [description, setDescription] = useState("");
   const getGroups = () => {
     api.get("/groups/").then((resp) => setGroups(resp.data));
   };
@@ -47,8 +48,8 @@ const ListGroups = () => {
     const data = {
       name,
       category,
-      description
-    }
+      description,
+    };
     api.post("/groups/", data, tokenBearer).then(() => {
       updateGroup();
       toast("Grupo criado com sucesso");
@@ -62,12 +63,14 @@ const ListGroups = () => {
           value={search}
           type="text"
           placeholder="Pesquisar grupos"
-          onChange={(evt) =>
-            setSearch(evt.target.value)
-          }
+          onChange={(evt) => setSearch(evt.target.value)}
         />
         <span onClick={() => setSearch("")}>X</span>
-        <ModalDialog ele="Criar um Grupo" msgButton="Criar um Grupo" callBack={criarGrupo}>
+        <ModalDialog
+          ele="Criar um Grupo"
+          msgButton="Criar um Grupo"
+          callBack={criarGrupo}
+        >
           <TextField
             id="outlined-basic"
             label="Name group"
@@ -96,17 +99,21 @@ const ListGroups = () => {
             onChange={(e) => setCategory(e.target.value)}
           />
         </ModalDialog>
-        {/* <button onClick>Criar grupo</button> */}
+        <button onClick={() => setShowAllGroups(!showAllGroups)}>
+          {showAllGroups ? "Mostrar meus grupos" : "Mostrar todos os grupos"}
+        </button>
       </div>
 
-      {!!search ? (
+      {showAllGroups ? (
         <div className="containerPesquisa">
           {/* {show && <span>carregando...</span>} */}
           <InfiniteScroll
             style={{ overflow: "hidden" }}
             dataLength={
               groups.results.filter((ele) =>
-                ele.name.toLocaleLowerCase().includes(search.trim().toLocaleLowerCase())
+                ele.name
+                  .toLocaleLowerCase()
+                  .includes(search.trim().toLocaleLowerCase())
               ).length
             }
             next={() => {
@@ -117,19 +124,50 @@ const ListGroups = () => {
             hasMore={show}
             // loader={<h4>Loading...</h4>}
           >
-            {groups.results
-              .filter((ele) => ele.name.toLocaleLowerCase().includes(search))
-              .map((ele, ind) => (
-                <CardGroups props={ele} updateGroup={updateGroup} key={ind} />
-              ))}
+            {!!search ? (
+              <>
+                {groups.results
+                  .filter((ele) =>
+                    ele.name.toLocaleLowerCase().includes(search.trim().toLocaleLowerCase())
+                  )
+                  .map((ele, ind) => (
+                    <CardGroups
+                      props={ele}
+                      updateGroup={updateGroup}
+                      key={ind}
+                    />
+                  ))}
+              </>
+            ) : (
+              <>
+                {groups.results.map((ele, ind) => (
+                  <CardGroups groupId={ele.id} props={ele} updateGroup={updateGroup} key={ind} />
+                ))}
+              </>
+            )}
             {/* {show && <CircularProgress color="secondary" />} */}
           </InfiniteScroll>
         </div>
       ) : (
         <ul>
-          {myGroups.map((ele, ind) => (
-            <CardGroups props={ele} updateGroup={updateGroup} key={ind} />
-          ))}
+          {!!search ? (
+            <>
+              {myGroups
+                .filter((ele) => ele.name.toLocaleLowerCase().includes(search.trim().toLocaleLowerCase()))
+                .map((ele, ind) => (
+                  <CardGroups props={ele} updateGroup={updateGroup} key={ind} />
+                ))}
+            </>
+          ) : (
+            <>
+              {myGroups.map((ele, ind) => (
+                <CardGroups props={ele} updateGroup={updateGroup} key={ind} />
+              ))}
+            </>
+          )}
+          {/* {myGroups.map((ele, ind) => (
+                <CardGroups props={ele} updateGroup={updateGroup} key={ind} />
+              ))} */}
         </ul>
       )}
     </Container>
