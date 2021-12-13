@@ -102,32 +102,34 @@ const GroupActivities = ({ groupId, activities }) => {
           </Button>
         </AddActivForm>
       </ModalDialog>
-      {activities.map((item) => {
-        return (
-          <>
-            <div>{item.title}</div>
-            <div>{item.realization_time}</div>
-            <button onClick={() => deleteActiv(item.id)}>X</button>
+      <ul>
+        {activities.map((item, index) => {
+          return (
+            <li key={index}>
+              <div>{item.title}</div>
+              <div>{item.realization_time}</div>
+              <button onClick={() => deleteActiv(item.id)}>X</button>
 
-            <ModalPopover ele="Editar">
-              <EditActivForm>
-                <TextField
-                  type="text"
-                  value={userInput}
-                  onChange={(e) => setUserInput(e.currentTarget.value)}
-                />
-                <Button
-                  variant="contained"
-                  type="submit"
-                  onClick={() => editActiv(item.id, userInput)}
-                >
-                  SALVAR
-                </Button>
-              </EditActivForm>
-            </ModalPopover>
-          </>
-        );
-      })}
+              <ModalPopover ele="Editar">
+                <EditActivForm>
+                  <TextField
+                    type="text"
+                    value={userInput}
+                    onChange={(e) => setUserInput(e.currentTarget.value)}
+                  />
+                  <Button
+                    variant="contained"
+                    type="submit"
+                    onClick={() => editActiv(item.id, userInput)}
+                  >
+                    SALVAR
+                  </Button>
+                </EditActivForm>
+              </ModalPopover>
+            </li>
+          );
+        })}
+      </ul>
     </Grid>
   );
 };

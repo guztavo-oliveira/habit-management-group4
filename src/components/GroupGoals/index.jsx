@@ -7,13 +7,18 @@ import { useAuth } from "../../providers/AuthContext";
 
 import { AddGoalsForm } from ".";
 import { ModalPopover } from "../ModalPopover";
+import { ToggleButton, ToggleButtonGroup } from "@mui/material";
 
 const GroupGoals = ({ groupId, goals }) => {
+  const [difficultyValue, setDifficultyValue] = useState("Fácil");
   const { tokenBearer, refresh, setRefresh } = useAuth();
   const [data, setData] = useState("");
 
   const { handleSubmit, control } = useForm();
 
+  const handleChange = (event, newValue) => {
+    setDifficultyValue(newValue);
+  };
   const deleteGoal = (goalId) => {
     api
       .delete(`/goals/${goalId}`, tokenBearer)
@@ -42,6 +47,12 @@ const GroupGoals = ({ groupId, goals }) => {
   };
 
   const addGoal = (data) => {
+    data = {
+      ...data,
+      how_much_achieved: 0,
+      achieved: false,
+      group: `${groupId}`,
+    };
     api
       .post("/goals/", data, tokenBearer)
       .then((response) => {
@@ -74,38 +85,51 @@ const GroupGoals = ({ groupId, goals }) => {
           />
           <Controller
             render={({ field }) => (
-              <TextField
-                id="outlined-basic"
-                label="Data limite"
-                variant="outlined"
-                type="datetime-local"
+              <ToggleButtonGroup
+                component="input"
                 required
+                exclusive
+                value={difficultyValue}
+                onChange={handleChange}
                 sx={{ width: "80%" }}
                 {...field}
-              />
+              >
+                <ToggleButton value="Fácil" key="1">
+                  Fácil
+                </ToggleButton>
+                <ToggleButton value="Médio" key="2">
+                  Médio
+                </ToggleButton>
+                <ToggleButton value="Difícil" key="3">
+                  Difícil
+                </ToggleButton>
+              </ToggleButtonGroup>
             )}
-            name="realization_time"
+            name="difficulty"
             control={control}
             defaultValue=""
           />
+
           <Button variant="contained" type="submit">
             ADICIONAR
           </Button>
         </AddGoalsForm>
       </ModalPopover>
-      {goals.map((item) => {
-        return (
-          <>
-            <div>{item.title}</div>
-            <div>{item.difficulty}</div>
-            <div>Feito {item.how_much_achieved} vezes.</div>
-            <button onClick={() => deleteGoal(item.id)}>X</button>
-            <button onClick={editGoal(item.id, item.achieved)}>
-              {item.achieved === false ? "✓" : "✗"}
-            </button>
-          </>
-        );
-      })}
+      <ul>
+        {goals.map((item, index) => {
+          return (
+            <li key={index}>
+              <div>{item.title}</div>
+              <div>{item.difficulty}</div>
+              <div>Feito {item.how_much_achieved} vezes.</div>
+              <button onClick={() => deleteGoal(item.id)}>X</button>
+              <button onClick={() => editGoal(item.id, item.achieved)}>
+                {item.achieved === false ? "✓" : "✗"}
+              </button>
+            </li>
+          );
+        })}
+      </ul>
     </Grid>
   );
 };
