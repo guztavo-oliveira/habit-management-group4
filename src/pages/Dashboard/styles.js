@@ -87,7 +87,8 @@ export const MenuBar = styled.div`
     height: 100px;
     border-radius: 50% 50% 0 0;
     position: absolute;
-    left: 100px;
+    transform: translateX(-50%);
+    left: 50%;
     bottom: -10px;
   }
 `;
@@ -95,7 +96,7 @@ export const MenuBar = styled.div`
 export const ContainerHabits = styled.div`
   width: 90%;
   height: 100%;
-  /* border: 1px solid red; */
+  border: 1px solid red;
 `;
 
 export const ContainerGroups = styled.div`
