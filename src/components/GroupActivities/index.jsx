@@ -2,14 +2,10 @@ import { useState } from "react";
 import api from "../../services/api";
 import { useForm, Controller } from "react-hook-form";
 import Toastify from "toastify";
-import { Button, TextField } from "@material-ui/core";
+import { Button, TextField, Grid } from "@material-ui/core";
 import { useAuth } from "../../providers/AuthContext";
 import { ModalDialog } from "../ModalDialog";
-import {
-  ActivitiesContainer,
-  AddActivForm,
-  EditActivForm,
-} from "../GroupActivities/styles";
+import { AddActivForm, EditActivForm } from "../GroupActivities/styles";
 import { ModalPopover } from "../ModalPopover";
 
 const GroupActivities = ({ groupId, activities }) => {
@@ -17,18 +13,6 @@ const GroupActivities = ({ groupId, activities }) => {
   const [userInput, setUserInput] = useState("");
 
   const { handleSubmit, control } = useForm();
-
-  /*const getActivities = () => {
-    api
-      .get(`/activities/?grupo=${groupId}`)
-      .then((response) => {
-        setActiv(response.data.results);
-        refresh === true ? setRefresh(false) : setRefresh(true);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };*/
 
   const addActiv = (data) => {
     data = { ...data, group: `${groupId}` };
@@ -79,7 +63,7 @@ const GroupActivities = ({ groupId, activities }) => {
       });
   };
   return (
-    <ActivitiesContainer>
+    <Grid item xs={12} sm={8} md={6} lg={6} xl={6}>
       <ModalDialog ele="Adicionar atividade">
         <AddActivForm onSubmit={handleSubmit(addActiv)}>
           <Controller
@@ -144,7 +128,7 @@ const GroupActivities = ({ groupId, activities }) => {
           </>
         );
       })}
-    </ActivitiesContainer>
+    </Grid>
   );
 };
 

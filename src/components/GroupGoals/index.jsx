@@ -2,10 +2,10 @@ import { useState } from "react";
 import { api } from "../../services/api";
 import { useForm, Controller } from "react-router-dom";
 import Toastify from "toastify";
-import { Button, TextField } from "@material-ui/core";
+import { Button, TextField, Grid } from "@material-ui/core";
 import { useAuth } from "../../providers/AuthContext";
 
-import { GoalsContainer, AddGoalsForm } from ".";
+import { AddGoalsForm } from ".";
 import { ModalPopover } from "../ModalPopover";
 
 const GroupGoals = ({ groupId, goals }) => {
@@ -13,17 +13,6 @@ const GroupGoals = ({ groupId, goals }) => {
   const [data, setData] = useState("");
 
   const { handleSubmit, control } = useForm();
-  /*const getGoals = () => {
-    api
-      .get(`/activities/?grupo=${groupId}`, tokenBearer)
-      .then((response) => {
-        setGoals(response.data.results);
-        refresh === true ? setRefresh(false) : setRefresh(true);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };*/
 
   const deleteGoal = (goalId) => {
     api
@@ -65,7 +54,7 @@ const GroupGoals = ({ groupId, goals }) => {
   };
 
   return (
-    <GoalsContainer>
+    <Grid item xs={12} sm={8} md={6} lg={6} xl={6}>
       <ModalPopover ele="Adicionar meta">
         <AddGoalsForm onSubmit={handleSubmit(addGoal)}>
           <Controller
@@ -117,7 +106,7 @@ const GroupGoals = ({ groupId, goals }) => {
           </>
         );
       })}
-    </GoalsContainer>
+    </Grid>
   );
 };
 
