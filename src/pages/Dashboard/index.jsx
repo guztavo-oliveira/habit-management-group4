@@ -29,7 +29,6 @@ const Dashboard = () => {
     api
       .get(`/users/${id}/`, tokenBearer)
       .then((response) => {
-        console.log(response.data);
         const { username, email } = response.data;
         setUsername(username);
         setEmail(email);
