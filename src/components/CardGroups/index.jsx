@@ -8,8 +8,8 @@ import { FiUser } from "react-icons/fi";
 import { toast } from "react-toastify";
 import { useGroup } from "../../providers/JsonGroups";
 import { useEffect, useState } from "react";
-import {GroupActivities} from '../GroupActivities'
-import {GroupGoals} from '../GroupGoals'
+import GroupActivities from '../GroupActivities'
+import GroupGoals from '../GroupGoals'
 
 const EditGroup = ({ groupid, updateGroup }) => {
   const { tokenBearer } = useAuth();
