@@ -1,10 +1,10 @@
 import { Dialog } from "@material-ui/core";
 import { useState } from "react";
 
-export const ModalDialog = ({ children, ele , msg="fechar"}) => {
+export const ModalDialog = ({ children, ele , msg="fechar",msgButton , callBack}) => {
   const [open, setOpen] = useState(false);
   const abriModal = (e) => {
-    e.stopPropagation();
+   
     setOpen(!open);
   };
 
@@ -17,6 +17,7 @@ export const ModalDialog = ({ children, ele , msg="fechar"}) => {
               {msg} <span onClick={abriModal}>X</span>
             </div>
             {children}
+            {msgButton && <button onClick={() => {abriModal();callBack()}}>{msgButton}</button>}
           </Dialog>
         )}
       </div>

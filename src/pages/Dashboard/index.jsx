@@ -30,6 +30,10 @@ const Dashboard = () => {
     api
       .get(`/users/${id}/`, tokenBearer)
       .then((response) => {
+<<<<<<< HEAD
+=======
+
+>>>>>>> dafce71fafb2304b471624d72bcf344103870025
         setUser(response.data);
       })
       .catch((err) => console.log(err));

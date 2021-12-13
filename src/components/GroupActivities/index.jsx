@@ -2,45 +2,17 @@ import { useState } from "react";
 import api from "../../services/api";
 import { useForm, Controller } from "react-hook-form";
 import Toastify from "toastify";
-import { Button, TextField, Popover } from "@material-ui/core";
+import { Button, TextField, Grid } from "@material-ui/core";
 import { useAuth } from "../../providers/AuthContext";
 import { ModalDialog } from "../ModalDialog";
-import { ActivitiesContainer } from "../GroupActivities/styles";
+import { AddActivForm, EditActivForm } from "../GroupActivities/styles";
 import { ModalPopover } from "../ModalPopover";
-import TesteModal from "../testeModal";
 
-const GroupActivities = ({ refresh, setRefresh }) => {
-  const { tokenBearer, groupId, activ } = useAuth();
-  const { access } = useAuth();
-  // const [userInput, setUserInput] = useState("");
-
-  //const [anchorEl, setAnchorEl] = useState(null);
-
-  /*const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const open = Boolean(anchorEl);
-  const edit = open ? "simple-popover" : undefined;
-  const add = open ? "simple-popover" : undefined;*/
+const GroupActivities = ({ groupId, activities }) => {
+  const { tokenBearer, refresh, setRefresh } = useAuth();
+  const [userInput, setUserInput] = useState("");
 
   const { handleSubmit, control } = useForm();
-
-  /*const getActivities = () => {
-    api
-      .get(`/activities/?grupo=${groupId}`)
-      .then((response) => {
-        setActiv(response.data.results);
-        refresh === true ? setRefresh(false) : setRefresh(true);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };*/
 
   const addActiv = (data) => {
     data = { ...data, group: `${groupId}` };
@@ -91,25 +63,8 @@ const GroupActivities = ({ refresh, setRefresh }) => {
       });
   };
   return (
-    <ActivitiesContainer>
-      {/* <ModalDialog exibirModal={abriModal} open={open}>
-        <Button onClick={abriModal}>Teste</Button>
-      </ModalDialog>
-      <button onClick={abriModal}>exibir modal</button>
-      <ModalDialog exibirModal={abriModal2} open={open2}>
-        <Button onClick={abriModal2}>modal 2 fechar</Button>
-      </ModalDialog>
-      {/* <Popover
-        id={add}
-        open={open}
-        anchorEl={anchorEl}
-        onClose={handleClose}
-        anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "left",
-        }}
-      > */}
-      {/*
+    <Grid item xs={12} sm={8} md={6} lg={6} xl={6}>
+      <ModalDialog ele="Adicionar atividade">
         <AddActivForm onSubmit={handleSubmit(addActiv)}>
           <Controller
             render={({ field }) => (
@@ -146,41 +101,36 @@ const GroupActivities = ({ refresh, setRefresh }) => {
             ADICIONAR
           </Button>
         </AddActivForm>
-            </Popover>*/}
-      {/* {activ.map((item) => {
-        return (
-          <>
-            <div>{item.title}</div>
-            <div>{item.realization_time}</div>
-            <button onClick={() => deleteActiv(item.id)}>X</button> */}
-      {/*<button onClick={handleClick}>Edit</button>
-            <Popover
-              id={edit}
-              open={open}
-              anchorEl={anchorEl}
-              onClose={handleClose}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
-              }}
-            >
-              <TextField
-                type="text"
-                value={userInput}
-                onChange={(e) => setUserInput(e.currentTarget.value)}
-              />
-              <Button
-                variant="contained"
-                type="submit"
-                onClick={() => editActiv(item.id, userInput)}
-              >
-                SALVAR
-              </Button>
-            </Popover>*/}
-      {/* </>
-        );
-      })} */}
-    </ActivitiesContainer>
+      </ModalDialog>
+      <ul>
+        {activities.map((item, index) => {
+          return (
+            <li key={index}>
+              <div>{item.title}</div>
+              <div>{item.realization_time}</div>
+              <button onClick={() => deleteActiv(item.id)}>X</button>
+
+              <ModalPopover ele="Editar">
+                <EditActivForm>
+                  <TextField
+                    type="text"
+                    value={userInput}
+                    onChange={(e) => setUserInput(e.currentTarget.value)}
+                  />
+                  <Button
+                    variant="contained"
+                    type="submit"
+                    onClick={() => editActiv(item.id, userInput)}
+                  >
+                    SALVAR
+                  </Button>
+                </EditActivForm>
+              </ModalPopover>
+            </li>
+          );
+        })}
+      </ul>
+    </Grid>
   );
 };
 

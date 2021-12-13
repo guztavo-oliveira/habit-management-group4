@@ -51,6 +51,7 @@ const Login = () => {
   };
 
   const handleSignIn = (data) => {
+    console.log(data)
     api
       .post("/sessions/", data)
       .then((response) => {
