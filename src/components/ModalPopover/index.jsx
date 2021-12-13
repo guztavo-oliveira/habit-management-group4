@@ -1,5 +1,5 @@
 import { Popover } from "@material-ui/core";
-import { useState } from "react";
+import { Component, useState } from "react";
 import "./styles.css";
 export const ModalPopover = ({
   children,
