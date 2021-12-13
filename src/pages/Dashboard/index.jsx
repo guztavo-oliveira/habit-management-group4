@@ -104,7 +104,6 @@ const Profile = ({ username, email, getUserData }) => {
         icon={<BsGear className="gear" />}
         msgButton="Atualizar"
         callback={submit}
-        classe="modalPerfil"
       >
         {/* {errors && toast.error(errors)} */}
         <div className="header">
