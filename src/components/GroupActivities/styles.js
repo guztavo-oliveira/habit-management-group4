@@ -10,7 +10,7 @@ export const ActivitiesContainer = styled.div`
 
 export const ActivitiesCard = styled.div``;
 
-export const EditActivForm = styled.form`
+export const EditActivForm = styled.div`
   width: "50vh";
   height: "40vh";
   display: "flex";

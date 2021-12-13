@@ -29,6 +29,8 @@ const AuthProvider = ({ children }) => {
     localStorage.removeItem("@gestaodehabitos:access");
   };
 
+  const [refresh, setRefresh] = useState(false);
+
   return (
     <AuthContext.Provider
       value={{
@@ -36,6 +38,9 @@ const AuthProvider = ({ children }) => {
         id,
         tokenBearer,
         atualizarToken,
+        refresh,
+        setRefresh,
+        signOut,
       }}
     >
       {children}
