@@ -1,17 +1,18 @@
-import { Popover } from "@material-ui/core";
-import { Component, useState } from "react";
-import { Container } from "./styles.js";
+import { useState } from "react";
+import { Container, PopoverStyled } from "./styles.js";
+
 export const ModalPopover = ({
   children,
   ele,
   msg = "enviar",
   msgButton = false,
   icon,
+  callback,
+  classe
 }) => {
   const [open, setOpen] = useState(false);
   const [alvo, setAlvo] = useState("");
   const abriModal = (e) => {
-    // e.stopPropagation();
     setOpen(!open);
   };
   const selecionado = (e) => {
@@ -28,7 +29,7 @@ export const ModalPopover = ({
         {ele ? ele : icon}
       </div>
       {open && (
-        <Popover
+        <PopoverStyled
           id={open && "simple-popover"}
           open={open}
           anchorEl={alvo}
@@ -38,14 +39,14 @@ export const ModalPopover = ({
             horizontal: "left",
           }}
         >
-          <div className="modalPopover">
+          <div className={classe}>
             <div>
               {msg} <span onClick={abriModal}>X</span>
             </div>
             {children}
-            {msgButton && <button onClick={abriModal}>{msgButton}</button>}
+            {msgButton && <button onClick={() => {abriModal();callback()}}>{msgButton}</button>}
           </div>
-        </Popover>
+        </PopoverStyled>
       )}
     </Container>
   );

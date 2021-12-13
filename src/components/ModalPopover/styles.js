@@ -1,13 +1,16 @@
 import styled from "styled-components";
+import { Popover } from "@mui/material";
+export const Container = styled.div``;
 
-export const Container = styled.div`
-  .modalPopover {
+export const PopoverStyled = styled(Popover)`
+  .modalPerfil {
     padding: 15px;
-  }
-  .modalPopover li {
-    list-style: none;
-  }
-  #simple-popover {
-    /* padding: 15px; */
+    display: flex;
+    flex-direction: column;
+    button {
+      background: var(--dark-blue);
+      color: white;
+      height: 40px;
+    }
   }
 `;

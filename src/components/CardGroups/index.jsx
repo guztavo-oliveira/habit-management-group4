@@ -83,16 +83,16 @@ const EditGroup = ({ groupid, updateGroup }) => {
   );
 };
 
-const CardGroups = ({ group, updateGroup }) => {
+const CardGroups = ({ group, updateGroup, setAlvo }) => {
   const { id, tokenBearer, refresh } = useAuth();
- 
+  const [visibleGroup, setVisibleGroup] = useState(false)
   const { myGroups } = useGroup();
   const [goals, setGoals] = useState([]);
   const [activities, setActivities] = useState([]);
 
   useEffect(() => {
     api
-      .get(`/activities/?grupo=${group.id}`, tokenBearer)
+      .get(`/activities/?grupo=${group.id}/`, tokenBearer)
       .then((response) => {
         setActivities(response.data.results);
       })
@@ -101,7 +101,7 @@ const CardGroups = ({ group, updateGroup }) => {
       });
 
       api
-      .get(`/goals/?grupo=${group.id}`, tokenBearer)
+      .get(`/goals/?grupo=${group.id}/`, tokenBearer)
       .then((response) => {
         setGoals(response.data.results);
       })
@@ -111,14 +111,15 @@ const CardGroups = ({ group, updateGroup }) => {
   }, [refresh]);
 
   const subscribe = () => {
+    console.log(tokenBearer)
     api
-      .post(`/groups/${group.id}/subscribe`, tokenBearer)
+      .post(`/groups/${group.id}/subscribe/`,{} , tokenBearer)
       .then(() => {
         updateGroup();
         toast("Você se increveu no grupo");
       })
       .catch((err) =>
-        toast("Algo deu erradoao tentar se increver no grupo...")
+        toast("Algo deu errado ao tentar se increver no grupo...")
       );
   };
 
@@ -133,19 +134,91 @@ const CardGroups = ({ group, updateGroup }) => {
   };
 
   return (
-    <Container>
+    <Container onClick={() => {!!setAlvo && setAlvo(group)}}>
+      
       <div className="container">
         <FiUser size={60} />
         <Content>
           <div>
-            <ModalDialog>
+            {/* <ModalDialog ele={"teste"}>
               <Grid container>
                 <GroupActivities activities={activities} groupId={group.id}/>
                 <GroupGoals goals={goals} groupId={group.id}/>
               </Grid>
-            </ModalDialog>
+            </ModalDialog> */}
           
           </div>
+          <p>
+            <span> Nome:</span> {group.name}
+          </p>
+          <span> {group.category}</span>
+          <p>
+            <span> Criador:</span> {group.creator.username}
+          </p>
+          <p>
+            <span>Descrição:</span> {group.description}
+          </p>
+          <p>
+            <span>Integrantes: </span> {group.users_on_group.length}
+          </p>
+        </Content>
+      </div>
+      <div className="containerEditar">
+        {group.creator.id === id && (
+          <ButtonGroup onClick={(e) => e.stopPropagation()}>
+            <ModalDialog ele={"Editar"}>
+              <EditGroup id={group.id} updateGroup={updateGroup} />
+            </ModalDialog>
+          </ButtonGroup>
+        )}
+        <ButtonGroup
+          onClick={
+            myGroups.some((item) => item.id === group.id)
+              ? unsubscribe
+              : subscribe
+          }
+        >
+          {myGroups.some((item) => item.id === group.id)
+            ? "Sair do grupo"
+            : "Entrar no grupo"}
+        </ButtonGroup>
+      </div>
+    </Container>
+  );
+};
+
+
+export const RenderOneGroup = ({group, setAlvo}) => {
+  const { id, tokenBearer, refresh } = useAuth();
+  const {updateGroup} = useGroup()
+  
+  const unsubscribe = () => {
+    api
+      .delete(`/groups/${group.id}/unsubscribe/`, tokenBearer)
+      .then(() => {
+        updateGroup();
+        toast("Você saiu do grupo!");
+      })
+      .catch((err) => toast("Algo deu errado ao tentar sair do grupo..."));
+  };
+  return(
+    <>
+     <div className="container">
+        <FiUser size={60} />
+        <Content>
+          <div>
+            <button onClick={() => setAlvo("")}>Voltar</button>
+            {/* <ModalDialog ele={"teste"}>
+              <Grid container>
+                <GroupActivities activities={activities} groupId={group.id}/>
+                <GroupGoals goals={goals} groupId={group.id}/>
+              </Grid>
+            </ModalDialog> */}
+          
+          </div>
+          <p>
+            <span> Nome:</span> {group.name}
+          </p>
           <span> {group.category}</span>
           <p>
             <span> Criador:</span> {group.creator.username}
@@ -167,19 +240,13 @@ const CardGroups = ({ group, updateGroup }) => {
           </ButtonGroup>
         )}
         <ButtonGroup
-          onClick={
-            myGroups.some((item) => item.id === group.id)
-              ? unsubscribe
-              : subscribe
-          }
+          onClick={() => {unsubscribe();setAlvo("")}}
         >
-          {myGroups.some((item) => item.id === group.id)
-            ? "Sair do grupo"
-            : "Entrar no grupo"}
+          Sair do grupo
         </ButtonGroup>
       </div>
-    </Container>
-  );
-};
+    </>
+  )
+}
 
 export default CardGroups;

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useGroup } from "../../providers/JsonGroups";
-import CardGroups from "../CardGroups";
+import CardGroups, { RenderOneGroup } from "../CardGroups";
 import { Container } from "./styles";
 import api from "../../services/api";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -21,6 +21,7 @@ const ListGroups = () => {
   const [name, setName] = useState("");
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
+  const [alvo, setAlvo] = useState("");
   const getGroups = () => {
     api.get("/groups/").then((resp) => setGroups(resp.data));
   };
@@ -50,65 +51,76 @@ const ListGroups = () => {
       category,
       description,
     };
-    api.post("/groups/", data, tokenBearer).then(() => {
-      updateGroup();
-      toast("Grupo criado com sucesso");
-    });
+    api
+      .post("/groups/", data, tokenBearer)
+      .then(() => {
+        updateGroup();
+        toast("Grupo criado com sucesso");
+      })
+      .catch(() => toast("Adcione todas a informaçoes para criar!"));
   };
   console.log(groups);
+  const style = {
+    height: "400px",
+    overflowY: "auto",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+  };
   return (
     <Container>
-      <div>
-        <input
-          value={search}
-          type="text"
-          placeholder="Pesquisar grupos"
-          onChange={(evt) => setSearch(evt.target.value)}
-        />
-        <span onClick={() => setSearch("")}>X</span>
-        <ModalDialog
-          ele="Criar um Grupo"
-          msgButton="Criar um Grupo"
-          callBack={criarGrupo}
-        >
-          <TextField
-            id="outlined-basic"
-            label="Name group"
+      {!!!alvo && (
+        <div>
+          <input
+            value={search}
             type="text"
-            variant="outlined"
-            sx={{ marginTop: 5 }}
-            fullWidth
-            onChange={(e) => setName(e.target.value)}
+            placeholder="Pesquisar grupos"
+            onChange={(evt) => setSearch(evt.target.value)}
           />
-          <TextField
-            id="outlined-basic"
-            label="description"
-            type="text"
-            variant="outlined"
-            sx={{ marginTop: 5 }}
-            fullWidth
-            onChange={(e) => setDescription(e.target.value)}
-          />
-          <TextField
-            id="outlined-basic"
-            label="category"
-            type="text"
-            variant="outlined"
-            sx={{ marginTop: 5 }}
-            fullWidth
-            onChange={(e) => setCategory(e.target.value)}
-          />
-        </ModalDialog>
-        <button onClick={() => setShowAllGroups(!showAllGroups)}>
-          {showAllGroups ? "Mostrar meus grupos" : "Mostrar todos os grupos"}
-        </button>
-      </div>
+          <span onClick={() => setSearch("")}>X</span>
+          <ModalDialog
+            ele="Criar um Grupo"
+            msgButton="Criar um Grupo"
+            callBack={criarGrupo}
+          >
+            <TextField
+              id="outlined-basic"
+              label="Name group"
+              type="text"
+              variant="outlined"
+              sx={{ marginTop: 5 }}
+              fullWidth
+              onChange={(e) => setName(e.target.value)}
+            />
+            <TextField
+              id="outlined-basic"
+              label="description"
+              type="text"
+              variant="outlined"
+              sx={{ marginTop: 5 }}
+              fullWidth
+              onChange={(e) => setDescription(e.target.value)}
+            />
+            <TextField
+              id="outlined-basic"
+              label="category"
+              type="text"
+              variant="outlined"
+              sx={{ marginTop: 5 }}
+              fullWidth
+              onChange={(e) => setCategory(e.target.value)}
+            />
+          </ModalDialog>
+          <button onClick={() => setShowAllGroups(!showAllGroups)}>
+            {showAllGroups ? "Mostrar meus grupos" : "Mostrar todos os grupos"}
+          </button>
+        </div>
+      )}
 
       {showAllGroups ? (
         <div className="containerPesquisa">
-          {/* {show && <span>carregando...</span>} */}
           <InfiniteScroll
-            style={{ overflow: "hidden" }}
+            style={style}
             dataLength={
               groups.results.filter((ele) =>
                 ele.name
@@ -122,7 +134,6 @@ const ListGroups = () => {
             }}
             loader={<CircularProgress />}
             hasMore={show}
-            // loader={<h4>Loading...</h4>}
           >
             {!!search ? (
               <>
@@ -143,16 +154,10 @@ const ListGroups = () => {
             ) : (
               <>
                 {groups.results.map((ele, ind) => (
-                  <CardGroups
-                    groupId={ele.id}
-                    props={ele}
-                    updateGroup={updateGroup}
-                    key={ind}
-                  />
+                  <CardGroups group={ele} updateGroup={updateGroup} key={ind} />
                 ))}
               </>
             )}
-            {/* {show && <CircularProgress color="secondary" />} */}
           </InfiniteScroll>
         </div>
       ) : (
@@ -166,19 +171,27 @@ const ListGroups = () => {
                     .includes(search.trim().toLocaleLowerCase())
                 )
                 .map((ele, ind) => (
-                  <CardGroups props={ele} updateGroup={updateGroup} key={ind} />
+                  <CardGroups group={ele} updateGroup={updateGroup} key={ind} />
                 ))}
             </>
           ) : (
             <>
-              {myGroups.map((ele, ind) => (
-                <CardGroups props={ele} updateGroup={updateGroup} key={ind} />
-              ))}
+              {!!alvo ? (
+                <RenderOneGroup group={alvo} setAlvo={setAlvo} />
+              ) : (
+                <>
+                  {myGroups.map((ele, ind) => (
+                    <CardGroups
+                      setAlvo={setAlvo}
+                      group={ele}
+                      updateGroup={updateGroup}
+                      key={ind}
+                    />
+                  ))}
+                </>
+              )}
             </>
           )}
-          {/* {myGroups.map((ele, ind) => (
-                <CardGroups props={ele} updateGroup={updateGroup} key={ind} />
-              ))} */}
         </ul>
       )}
     </Container>

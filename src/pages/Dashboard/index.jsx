@@ -4,6 +4,7 @@ import {
   MenuBar,
   ContainerHabits,
   ContainerGroups,
+  ContainerEditUser,
 } from "./styles";
 import { BiUser, BiGroup } from "react-icons/bi";
 import { BsGear } from "react-icons/bs";
@@ -16,19 +17,17 @@ import { ModalPopover } from "../../components/ModalPopover";
 
 import Button from "../../components/Button";
 import { TextField } from "@mui/material";
+import { toast } from "react-toastify";
 
 const Dashboard = () => {
   const [habits, setHabits] = useState(true);
-
   const [user, setUser] = useState({});
-
   const { id, tokenBearer } = useAuth();
 
   const getUserData = () => {
     api
       .get(`/users/${id}/`, tokenBearer)
       .then((response) => {
-
         setUser(response.data);
       })
       .catch((err) => console.log(err));
@@ -49,14 +48,7 @@ const Dashboard = () => {
             <p>{user.username}</p>
             <p>{user.email}</p>
           </div>
-          <ModalPopover icon={<BsGear className="gear" />}>
-            <Profile
-              username={user.username}
-              email={user.email}
-              id={id}
-              getUserData={getUserData}
-            />
-          </ModalPopover>
+          <Profile username={user.username} email={user.email} getUserData={getUserData} />
         </div>
       </Header>
       {habits ? (
@@ -70,6 +62,7 @@ const Dashboard = () => {
           <ListGroups />
         </ContainerGroups>
       )}
+
       <MenuBar>
         <div className="icons">
           <BiGroup onClick={() => setHabits(false)} />
@@ -85,10 +78,12 @@ export default Dashboard;
 const Profile = ({ username, email, getUserData }) => {
   const [newUser, setNewUser] = useState("");
   const [newEmail, setNewEmail] = useState("");
-
+  const [user, setUser] = useState({});
   const { tokenBearer, id } = useAuth();
-
   const submit = () => {
+    if (newUser === "" || newEmail === "") {
+      return toast.error("Preencha todos os campos");
+    }
     const data = {
       username: newUser || username,
       email: newEmail || email,
@@ -96,29 +91,41 @@ const Profile = ({ username, email, getUserData }) => {
     console.log(data, id);
     api
       .patch(`/users/${id}/`, data, tokenBearer)
-      .then((response) => console.log(response.data))
+      .then((response) => {
+        toast.success("Usuario modificado com sucesso");
+        getUserData();
+      })
       .catch((err) => console.log(err));
-    getUserData();
   };
 
   return (
-    <>
-      {/* {errors && toast.error(errors)} */}
+    <ContainerEditUser>
+      <ModalPopover
+        icon={<BsGear className="gear" />}
+        msgButton="Atualizar"
+        callback={submit}
+        classe="modalPerfil"
+      >
+        {/* {errors && toast.error(errors)} */}
+        <div className="header">
+          <h3>Alterar dados do usuário</h3>
+        </div>
 
-      <TextField
-        label="Nome"
-        variant="filled"
-        defaultValue={username}
-        onChange={(e) => setNewUser(e.target.value)}
-      />
-      <TextField
-        label="E-mail"
-        variant="filled"
-        defaultValue={email}
-        onChange={(e) => setNewEmail(e.target.value)}
-      />
-
-      <Button darkBlue type="submit" children="Atualizar" onClick={submit} />
-    </>
+        <div className="edit">
+          <TextField
+            label="Nome"
+            variant="outlined"
+            defaultValue={username}
+            onChange={(e) => setNewUser(e.target.value)}
+          />
+          <TextField
+            label="E-mail"
+            variant="outlined"
+            defaultValue={email}
+            onChange={(e) => setNewEmail(e.target.value)}
+          />
+        </div>
+      </ModalPopover>
+    </ContainerEditUser>
   );
 };
