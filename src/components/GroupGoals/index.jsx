@@ -21,7 +21,7 @@ const GroupGoals = ({ groupId, goals }) => {
   };
   const deleteGoal = (goalId) => {
     api
-      .delete(`/goals/${goalId}`, tokenBearer)
+      .delete(`/goals/${goalId}/`, tokenBearer)
       .then((response) => {
         Toastify.success("Tudo certo!", "Meta removida com sucesso.");
         refresh === true ? setRefresh(false) : setRefresh(true);
@@ -34,7 +34,7 @@ const GroupGoals = ({ groupId, goals }) => {
   const editGoal = (goalId, achieved) => {
     achieved === false ? setData("achieved: true") : setData("achieved: false");
     api
-      .patch(`goals/${goalId}`, data, tokenBearer)
+      .patch(`goals/${goalId}/`, data, tokenBearer)
       .then((response) => {
         data === "achieved: true"
           ? Toastify.success("Meta concluída!")
