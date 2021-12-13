@@ -94,6 +94,15 @@ const CardGroups = ({ group, updateGroup }) => {
     api
       .get(`/activities/?grupo=${group.id}`, tokenBearer)
       .then((response) => {
+        setActivities(response.data.results);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+      api
+      .get(`/goals/?grupo=${group.id}`, tokenBearer)
+      .then((response) => {
         setGoals(response.data.results);
       })
       .catch((err) => {
@@ -131,8 +140,8 @@ const CardGroups = ({ group, updateGroup }) => {
           <div>
             <ModalDialog>
               <Grid container>
-                <GroupActivities />
-                <GroupGoals />
+                <GroupActivities activities={activities} groupId={group.id}/>
+                <GroupGoals goals={goals} groupId={group.id}/>
               </Grid>
             </ModalDialog>
           
