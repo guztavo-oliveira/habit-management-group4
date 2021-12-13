@@ -17,6 +17,7 @@ const ListGroups = () => {
   const [groups, setGroups] = useState([]);
   const [search, setSearch] = useState("");
   const [show, setShow] = useState(true);
+  const [showAllGroups, setShowAllGroups] = useState(false);
   const [name, setName] = useState("");
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
@@ -98,10 +99,12 @@ const ListGroups = () => {
             onChange={(e) => setCategory(e.target.value)}
           />
         </ModalDialog>
-        {/* <button onClick>Criar grupo</button> */}
+        <button onClick={() => setShowAllGroups(!showAllGroups)}>
+          {showAllGroups ? "Mostrar meus grupos" : "Mostrar todos os grupos"}
+        </button>
       </div>
 
-      {!!search ? (
+      {showAllGroups ? (
         <div className="containerPesquisa">
           {/* {show && <span>carregando...</span>} */}
           <InfiniteScroll
@@ -121,19 +124,61 @@ const ListGroups = () => {
             hasMore={show}
             // loader={<h4>Loading...</h4>}
           >
-            {groups.results
-              .filter((ele) => ele.name.toLocaleLowerCase().includes(search))
-              .map((ele, ind) => (
-                <CardGroups group={ele} updateGroup={updateGroup} key={ind} />
-              ))}
+            {!!search ? (
+              <>
+                {groups.results
+                  .filter((ele) =>
+                    ele.name
+                      .toLocaleLowerCase()
+                      .includes(search.trim().toLocaleLowerCase())
+                  )
+                  .map((ele, ind) => (
+                    <CardGroups
+                      props={ele}
+                      updateGroup={updateGroup}
+                      key={ind}
+                    />
+                  ))}
+              </>
+            ) : (
+              <>
+                {groups.results.map((ele, ind) => (
+                  <CardGroups
+                    groupId={ele.id}
+                    props={ele}
+                    updateGroup={updateGroup}
+                    key={ind}
+                  />
+                ))}
+              </>
+            )}
             {/* {show && <CircularProgress color="secondary" />} */}
           </InfiniteScroll>
         </div>
       ) : (
         <ul>
-          {myGroups.map((ele, ind) => (
-            <CardGroups group={ele} updateGroup={updateGroup} key={ind} />
-          ))}
+          {!!search ? (
+            <>
+              {myGroups
+                .filter((ele) =>
+                  ele.name
+                    .toLocaleLowerCase()
+                    .includes(search.trim().toLocaleLowerCase())
+                )
+                .map((ele, ind) => (
+                  <CardGroups props={ele} updateGroup={updateGroup} key={ind} />
+                ))}
+            </>
+          ) : (
+            <>
+              {myGroups.map((ele, ind) => (
+                <CardGroups props={ele} updateGroup={updateGroup} key={ind} />
+              ))}
+            </>
+          )}
+          {/* {myGroups.map((ele, ind) => (
+                <CardGroups props={ele} updateGroup={updateGroup} key={ind} />
+              ))} */}
         </ul>
       )}
     </Container>
