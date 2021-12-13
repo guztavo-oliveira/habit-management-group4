@@ -39,6 +39,7 @@ const Register = () => {
   const history = useHistory();
 
   const onSubmitForm = (data) => {
+    delete data.passwordConfirm;
     api
       .post("/users/", data)
       .then((response) => {

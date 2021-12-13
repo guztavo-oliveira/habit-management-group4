@@ -1,11 +1,12 @@
 import { Popover } from "@material-ui/core";
 import { Component, useState } from "react";
-import "./styles.css";
+import { Container } from "./styles.js";
 export const ModalPopover = ({
   children,
   ele,
   msg = "enviar",
   msgButton = false,
+  icon,
 }) => {
   const [open, setOpen] = useState(false);
   const [alvo, setAlvo] = useState("");
@@ -17,15 +18,15 @@ export const ModalPopover = ({
     setAlvo(e.currentTarget);
   };
   return (
-    <div>
-      <button
+    <Container>
+      <div
         onClick={(e) => {
           setOpen(true);
           selecionado(e);
         }}
       >
-        {ele}
-      </button>
+        {ele ? ele : icon}
+      </div>
       {open && (
         <Popover
           id={open && "simple-popover"}
@@ -46,6 +47,6 @@ export const ModalPopover = ({
           </div>
         </Popover>
       )}
-    </div>
+    </Container>
   );
 };

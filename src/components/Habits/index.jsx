@@ -47,7 +47,7 @@ const Habits = () => {
 
   useEffect(() => {
     getHabits();
-  });
+  }, []);
 
   return (
     <Container>
