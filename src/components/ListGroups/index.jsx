@@ -9,9 +9,11 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { toast } from "react-toastify";
 import { ModalDialog } from "../ModalDialog";
 import { TextField } from "@mui/material";
+import { useAuth } from "../../providers/AuthContext";
 
 const ListGroups = () => {
   const { myGroups, updateGroup } = useGroup();
+  const {tokenBearer} = useAuth()
   const [groups, setGroups] = useState([]);
   const [search, setSearch] = useState("");
   const [show, setShow] = useState(true);
@@ -41,8 +43,13 @@ const ListGroups = () => {
       setShow(false);
     }
   };
-  const criarGrupo = (data) => {
-    api.post("/groups/", data).then(() => {
+  const criarGrupo = () => {
+    const data = {
+      name,
+      category,
+      description
+    }
+    api.post("/groups/", data, tokenBearer).then(() => {
       updateGroup();
       toast("Grupo criado com sucesso");
     });
@@ -56,11 +63,11 @@ const ListGroups = () => {
           type="text"
           placeholder="Pesquisar grupos"
           onChange={(evt) =>
-            setSearch(evt.target.value.trim().toLocaleLowerCase())
+            setSearch(evt.target.value)
           }
         />
         <span onClick={() => setSearch("")}>X</span>
-        <ModalDialog ele="Criar um Grupo" msgButton="Criar um Grupo">
+        <ModalDialog ele="Criar um Grupo" msgButton="Criar um Grupo" callBack={criarGrupo}>
           <TextField
             id="outlined-basic"
             label="Name group"
@@ -68,6 +75,7 @@ const ListGroups = () => {
             variant="outlined"
             sx={{ marginTop: 5 }}
             fullWidth
+            onChange={(e) => setName(e.target.value)}
           />
           <TextField
             id="outlined-basic"
@@ -76,6 +84,7 @@ const ListGroups = () => {
             variant="outlined"
             sx={{ marginTop: 5 }}
             fullWidth
+            onChange={(e) => setDescription(e.target.value)}
           />
           <TextField
             id="outlined-basic"
@@ -84,6 +93,7 @@ const ListGroups = () => {
             variant="outlined"
             sx={{ marginTop: 5 }}
             fullWidth
+            onChange={(e) => setCategory(e.target.value)}
           />
         </ModalDialog>
         {/* <button onClick>Criar grupo</button> */}
@@ -96,7 +106,7 @@ const ListGroups = () => {
             style={{ overflow: "hidden" }}
             dataLength={
               groups.results.filter((ele) =>
-                ele.name.toLocaleLowerCase().includes(search)
+                ele.name.toLocaleLowerCase().includes(search.trim().toLocaleLowerCase())
               ).length
             }
             next={() => {

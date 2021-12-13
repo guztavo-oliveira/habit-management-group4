@@ -1,10 +1,10 @@
 import { Dialog } from "@material-ui/core";
 import { useState } from "react";
 
-export const ModalDialog = ({ children, ele , msg="fechar",msgButton="fechar" , callBack}) => {
+export const ModalDialog = ({ children, ele , msg="fechar",msgButton , callBack}) => {
   const [open, setOpen] = useState(false);
   const abriModal = (e) => {
-    e.stopPropagation();
+   
     setOpen(!open);
   };
 

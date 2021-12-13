@@ -10,7 +10,7 @@ export const ModalPopover = ({
   const [open, setOpen] = useState(false);
   const [alvo, setAlvo] = useState("");
   const abriModal = (e) => {
-    e.stopPropagation();
+    // e.stopPropagation();
     setOpen(!open);
   };
   const selecionado = (e) => {
