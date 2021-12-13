@@ -19,24 +19,24 @@ import { TextField } from "@mui/material";
 
 const Dashboard = () => {
   const [habits, setHabits] = useState(true);
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
+
+  const [user, setUser] = useState({});
 
   const { id, tokenBearer } = useAuth();
 
-  // useEffect(() => {
   const getUserData = () => {
     api
       .get(`/users/${id}/`, tokenBearer)
       .then((response) => {
-        const { username, email } = response.data;
-        setUsername(username);
-        setEmail(email);
+
+        setUser(response.data);
       })
       .catch((err) => console.log(err));
   };
-  // getUserData();
-  // }, []);
+
+  useEffect(() => {
+    getUserData();
+  }, []);
 
   return (
     <Container>
@@ -46,15 +46,17 @@ const Dashboard = () => {
         </div>
         <div className="content">
           <div className="username">
-            <p>{username}</p>
-            <p>{email}</p>
+            <p>{user.username}</p>
+            <p>{user.email}</p>
           </div>
-          {/* <BsGear className="gear"> */}
-          <ModalPopover ele={"teste"}>
-            <Profile username={username} email={email} id={id} />
-            {getUserData()}
+          <ModalPopover icon={<BsGear className="gear" />}>
+            <Profile
+              username={user.username}
+              email={user.email}
+              id={id}
+              getUserData={getUserData}
+            />
           </ModalPopover>
-          {/* </BsGear> */}
         </div>
       </Header>
       {habits ? (
@@ -80,7 +82,7 @@ const Dashboard = () => {
 };
 export default Dashboard;
 
-const Profile = ({ username, email }) => {
+const Profile = ({ username, email, getUserData }) => {
   const [newUser, setNewUser] = useState("");
   const [newEmail, setNewEmail] = useState("");
 
@@ -93,13 +95,14 @@ const Profile = ({ username, email }) => {
     };
     console.log(data, id);
     api
-      .patch(`/users/${id}/`, tokenBearer, data)
+      .patch(`/users/${id}/`, data, tokenBearer)
       .then((response) => console.log(response.data))
       .catch((err) => console.log(err));
+    getUserData();
   };
 
   return (
-    <form onSubmit={submit} action="#">
+    <>
       {/* {errors && toast.error(errors)} */}
 
       <TextField
@@ -114,7 +117,8 @@ const Profile = ({ username, email }) => {
         defaultValue={email}
         onChange={(e) => setNewEmail(e.target.value)}
       />
-      <Button type="submit" children="Atualizar" />
-    </form>
+
+      <Button darkBlue type="submit" children="Atualizar" onClick={submit} />
+    </>
   );
 };
