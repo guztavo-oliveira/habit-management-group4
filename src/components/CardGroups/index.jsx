@@ -164,7 +164,7 @@ const CardGroups = ({ group, updateGroup, setAlvo }) => {
       </div>
       <div className="containerEditar">
         {group.creator.id === id && (
-          <ButtonGroup>
+          <ButtonGroup onClick={(e) => e.stopPropagation()}>
             <ModalDialog ele={"Editar"}>
               <EditGroup id={group.id} updateGroup={updateGroup} />
             </ModalDialog>

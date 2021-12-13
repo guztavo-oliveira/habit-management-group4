@@ -21,7 +21,6 @@ const ListGroups = () => {
   const [name, setName] = useState("");
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
-  const [visibleGroup, setVisibleGroup] = useState(false);
   const [alvo, setAlvo] = useState("");
   const getGroups = () => {
     api.get("/groups/").then((resp) => setGroups(resp.data));
@@ -55,7 +54,7 @@ const ListGroups = () => {
     api.post("/groups/", data, tokenBearer).then(() => {
       updateGroup();
       toast("Grupo criado com sucesso");
-    });
+    }).catch(() => toast("Adcione todas a informaçoes para criar!"))
   };
   console.log(groups);
   return (
@@ -124,7 +123,6 @@ const ListGroups = () => {
             }}
             loader={<CircularProgress />}
             hasMore={show}
-            // loader={<h4>Loading...</h4>}
           >
             {!!search ? (
               <>
@@ -166,11 +164,6 @@ const ListGroups = () => {
                 ))}
             </>
           ) : (
-            // <>
-            //   {myGroups.map((ele, ind) => (
-            //     <CardGroups group={ele} updateGroup={updateGroup} key={ind} />
-            //   ))}
-            // </>
             <>
               {!!alvo ? (
                 <RenderOneGroup group={alvo} setAlvo={setAlvo} />
@@ -188,9 +181,6 @@ const ListGroups = () => {
               )}
             </>
           )}
-          {/* {myGroups.map((ele, ind) => (
-                <CardGroups props={ele} updateGroup={updateGroup} key={ind} />
-              ))} */}
         </ul>
       )}
     </Container>
