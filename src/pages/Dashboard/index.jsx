@@ -4,6 +4,7 @@ import {
   MenuBar,
   ContainerHabits,
   ContainerGroups,
+  ContainerEditUser,
 } from "./styles";
 import { BiUser, BiGroup } from "react-icons/bi";
 import { BsGear } from "react-icons/bs";
@@ -16,6 +17,7 @@ import { ModalPopover } from "../../components/ModalPopover";
 
 import Button from "../../components/Button";
 import { TextField } from "@mui/material";
+import { toast } from "react-toastify";
 
 const Dashboard = () => {
   const [habits, setHabits] = useState(true);
@@ -28,7 +30,6 @@ const Dashboard = () => {
     api
       .get(`/users/${id}/`, tokenBearer)
       .then((response) => {
-        console.log(response.data);
         setUser(response.data);
       })
       .catch((err) => console.log(err));
@@ -89,6 +90,9 @@ const Profile = ({ username, email, getUserData }) => {
   const { tokenBearer, id } = useAuth();
 
   const submit = () => {
+    if (newUser === "" || newEmail === "") {
+      return toast.error("Preencha todos os campos");
+    }
     const data = {
       username: newUser || username,
       email: newEmail || email,
@@ -102,23 +106,27 @@ const Profile = ({ username, email, getUserData }) => {
   };
 
   return (
-    <>
+    <ContainerEditUser>
       {/* {errors && toast.error(errors)} */}
+      <div className="header">
+        <h3>Alterar dados do usuário</h3>
+      </div>
 
-      <TextField
-        label="Nome"
-        variant="filled"
-        defaultValue={username}
-        onChange={(e) => setNewUser(e.target.value)}
-      />
-      <TextField
-        label="E-mail"
-        variant="filled"
-        defaultValue={email}
-        onChange={(e) => setNewEmail(e.target.value)}
-      />
-
-      <Button darkBlue type="submit" children="Atualizar" onClick={submit} />
-    </>
+      <div className="edit">
+        <TextField
+          label="Nome"
+          variant="outlined"
+          defaultValue={username}
+          onChange={(e) => setNewUser(e.target.value)}
+        />
+        <TextField
+          label="E-mail"
+          variant="outlined"
+          defaultValue={email}
+          onChange={(e) => setNewEmail(e.target.value)}
+        />
+        <Button darkBlue type="submit" children="Atualizar" onClick={submit} />
+      </div>
+    </ContainerEditUser>
   );
 };
