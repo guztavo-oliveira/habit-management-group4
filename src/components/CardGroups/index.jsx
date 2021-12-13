@@ -2,47 +2,48 @@ import { Content, Container, ButtonGroup } from "./style";
 import { useAuth } from "../../providers/AuthContext";
 import api from "../../services/api";
 import { ModalDialog } from "../ModalDialog";
-import { TextField } from "@mui/material";
+import { TextField, Grid } from "@mui/material";
 import Button from "../Button";
 import { FiUser } from "react-icons/fi";
 import { toast } from "react-toastify";
 import { useGroup } from "../../providers/JsonGroups";
 import { useEffect, useState } from "react";
+import {GroupActivities} from '../GroupActivities'
+import {GroupGoals} from '../GroupGoals'
 
-const EditGroup = ({ id, updateGroup }) => {
+const EditGroup = ({ groupid, updateGroup }) => {
   const { tokenBearer } = useAuth();
 
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
   const [name, setName] = useState("");
-  const [data,setData] = useState({});
+  const [data, setData] = useState({});
 
 
-  useEffect(()=>{
-    if(!!name){
-      setData({...data, name: name })
-    }
-    if(!!category){
-      setData({...data, category: category })
-    }
-    if(!!description){
-      setData({...data, description: description })
-    }
-  },[name, category, description])
 
+  useEffect(() => {
+    if (!!name) {
+      setData({ ...data, name: name });
+    }
+    if (!!category) {
+      setData({ ...data, category: category });
+    }
+    if (!!description) {
+      setData({ ...data, description: description });
+    }
+  }, [name, category, description]);
 
   const submit = () => {
-          api
-        .patch(`/groups/${id}/`,data, tokenBearer)
-        .then((_) => {
-          toast.success("Grupo atualizado com sucesso!");
-          updateGroup();
-          setData({});
-        })
-        .catch((_) =>
-          toast.error("Algo deu errado ao tentar atualizar o grupo...")
-        );
-  
+    api
+      .patch(`/groups/${groupid}/`, data, tokenBearer)
+      .then((_) => {
+        toast.success("Grupo atualizado com sucesso!");
+        updateGroup();
+        setData({});
+      })
+      .catch((_) =>
+        toast.error("Algo deu errado ao tentar atualizar o grupo...")
+      );
   };
 
   return (
@@ -60,7 +61,7 @@ const EditGroup = ({ id, updateGroup }) => {
         label="name"
         variant="filled"
       />
-            <TextField
+      <TextField
         onChange={(evt) => {
           setCategory(evt.target.value);
         }}
@@ -82,14 +83,27 @@ const EditGroup = ({ id, updateGroup }) => {
   );
 };
 
-const CardGroups = ({ props, updateGroup }) => {
-  const { id, tokenBearer } = useAuth();
-
+const CardGroups = ({ group, updateGroup }) => {
+  const { id, tokenBearer, refresh } = useAuth();
+ 
   const { myGroups } = useGroup();
+  const [goals, setGoals] = useState([]);
+  const [activities, setActivities] = useState([]);
+
+  useEffect(() => {
+    api
+      .get(`/activities/?grupo=${group.id}`, tokenBearer)
+      .then((response) => {
+        setGoals(response.data.results);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [refresh]);
 
   const subscribe = () => {
     api
-      .post(`/groups/${props.id}/subscribe`, tokenBearer)
+      .post(`/groups/${group.id}/subscribe`, tokenBearer)
       .then(() => {
         updateGroup();
         toast("Você se increveu no grupo");
@@ -101,7 +115,7 @@ const CardGroups = ({ props, updateGroup }) => {
 
   const unsubscribe = () => {
     api
-      .delete(`/groups/${props.id}/unsubscribe/`, tokenBearer)
+      .delete(`/groups/${group.id}/unsubscribe/`, tokenBearer)
       .then(() => {
         updateGroup();
         toast("Você saiu do grupo!");
@@ -115,36 +129,42 @@ const CardGroups = ({ props, updateGroup }) => {
         <FiUser size={60} />
         <Content>
           <div>
-            <h2>{props.name}</h2>
-            <span> {props.category}</span>
+            <ModalDialog>
+              <Grid container>
+                <GroupActivities />
+                <GroupGoals />
+              </Grid>
+            </ModalDialog>
+          
           </div>
+          <span> {group.category}</span>
           <p>
-            <span> Criador:</span> {props.creator.username}
+            <span> Criador:</span> {group.creator.username}
           </p>
           <p>
-            <span>Descrição:</span> {props.description}
+            <span>Descrição:</span> {group.description}
           </p>
           <p>
-            <span>Integrantes: </span> {props.users_on_group.length}
+            <span>Integrantes: </span> {group.users_on_group.length}
           </p>
         </Content>
       </div>
       <div className="containerEditar">
-        {props.creator.id === id && (
+        {group.creator.id === id && (
           <ButtonGroup>
             <ModalDialog ele={"Editar"}>
-              <EditGroup id={props.id} updateGroup={updateGroup} />
+              <EditGroup id={group.id} updateGroup={updateGroup} />
             </ModalDialog>
           </ButtonGroup>
         )}
         <ButtonGroup
           onClick={
-            myGroups.some((group) => group.id === props.id)
+            myGroups.some((item) => item.id === group.id)
               ? unsubscribe
               : subscribe
           }
         >
-          {myGroups.some((group) => group.id === props.id)
+          {myGroups.some((item) => item.id === group.id)
             ? "Sair do grupo"
             : "Entrar no grupo"}
         </ButtonGroup>

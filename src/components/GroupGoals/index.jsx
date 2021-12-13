@@ -5,7 +5,7 @@ import Toastify from "toastify";
 import { Button, TextField, Popover } from "@material-ui/core";
 import { useAuth } from "../../providers/AuthContext";
 
-import { GoalsContainer, AddGoalsForm } from ".";
+import { GoalsContainer, } from ".";
 
 export const GroupGoals = ({ refresh, setRefresh }) => {
   const { tokenBearer, goals, groupId } = useAuth();
