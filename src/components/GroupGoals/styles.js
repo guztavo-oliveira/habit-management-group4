@@ -87,6 +87,7 @@ export const CardInfo = styled.div`
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
+    font-family: "titleFont", sans-serif;
   }
 
   h2 {
