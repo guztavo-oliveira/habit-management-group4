@@ -51,10 +51,13 @@ const ListGroups = () => {
       category,
       description,
     };
-    api.post("/groups/", data, tokenBearer).then(() => {
-      updateGroup();
-      toast("Grupo criado com sucesso");
-    }).catch(() => toast("Adcione todas a informaçoes para criar!"))
+    api
+      .post("/groups/", data, tokenBearer)
+      .then(() => {
+        updateGroup();
+        toast("Grupo criado com sucesso");
+      })
+      .catch(() => toast("Adcione todas a informaçoes para criar!"));
   };
   console.log(groups);
   const style = {
@@ -63,55 +66,56 @@ const ListGroups = () => {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-}
+  };
   return (
     <Container>
-      {!!!alvo && 
-      <div>
-        <input
-          value={search}
-          type="text"
-          placeholder="Pesquisar grupos"
-          onChange={(evt) => setSearch(evt.target.value)}
-        />
-        <span onClick={() => setSearch("")}>X</span>
-        <ModalDialog
-          ele="Criar um Grupo"
-          msgButton="Criar um Grupo"
-          callBack={criarGrupo}
-        >
-          <TextField
-            id="outlined-basic"
-            label="Name group"
+      {!!!alvo && (
+        <div>
+          <input
+            value={search}
             type="text"
-            variant="outlined"
-            sx={{ marginTop: 5 }}
-            fullWidth
-            onChange={(e) => setName(e.target.value)}
+            placeholder="Pesquisar grupos"
+            onChange={(evt) => setSearch(evt.target.value)}
           />
-          <TextField
-            id="outlined-basic"
-            label="description"
-            type="text"
-            variant="outlined"
-            sx={{ marginTop: 5 }}
-            fullWidth
-            onChange={(e) => setDescription(e.target.value)}
-          />
-          <TextField
-            id="outlined-basic"
-            label="category"
-            type="text"
-            variant="outlined"
-            sx={{ marginTop: 5 }}
-            fullWidth
-            onChange={(e) => setCategory(e.target.value)}
-          />
-        </ModalDialog>
-        <button onClick={() => setShowAllGroups(!showAllGroups)}>
-          {showAllGroups ? "Mostrar meus grupos" : "Mostrar todos os grupos"}
-        </button>
-      </div>}
+          <span onClick={() => setSearch("")}>X</span>
+          <ModalDialog
+            ele="Criar um Grupo"
+            msgButton="Criar um Grupo"
+            callBack={criarGrupo}
+          >
+            <TextField
+              id="outlined-basic"
+              label="Name group"
+              type="text"
+              variant="outlined"
+              sx={{ marginTop: 5 }}
+              fullWidth
+              onChange={(e) => setName(e.target.value)}
+            />
+            <TextField
+              id="outlined-basic"
+              label="description"
+              type="text"
+              variant="outlined"
+              sx={{ marginTop: 5 }}
+              fullWidth
+              onChange={(e) => setDescription(e.target.value)}
+            />
+            <TextField
+              id="outlined-basic"
+              label="category"
+              type="text"
+              variant="outlined"
+              sx={{ marginTop: 5 }}
+              fullWidth
+              onChange={(e) => setCategory(e.target.value)}
+            />
+          </ModalDialog>
+          <button onClick={() => setShowAllGroups(!showAllGroups)}>
+            {showAllGroups ? "Mostrar meus grupos" : "Mostrar todos os grupos"}
+          </button>
+        </div>
+      )}
 
       {showAllGroups ? (
         <div className="containerPesquisa">
@@ -188,7 +192,6 @@ const ListGroups = () => {
               )}
             </>
           )}
-
         </ul>
       )}
     </Container>

@@ -11,12 +11,12 @@ export const Container = styled.div`
   min-width: 300px;
   max-width: 600px;
   background: var(--background);
-  cursor:pointer;
-  .container{
+  cursor: pointer;
+  .container {
     display: flex;
     align-items: center;
   }
-  .containerEditar{
+  .containerEditar {
     display: flex;
     align-items: center;
     height: 130px;
@@ -26,7 +26,7 @@ export const Container = styled.div`
 `;
 
 export const Content = styled.div`
-    margin-left:10px;
+  margin-left: 10px;
   display: flex;
   flex-direction: column;
   align-items: left;
