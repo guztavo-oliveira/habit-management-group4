@@ -13,12 +13,7 @@ const HabitsProvider = ({ children }) => {
   const { tokenBearer } = useAuth();
 
   //atualiza quando entra
-  const [habits, setHabits] = useState(() => {
-    api
-      .get("/habits/personal/", tokenBearer)
-      .then((response) => setHabits(response.data))
-      .catch((error) => console.log(error));
-  }, []);
+  const [habits, setHabits] = useState([]);
 
   //atualiza o state faz a requisição
   const getHabits = () => {
@@ -65,7 +60,14 @@ const HabitsProvider = ({ children }) => {
 
   return (
     <HabitsContext.Provider
-      value={{ habits, setHabits, addHabits, removeHabits, editHabits }}
+      value={{
+        habits,
+        setHabits,
+        addHabits,
+        removeHabits,
+        editHabits,
+        getHabits,
+      }}
     >
       {children}
     </HabitsContext.Provider>

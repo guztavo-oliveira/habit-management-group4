@@ -12,7 +12,6 @@ import jwt_decode from "jwt-decode";
 import api from "../../services/api";
 import { useAuth } from "../../providers/AuthContext";
 
-
 const Login = () => {
   const history = useHistory();
   const { atualizarToken } = useAuth();
@@ -31,7 +30,6 @@ const Login = () => {
     // .matches(/(?=.*[A-Z])(?=.{8,})/, "Sem letra maiúscula")
     // .matches(/(?=.*[!@#$%^&*])(?=.{8,})/, "Sem caractere especial"),
   });
-  
 
   const {
     register,
@@ -53,6 +51,7 @@ const Login = () => {
   };
 
   const handleSignIn = (data) => {
+    console.log(data)
     api
       .post("/sessions/", data)
       .then((response) => {
@@ -63,43 +62,42 @@ const Login = () => {
   };
 
   return (
-
     <>
       <Bar />
       <RegisterLogo />
-    <Container>
-      <InputContainer>
-        <form onSubmit={handleSubmit(handleSignIn)}>
-          <h2>Login</h2>
-          <TextField
-            id="outlined-basic"
-            label="Login"
-            // type="email"
-            variant="outlined"
-            sx={{ marginTop: 5 }}
-            fullWidth
-            helperText={errors.username?.message}
-            {...register("username")}
-            error={!!errors.username}
-          />
-          <TextField
-            id="outlined-basic"
-            label="Senha"
-            variant="outlined"
-            sx={{ marginTop: 3 }}
-            fullWidth
-            helperText={errors.password?.message}
-            {...register("password")}
-            error={!!errors.password}
-            type="password"
-          />
-          <Button>Entrar</Button>
-          <p>Ainda não tem conta?</p>
-          <Link to="/signup">Cadastre-se</Link>
-        </form>
-      </InputContainer>
-    </Container>
-    </>    
+      <Container>
+        <InputContainer>
+          <form onSubmit={handleSubmit(handleSignIn)}>
+            <h2>Login</h2>
+            <TextField
+              id="outlined-basic"
+              label="Login"
+              // type="email"
+              variant="outlined"
+              sx={{ marginTop: 5 }}
+              fullWidth
+              helperText={errors.username?.message}
+              {...register("username")}
+              error={!!errors.username}
+            />
+            <TextField
+              id="outlined-basic"
+              label="Senha"
+              variant="outlined"
+              sx={{ marginTop: 3 }}
+              fullWidth
+              helperText={errors.password?.message}
+              {...register("password")}
+              error={!!errors.password}
+              type="password"
+            />
+            <Button>Entrar</Button>
+            <p>Ainda não tem conta?</p>
+            <Link to="/signup">Cadastre-se</Link>
+          </form>
+        </InputContainer>
+      </Container>
+    </>
   );
 };
 

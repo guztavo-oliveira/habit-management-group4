@@ -2,11 +2,14 @@ import { Container, ModalContainer, Contente } from "./styles";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useHabits } from "../../providers/HabitsContext";
+
 import { ModalDialog } from "../ModalDialog";
 import { Button, TextField } from "@material-ui/core";
 import HabitsCard from "../HabitsCard";
+
+import { useEffect } from "react";
 import { useAuth } from "../../providers/AuthContext";
+import { useHabits } from "../../providers/HabitsContext";
 
 const Habits = () => {
   const schema = yup.object().shape({
@@ -39,6 +42,12 @@ const Habits = () => {
     addHabits(newData);
     reset();
   };
+
+  const { getHabits } = useHabits();
+
+  useEffect(() => {
+    getHabits();
+  }, []);
 
   return (
     <Container>
