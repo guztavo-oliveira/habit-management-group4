@@ -11,3 +11,18 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+<<<<<<< HEAD
+
+@font-face {
+  font-family: titleFont;
+  src: url("./assets/fonts/planetncond.ttf");
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@font-face {
+  font-family: infoFont;
+  src: url("./assets/fonts/Comfortaa-VariableFont_wght.ttf");
+}
+=======
+>>>>>>> 8d0e6d42607e3f98fe732abd06cf8419376ed4ed
