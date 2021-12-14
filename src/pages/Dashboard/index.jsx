@@ -21,9 +21,7 @@ import { toast } from "react-toastify";
 
 const Dashboard = () => {
   const [habits, setHabits] = useState(true);
-
   const [user, setUser] = useState({});
-
   const { id, tokenBearer } = useAuth();
 
   const getUserData = () => {
@@ -68,6 +66,7 @@ const Dashboard = () => {
           <ListGroups />
         </ContainerGroups>
       )}
+
       <MenuBar>
         <div className="icons">
           <BiGroup onClick={() => setHabits(false)} />
@@ -83,22 +82,27 @@ export default Dashboard;
 const Profile = ({ username, email, getUserData }) => {
   const [newUser, setNewUser] = useState(username);
   const [newEmail, setNewEmail] = useState(email);
-
+  const [fechar, setFechar] = useState(false);
+  console.log(fechar);
   const { tokenBearer, id } = useAuth();
-
   const submit = () => {
     if (newUser === "" || newEmail === "") {
+      setFechar(false);
       return toast.error("Preencha todos os campos");
     }
     const data = {
       username: newUser || username,
       email: newEmail || email,
     };
+    setFechar(true);
     api
       .patch(`/users/${id}/`, data, tokenBearer)
-      .then((response) => console.log(response.data))
+      .then((response) => {
+        toast.success("Usuario modificado com sucesso");
+
+        getUserData();
+      })
       .catch((err) => console.log(err));
-    getUserData();
   };
 
   return (
@@ -109,6 +113,7 @@ const Profile = ({ username, email, getUserData }) => {
         callback={submit}
         classe="editUserModal"
         darkBlue //cor de fundo do botão de enviar
+        fechar={fechar}
       >
         <div className="header">
           <h3>Alterar dados do usuário</h3>

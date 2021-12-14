@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import logo from "../../assets/images/simbolo-color.png";
 import logoPreto from "../../assets/images/simbolo-preto.png";
 
 export const Container = styled.div`
@@ -35,6 +34,7 @@ export const Header = styled.header`
     display: flex;
     margin-left: 10px;
     justify-content: space-between;
+    align-items: center;
   }
 
   .gear {

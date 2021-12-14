@@ -10,12 +10,12 @@ export const ModalPopover = ({
   icon,
   callback,
   classe,
+  fechar = true, //teste
   ...rest
 }) => {
   const [open, setOpen] = useState(false);
   const [alvo, setAlvo] = useState("");
   const abriModal = (e) => {
-    // e.stopPropagation();
     setOpen(!open);
   };
   const selecionado = (e) => {
@@ -49,20 +49,16 @@ export const ModalPopover = ({
                 <Button
                   {...rest}
                   onClick={() => {
-                    abriModal();
                     callback();
+                    fechar && abriModal();
                   }}
                 >
                   {msgButton[0]}
                 </Button>
 
-                {msgButton.includes("Cancelar") ? (
+                {msgButton.includes("Cancelar") && (
                   <Button red onClick={abriModal}>
                     {msgButton.find((e) => e.includes("Cancelar"))}
-                  </Button>
-                ) : (
-                  <Button {...rest} onClick={abriModal}>
-                    {msg}
                   </Button>
                 )}
               </div>
