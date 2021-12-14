@@ -1,4 +1,4 @@
-import { Button, Box } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import { GoCheck } from "react-icons/go";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { Card, CardButtons, CardInfo, CardsList } from "../styles";

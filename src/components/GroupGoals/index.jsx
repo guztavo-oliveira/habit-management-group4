@@ -9,7 +9,6 @@ import { AddButton, AddGoalsForm, MainButtons } from "./styles";
 import { ModalPopover } from "../ModalPopover";
 import OpenGoals from "./OpenGoals";
 import AchievedGoals from "./AchievedGoals";
-import { BiAddToQueue } from "react-icons/bi";
 import { ShowOpen, ShowAchieved, CardsContainer } from "./styles";
 
 const GroupGoals = ({ groupId, openGoals, achievedGoals }) => {

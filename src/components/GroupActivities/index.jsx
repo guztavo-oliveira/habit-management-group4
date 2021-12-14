@@ -2,7 +2,7 @@ import { useState } from "react";
 import api from "../../services/api";
 import { useForm, Controller } from "react-hook-form";
 import Toastify from "toastify";
-import { Button, TextField, Grid } from "@material-ui/core";
+import { Button, TextField } from "@material-ui/core";
 import { useAuth } from "../../providers/AuthContext";
 import { AddActivForm, EditActivForm } from "../GroupActivities/styles";
 import { ModalPopover } from "../ModalPopover";
