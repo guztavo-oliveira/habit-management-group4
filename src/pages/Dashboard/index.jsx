@@ -48,7 +48,11 @@ const Dashboard = () => {
             <p>{user.username}</p>
             <p>{user.email}</p>
           </div>
-          <Profile username={user.username} email={user.email} getUserData={getUserData} />
+          <Profile
+            username={user.username}
+            email={user.email}
+            getUserData={getUserData}
+          />
         </div>
       </Header>
       {habits ? (
@@ -76,23 +80,26 @@ const Dashboard = () => {
 export default Dashboard;
 
 const Profile = ({ username, email, getUserData }) => {
-  const [newUser, setNewUser] = useState("");
-  const [newEmail, setNewEmail] = useState("");
-  const [user, setUser] = useState({});
+  const [newUser, setNewUser] = useState(username);
+  const [newEmail, setNewEmail] = useState(email);
+  const [fechar, setFechar] = useState(false);
+  console.log(fechar);
   const { tokenBearer, id } = useAuth();
   const submit = () => {
     if (newUser === "" || newEmail === "") {
+      setFechar(false);
       return toast.error("Preencha todos os campos");
     }
     const data = {
       username: newUser || username,
       email: newEmail || email,
     };
-    console.log(data, id);
+    setFechar(true);
     api
       .patch(`/users/${id}/`, data, tokenBearer)
       .then((response) => {
         toast.success("Usuario modificado com sucesso");
+
         getUserData();
       })
       .catch((err) => console.log(err));
@@ -102,11 +109,12 @@ const Profile = ({ username, email, getUserData }) => {
     <ContainerEditUser>
       <ModalPopover
         icon={<BsGear className="gear" />}
-        msgButton="Atualizar"
+        msgButton={["Atualizar", "Cancelar"]}
         callback={submit}
-        classe="modalPerfil"
+        classe="editUserModal"
+        darkBlue //cor de fundo do botão de enviar
+        fechar={fechar}
       >
-        {/* {errors && toast.error(errors)} */}
         <div className="header">
           <h3>Alterar dados do usuário</h3>
         </div>
