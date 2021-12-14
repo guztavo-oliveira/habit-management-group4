@@ -82,7 +82,7 @@ const Profile = ({ username, email, getUserData }) => {
   const [fechar, setFechar] = useState(false)
   const { tokenBearer, id } = useAuth();
   const submit = () => {
-    if (newUser === "" || newEmail === "") {
+    if (!!newUser || !!newEmail) {
       return toast.error("Preencha todos os campos");
     }
     const data = {
