@@ -57,7 +57,7 @@ const Dashboard = () => {
       </Header>
       {habits ? (
         <ContainerHabits>
-          <h1>Hábitos</h1>
+          {/* <h1>Hábitos</h1> */}
           <Habits />
         </ContainerHabits>
       ) : (

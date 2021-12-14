@@ -5,6 +5,7 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
 const SelectInput = ({ label, options, onchange, value }) => {
+  console.log(options, label, onchange, value);
   const handleChange = (event) => {
     console.log(event.target.value);
     onchange(event.target.value);
@@ -12,7 +13,7 @@ const SelectInput = ({ label, options, onchange, value }) => {
 
   return (
     <div>
-      <FormControl variant="filled" sx={{ m: 1, minWidth: 120 }}>
+      <FormControl variant="filled" fullWidth>
         <InputLabel>{label}</InputLabel>
         <Select value={value ?? ""} onChange={handleChange} label={label}>
           {options.map((el, idx) => (

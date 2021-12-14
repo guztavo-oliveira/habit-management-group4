@@ -4,19 +4,29 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import { ModalDialog } from "../ModalDialog";
-import { Button, TextField } from "@material-ui/core";
+import { TextField } from "@material-ui/core";
 import HabitsCard from "../HabitsCard";
 
 import { useEffect } from "react";
 import { useAuth } from "../../providers/AuthContext";
 import { useHabits } from "../../providers/HabitsContext";
 
+//
+import { Difficulties, Frequency } from "../../utils";
+import { useState } from "react";
+import SelectInput from "../SelectInput";
+import { FaPlusSquare } from "react-icons/fa";
+import Button from "../Button";
+
 const Habits = () => {
+  const [difficulty, setDifficulty] = useState("");
+  const [frequency, setFrequency] = useState("");
+
   const schema = yup.object().shape({
     title: yup.string().required("Required field"),
     category: yup.string().required("Required field"),
-    difficulty: yup.string().required("Required field"),
-    frequency: yup.string().required("Required field"),
+    // difficulty: yup.string().required("Required field"),
+    // frequency: yup.string().required("Required field"),
   });
 
   const { id } = useAuth();
@@ -35,12 +45,16 @@ const Habits = () => {
   const onSubmitFunc = (data) => {
     const newData = {
       ...data,
+      frequency: frequency,
+      difficulty: difficulty,
       achieved: true,
       how_much_achieved: 1,
       user: id,
     };
     addHabits(newData);
     reset();
+    setDifficulty("");
+    setFrequency("");
   };
 
   const { getHabits } = useHabits();
@@ -52,7 +66,14 @@ const Habits = () => {
   return (
     <Container>
       <ModalContainer>
-        <ModalDialog ele={<h2>Adicionar habito +</h2>}>
+        <ModalDialog
+          ele={
+            <div>
+              <h2>Habits</h2>
+              <Button darkBlue>Add new</Button>
+            </div>
+          }
+        >
           <h3>Register New Habits</h3>
           <form onSubmit={handleSubmit(onSubmitFunc)}>
             <TextField
@@ -77,7 +98,7 @@ const Habits = () => {
               {...register("category")}
               error={!!errors.category}
             />
-            <TextField
+            {/* <TextField
               id="outlined-basic"
               label="difficulty"
               type="text"
@@ -87,8 +108,8 @@ const Habits = () => {
               helperText={errors.difficulty?.message}
               {...register("difficulty")}
               error={!!errors.difficulty}
-            />
-            <TextField
+            /> */}
+            {/* <TextField
               id="outlined-basic"
               label="frequency"
               type="text"
@@ -98,7 +119,20 @@ const Habits = () => {
               helperText={errors.frequency?.message}
               {...register("frequency")}
               error={!!errors.frequency}
+            /> */}
+            <SelectInput
+              label={"Difficulties"}
+              options={Difficulties}
+              onchange={setDifficulty}
+              value={difficulty}
             />
+            <SelectInput
+              label={"Frequency"}
+              options={Frequency}
+              onchange={setFrequency}
+              value={frequency}
+            />
+
             <Button type="submit">Add Habits</Button>
           </form>
         </ModalDialog>

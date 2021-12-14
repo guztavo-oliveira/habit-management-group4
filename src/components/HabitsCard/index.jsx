@@ -1,4 +1,4 @@
-import { Container } from "./styles";
+import { Container, Controls } from "./styles";
 import { IoMdRemove, IoMdAdd } from "react-icons/io";
 import { CgTrash } from "react-icons/cg";
 import { ModalPopover } from "../ModalPopover";
@@ -7,6 +7,9 @@ import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useHabits } from "../../providers/HabitsContext";
+import SelectInput from "../SelectInput";
+import { Difficulties, Frequency } from "../../utils";
+import { useState } from "react";
 
 const HabitsCard = ({ elemente }) => {
   //desconstruindo o elemeto que vai vir como parametro
@@ -16,11 +19,14 @@ const HabitsCard = ({ elemente }) => {
   //funções de adicionar e remover habitos vem do provider
   const { removeHabits, editHabits } = useHabits();
 
+  const [addDifficulty, setAddDifficulty] = useState("");
+  const [addFrequency, setAddFrequency] = useState("");
+
   const schema = yup.object().shape({
     title: yup.string().required("Required field"),
     category: yup.string().required("Required field"),
-    difficulty: yup.string().required("Required field"),
-    frequency: yup.string().required("Required field"),
+    // difficulty: yup.string().required("Required field"),
+    // frequency: yup.string().required("Required field"),
   });
 
   const {
@@ -62,11 +68,10 @@ const HabitsCard = ({ elemente }) => {
 
   return (
     <Container>
-      <div>
-        <h4>Titulo: {title}</h4>
-        <h4>Categoria: {category}</h4>
-        <h4>Frequencia: {frequency}</h4>
-        <h4>Dificuldade: {difficulty}</h4>
+      <div className="info">
+        <h4>Title: {title}</h4>
+        <h4>Category: {category}</h4>
+        <h4>Frequency: {frequency}</h4>
       </div>
 
       <div className="edit">
@@ -95,7 +100,7 @@ const HabitsCard = ({ elemente }) => {
               {...register("category")}
               error={!!errors.category}
             />
-            <TextField
+            {/* <TextField
               id="outlined-basic"
               label="difficulty"
               type="text"
@@ -116,18 +121,33 @@ const HabitsCard = ({ elemente }) => {
               helperText={errors.frequency?.message}
               {...register("frequency")}
               error={!!errors.frequency}
+            /> */}
+            <SelectInput
+              label={"Difficulties"}
+              options={Difficulties}
+              onchange={setAddDifficulty}
+              value={addDifficulty}
             />
-
+            <SelectInput
+              label={"Frequency"}
+              options={Frequency}
+              onchange={setAddFrequency}
+              value={addFrequency}
+            />
             <Button type="submit">Editar</Button>
           </form>
         </ModalPopover>
-        <h3>{how_much_achieved}</h3>
         <CgTrash onClick={() => removeHabits(id)} />
+        <h3>{how_much_achieved}</h3>
       </div>
-      <div className="controls">
-        <IoMdAdd onClick={() => updateAchievemente("add")} />
-        <IoMdRemove onClick={() => updateAchievemente("sub")} />
-      </div>
+      <Controls>
+        <span onClick={() => updateAchievemente("add")}>
+          <IoMdAdd />
+        </span>
+        <span onClick={() => updateAchievemente("sub")}>
+          <IoMdRemove />
+        </span>
+      </Controls>
     </Container>
   );
 };

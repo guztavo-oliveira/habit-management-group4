@@ -12,10 +12,12 @@ export const Container = styled.div`
   max-width: 600px;
   background: var(--background);
   cursor: pointer;
+
   .container {
     display: flex;
     align-items: center;
   }
+
   .containerEditar {
     display: flex;
     align-items: center;
@@ -48,6 +50,7 @@ export const Content = styled.div`
     color: var(--dark-blue);
   }
 `;
+
 export const ButtonGroup = styled.button`
   border: none;
   align-self: flex-end;
