@@ -2,13 +2,15 @@ import { useState } from "react";
 import api from "../../services/api";
 import { useForm, Controller } from "react-hook-form";
 import Toastify from "toastify";
-import { Button, TextField, Grid } from "@material-ui/core";
+import { Button, TextField } from "@material-ui/core";
 import { ToggleButtonGroup, ToggleButton } from "@mui/material";
 import { useAuth } from "../../providers/AuthContext";
-import { AddGoalsForm } from "./styles";
+import { AddButton, AddGoalsForm, MainButtons } from "./styles";
 import { ModalPopover } from "../ModalPopover";
 import OpenGoals from "./OpenGoals";
 import AchievedGoals from "./AchievedGoals";
+import { BiAddToQueue } from "react-icons/bi";
+import { ShowOpen, ShowAchieved, CardsContainer } from "./styles";
 
 const GroupGoals = ({ groupId, openGoals, achievedGoals }) => {
   const [difficultyValue, setDifficultyValue] = useState("Fácil");
@@ -69,56 +71,67 @@ const GroupGoals = ({ groupId, openGoals, achievedGoals }) => {
   };
 
   return (
-    <Grid item xs={12} sm={8} md={6} lg={6} xl={6}>
-      <ModalPopover ele="Adicionar meta">
-        <AddGoalsForm onSubmit={handleSubmit(addGoal)}>
-          <Controller
-            render={({ field }) => (
-              <TextField
-                id="outlined-basic"
-                label="Título da atividade"
-                variant="outlined"
-                type="text"
-                sx={{ width: "80%" }}
-                {...field}
-              />
-            )}
-            name="title"
-            control={control}
-            defaultValue=""
-          />
-          <Controller
-            render={({ field }) => (
-              <ToggleButtonGroup
-                component="input"
-                required
-                exclusive
-                value={difficultyValue}
-                onChange={handleChange}
-                sx={{ width: "80%" }}
-                {...field}
-              >
-                <ToggleButton value="Fácil" key="1">
-                  Fácil
-                </ToggleButton>
-                <ToggleButton value="Médio" key="2">
-                  Médio
-                </ToggleButton>
-                <ToggleButton value="Difícil" key="3">
-                  Difícil
-                </ToggleButton>
-              </ToggleButtonGroup>
-            )}
-            name="difficulty"
-            control={control}
-            defaultValue=""
-          />
+    <CardsContainer boxShadow={3}>
+      <MainButtons>
+        {alternate === true ? (
+          <ShowAchieved variant="contained" onClick={handleAlternate}>
+            METAS CONCLUÍDAS
+          </ShowAchieved>
+        ) : (
+          <ShowOpen variant="contained" onClick={handleAlternate}>
+            METAS ATUAIS
+          </ShowOpen>
+        )}
+        <ModalPopover ele={<AddButton>+</AddButton>}>
+          <AddGoalsForm onSubmit={handleSubmit(addGoal)}>
+            <Controller
+              render={({ field }) => (
+                <TextField
+                  id="outlined-basic"
+                  label="Título da atividade"
+                  variant="outlined"
+                  type="text"
+                  sx={{ width: "80%" }}
+                  {...field}
+                />
+              )}
+              name="title"
+              control={control}
+              defaultValue=""
+            />
+            <Controller
+              render={({ field }) => (
+                <ToggleButtonGroup
+                  component="input"
+                  required
+                  exclusive
+                  value={difficultyValue}
+                  onChange={handleChange}
+                  sx={{ width: "80%" }}
+                  {...field}
+                >
+                  <ToggleButton value="Fácil" key="1">
+                    Fácil
+                  </ToggleButton>
+                  <ToggleButton value="Médio" key="2">
+                    Médio
+                  </ToggleButton>
+                  <ToggleButton value="Difícil" key="3">
+                    Difícil
+                  </ToggleButton>
+                </ToggleButtonGroup>
+              )}
+              name="difficulty"
+              control={control}
+              defaultValue=""
+            />
 
-          <Button variant="contained" type="submit">
-            ADICIONAR
-          </Button>
-        </AddGoalsForm>
-      </ModalPopover>
+            <Button variant="contained" type="submit">
+              ADICIONAR
+            </Button>
+          </AddGoalsForm>
+        </ModalPopover>
+      </MainButtons>
       {alternate === true ? (
         <OpenGoals
           openGoals={openGoals}
@@ -134,7 +147,7 @@ const GroupGoals = ({ groupId, openGoals, achievedGoals }) => {
           deleteGoal={deleteGoal}
         />
       )}
-    </Grid>
+    </CardsContainer>
   );
 };
 
