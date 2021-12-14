@@ -1,21 +1,25 @@
 import { useState } from "react";
-import api  from "../../services/api";
+import api from "../../services/api";
 import { useForm, Controller } from "react-hook-form";
 import Toastify from "toastify";
 import { Button, TextField, Grid } from "@material-ui/core";
+import { ToggleButtonGroup, ToggleButton } from "@mui/material";
 import { useAuth } from "../../providers/AuthContext";
-
 import { AddGoalsForm } from "./styles";
 import { ModalPopover } from "../ModalPopover";
-import { ToggleButton, ToggleButtonGroup } from "@mui/material";
+import OpenGoals from "./OpenGoals";
+import AchievedGoals from "./AchievedGoals";
 
-const GroupGoals = ({ groupId, goals }) => {
+const GroupGoals = ({ groupId, openGoals, achievedGoals }) => {
   const [difficultyValue, setDifficultyValue] = useState("Fácil");
   const { tokenBearer, refresh, setRefresh } = useAuth();
   const [data, setData] = useState("");
-
+  const [alternate, setAlternate] = useState(true);
   const { handleSubmit, control } = useForm();
 
+  const handleAlternate = () => {
+    alternate === true ? setAlternate(false) : setAlternate(true);
+  };
   const handleChange = (event, newValue) => {
     setDifficultyValue(newValue);
   };
@@ -115,21 +119,21 @@ const GroupGoals = ({ groupId, goals }) => {
           </Button>
         </AddGoalsForm>
       </ModalPopover>
-      <ul>
-        {goals.map((item, index) => {
-          return (
-            <li key={index}>
-              <div>{item.title}</div>
-              <div>{item.difficulty}</div>
-              <div>Feito {item.how_much_achieved} vezes.</div>
-              <button onClick={() => deleteGoal(item.id)}>X</button>
-              <button onClick={() => editGoal(item.id, item.achieved)}>
-                {item.achieved === false ? "✓" : "✗"}
-              </button>
-            </li>
-          );
-        })}
-      </ul>
+      {alternate === true ? (
+        <OpenGoals
+          openGoals={openGoals}
+          handleAlternate={handleAlternate}
+          editGoal={editGoal}
+          deleteGoal={deleteGoal}
+        />
+      ) : (
+        <AchievedGoals
+          achievedGoals={achievedGoals}
+          handleAlternate={handleAlternate}
+          editGoal={editGoal}
+          deleteGoal={deleteGoal}
+        />
+      )}
     </Grid>
   );
 };

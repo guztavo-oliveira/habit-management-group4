@@ -8,8 +8,8 @@ import { FiUser } from "react-icons/fi";
 import { toast } from "react-toastify";
 import { useGroup } from "../../providers/JsonGroups";
 import { useEffect, useState } from "react";
-import GroupActivities from '../GroupActivities'
-import GroupGoals from '../GroupGoals'
+import GroupActivities from "../GroupActivities";
+import GroupGoals from "../GroupGoals";
 
 const EditGroup = ({ groupid, updateGroup }) => {
   const { tokenBearer } = useAuth();
@@ -18,8 +18,6 @@ const EditGroup = ({ groupid, updateGroup }) => {
   const [description, setDescription] = useState("");
   const [name, setName] = useState("");
   const [data, setData] = useState({});
-
-
 
   useEffect(() => {
     if (!!name) {
@@ -86,33 +84,11 @@ const EditGroup = ({ groupid, updateGroup }) => {
 const CardGroups = ({ group, updateGroup, setAlvo }) => {
   const { id, tokenBearer, refresh } = useAuth();
   const { myGroups } = useGroup();
-  const [goals, setGoals] = useState([]);
-  const [activities, setActivities] = useState([]);
-
-  useEffect(() => {
-    api
-      .get(`/activities/?grupo=${group.id}/`, tokenBearer)
-      .then((response) => {
-        setActivities(response.data.results);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-
-      api
-      .get(`/goals/?grupo=${group.id}/`, tokenBearer)
-      .then((response) => {
-        setGoals(response.data.results);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [refresh]);
 
   const subscribe = () => {
-    console.log(tokenBearer)
+    console.log(tokenBearer);
     api
-      .post(`/groups/${group.id}/subscribe/`,{} , tokenBearer)
+      .post(`/groups/${group.id}/subscribe/`, {}, tokenBearer)
       .then(() => {
         updateGroup();
         toast("Você se increveu no grupo");
@@ -133,19 +109,18 @@ const CardGroups = ({ group, updateGroup, setAlvo }) => {
   };
 
   return (
-    <Container onClick={() => {!!setAlvo && setAlvo(group)}}>
-      
+    <Container
+      onClick={() => {
+        !!setAlvo && setAlvo(group);
+      }}
+    >
       <div className="container">
         <FiUser size={60} />
         <Content>
           <div>
             {/* <ModalDialog ele={"teste"}>
-              <Grid container>
-                <GroupActivities activities={activities} groupId={group.id}/>
-                <GroupGoals goals={goals} groupId={group.id}/>
-              </Grid>
+              
             </ModalDialog> */}
-          
           </div>
           <p>
             <span> Nome:</span> {group.name}
@@ -163,13 +138,7 @@ const CardGroups = ({ group, updateGroup, setAlvo }) => {
         </Content>
       </div>
       <div className="containerEditar">
-        {group.creator.id === id && (
-          <ButtonGroup onClick={(e) => e.stopPropagation()}>
-            <ModalDialog ele={"Editar"}>
-              <EditGroup id={group.id} updateGroup={updateGroup} />
-            </ModalDialog>
-          </ButtonGroup>
-        )}
+
         <ButtonGroup
           onClick={
             myGroups.some((item) => item.id === group.id)
@@ -186,11 +155,49 @@ const CardGroups = ({ group, updateGroup, setAlvo }) => {
   );
 };
 
-
-export const RenderOneGroup = ({group, setAlvo}) => {
+export const RenderOneGroup = ({ group, setAlvo }) => {
   const { id, tokenBearer, refresh } = useAuth();
-  const {updateGroup} = useGroup()
-  
+  const { updateGroup } = useGroup();
+  const [achievedGoals, setAchievedGoals] = useState([]);
+  const [openGoals, setOpenGoals] = useState([]);
+  const [activities, setActivities] = useState([]);
+
+  useEffect(() => {
+    api
+      .get(`/activities/?grupo=${group.id}/`, tokenBearer)
+      .then((response) => {
+        setActivities(response.data.results);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    api
+      .get(`/goals/?grupo=${group.id}/`, tokenBearer)
+      .then((response) => {
+        setAchievedGoals(
+          response.data.results.filter((e) => {
+            return e.achieved === true;
+          })
+        );
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    api
+      .get(`/goals/?grupo=${group.id}/`, tokenBearer)
+      .then((response) => {
+        setOpenGoals(
+          response.data.results.filter((e) => {
+            return e.achieved === false;
+          })
+        );
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [refresh]);
+
   const unsubscribe = () => {
     api
       .delete(`/groups/${group.id}/unsubscribe/`, tokenBearer)
@@ -200,20 +207,13 @@ export const RenderOneGroup = ({group, setAlvo}) => {
       })
       .catch((err) => toast("Algo deu errado ao tentar sair do grupo..."));
   };
-  return(
+  return (
     <>
-     <div className="container">
+      <div className="container">
         <FiUser size={60} />
         <Content>
           <div>
             <button onClick={() => setAlvo("")}>Voltar</button>
-            {/* <ModalDialog ele={"teste"}>
-              <Grid container>
-                <GroupActivities activities={activities} groupId={group.id}/>
-                <GroupGoals goals={goals} groupId={group.id}/>
-              </Grid>
-            </ModalDialog> */}
-          
           </div>
           <p>
             <span> Nome:</span> {group.name}
@@ -229,6 +229,14 @@ export const RenderOneGroup = ({group, setAlvo}) => {
             <span>Integrantes: </span> {group.users_on_group.length}
           </p>
         </Content>
+        <Grid container>
+          <GroupActivities activities={activities} groupId={group.id} />
+          <GroupGoals
+            openGoals={openGoals}
+            achievedGoals={achievedGoals}
+            groupId={group.id}
+          />
+        </Grid>
       </div>
       <div className="containerEditar">
         {group.creator.id === id && (
@@ -239,13 +247,16 @@ export const RenderOneGroup = ({group, setAlvo}) => {
           </ButtonGroup>
         )}
         <ButtonGroup
-          onClick={() => {unsubscribe();setAlvo("")}}
+          onClick={() => {
+            unsubscribe();
+            setAlvo("");
+          }}
         >
           Sair do grupo
         </ButtonGroup>
       </div>
     </>
-  )
-}
+  );
+};
 
 export default CardGroups;
