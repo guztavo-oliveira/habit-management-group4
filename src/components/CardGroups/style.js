@@ -1,3 +1,4 @@
+import { Box } from "@material-ui/core";
 import styled from "styled-components";
 
 export const Container = styled.div`
@@ -52,4 +53,11 @@ export const ButtonGroup = styled.button`
   border: none;
   align-self: flex-end;
   height: 40px;
+`;
+
+export const ListsContainer = styled(Box)`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 90vh;
 `;

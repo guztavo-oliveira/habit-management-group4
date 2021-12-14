@@ -48,7 +48,11 @@ const Dashboard = () => {
             <p>{user.username}</p>
             <p>{user.email}</p>
           </div>
-          <Profile username={user.username} email={user.email} getUserData={getUserData} />
+          <Profile
+            username={user.username}
+            email={user.email}
+            getUserData={getUserData}
+          />
         </div>
       </Header>
       {habits ? (
@@ -76,10 +80,11 @@ const Dashboard = () => {
 export default Dashboard;
 
 const Profile = ({ username, email, getUserData }) => {
-  const [newUser, setNewUser] = useState("");
-  const [newEmail, setNewEmail] = useState("");
-  const [user, setUser] = useState({});
-  const [fechar, setFechar] = useState(false)
+  const [newUser, setNewUser] = useState(username);
+  const [newEmail, setNewEmail] = useState(email);
+
+  const [fechar, setFechar] = useState(false);
+
   const { tokenBearer, id } = useAuth();
   const submit = () => {
     if (!!newUser || !!newEmail) {
@@ -95,19 +100,27 @@ const Profile = ({ username, email, getUserData }) => {
       .then((response) => {
         toast.success("Usuario modificado com sucesso");
         getUserData();
-        setFechar("fechar")
+        setFechar("fechar");
       })
-      .catch((err) => {console.log(err);setFechar(false)});
+      .catch((err) => {
+        console.log(err);
+        setFechar(false);
+      });
   };
 
   return (
     <ContainerEditUser>
       <ModalPopover
         icon={<BsGear className="gear" />}
-        msgButton="Atualizar"
+        msgButton={{
+          atualizar: "Atualizar",
+          cancelar: "Cancelar",
+        }}
         fechar={fechar}
+        setFechar={setFechar}
         callback={submit}
-        classe="modalPerfil"
+        classe="editUserModal"
+        darkBlue
       >
         {/* {errors && toast.error(errors)} */}
 
