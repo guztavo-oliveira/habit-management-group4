@@ -85,7 +85,6 @@ const EditGroup = ({ groupid, updateGroup }) => {
 
 const CardGroups = ({ group, updateGroup, setAlvo }) => {
   const { id, tokenBearer, refresh } = useAuth();
-  const [visibleGroup, setVisibleGroup] = useState(false)
   const { myGroups } = useGroup();
   const [goals, setGoals] = useState([]);
   const [activities, setActivities] = useState([]);
