@@ -8,7 +8,8 @@ export const ModalDialog = ({
   msg = "fechar",
   msgButton = false,
   callback,
-  fechar = true, //teste
+  fechar = true,
+  setFechar, //teste
   classe,
   icon,
   ...rest
@@ -18,8 +19,11 @@ export const ModalDialog = ({
     setOpen(!open);
   };
   useEffect(() => {
-    fechar === "fechar" && abriModal()
-  },[fechar])
+    if (fechar === "fechar") {
+      abriModal();
+      setFechar(false);
+    }
+  }, [fechar]);
   return (
     <>
       <div
@@ -29,27 +33,27 @@ export const ModalDialog = ({
       >
         {ele ? ele : icon}
       </div>
-  
-        <DialogStyled open={open} onClose={abriModal}>
-          {children}
-          {msgButton && (
-            <div className="buttons">
-              <Button
-                {...rest}
-                onClick={() => {
-                  callback();
-                }}
-              >
-                {msgButton[0]}
+
+      <DialogStyled open={open} onClose={abriModal}>
+        {children}
+        {msgButton && (
+          <div className="buttons">
+            <Button
+              {...rest}
+              onClick={() => {
+                callback();
+              }}
+            >
+              {msgButton[0]}
+            </Button>
+            {msgButton.includes("Cancelar") && (
+              <Button red onClick={abriModal}>
+                {msgButton.find((e) => e.includes("Cancelar"))}
               </Button>
-              {msgButton.includes("Cancelar") && (
-                <Button red onClick={abriModal}>
-                  {msgButton.find((e) => e.includes("Cancelar"))}
-                </Button>
-              )}
-            </div>
-          )}
-        </DialogStyled>
+            )}
+          </div>
+        )}
+      </DialogStyled>
     </>
   );
 };
