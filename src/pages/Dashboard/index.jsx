@@ -30,10 +30,6 @@ const Dashboard = () => {
     api
       .get(`/users/${id}/`, tokenBearer)
       .then((response) => {
-<<<<<<< HEAD
-=======
-
->>>>>>> dafce71fafb2304b471624d72bcf344103870025
         setUser(response.data);
       })
       .catch((err) => console.log(err));
@@ -54,14 +50,11 @@ const Dashboard = () => {
             <p>{user.username}</p>
             <p>{user.email}</p>
           </div>
-          <ModalPopover icon={<BsGear className="gear" />}>
-            <Profile
-              username={user.username}
-              email={user.email}
-              id={id}
-              getUserData={getUserData}
-            />
-          </ModalPopover>
+          <Profile
+            username={user.username}
+            email={user.email}
+            getUserData={getUserData}
+          />
         </div>
       </Header>
       {habits ? (
@@ -88,8 +81,8 @@ const Dashboard = () => {
 export default Dashboard;
 
 const Profile = ({ username, email, getUserData }) => {
-  const [newUser, setNewUser] = useState("");
-  const [newEmail, setNewEmail] = useState("");
+  const [newUser, setNewUser] = useState(username);
+  const [newEmail, setNewEmail] = useState(email);
 
   const { tokenBearer, id } = useAuth();
 
@@ -101,7 +94,6 @@ const Profile = ({ username, email, getUserData }) => {
       username: newUser || username,
       email: newEmail || email,
     };
-    console.log(data, id);
     api
       .patch(`/users/${id}/`, data, tokenBearer)
       .then((response) => console.log(response.data))
@@ -111,26 +103,32 @@ const Profile = ({ username, email, getUserData }) => {
 
   return (
     <ContainerEditUser>
-      {/* {errors && toast.error(errors)} */}
-      <div className="header">
-        <h3>Alterar dados do usuário</h3>
-      </div>
+      <ModalPopover
+        icon={<BsGear className="gear" />}
+        msgButton={["Atualizar", "Cancelar"]}
+        callback={submit}
+        classe="editUserModal"
+        darkBlue //cor de fundo do botão de enviar
+      >
+        <div className="header">
+          <h3>Alterar dados do usuário</h3>
+        </div>
 
-      <div className="edit">
-        <TextField
-          label="Nome"
-          variant="outlined"
-          defaultValue={username}
-          onChange={(e) => setNewUser(e.target.value)}
-        />
-        <TextField
-          label="E-mail"
-          variant="outlined"
-          defaultValue={email}
-          onChange={(e) => setNewEmail(e.target.value)}
-        />
-        <Button darkBlue type="submit" children="Atualizar" onClick={submit} />
-      </div>
+        <div className="edit">
+          <TextField
+            label="Nome"
+            variant="outlined"
+            defaultValue={username}
+            onChange={(e) => setNewUser(e.target.value)}
+          />
+          <TextField
+            label="E-mail"
+            variant="outlined"
+            defaultValue={email}
+            onChange={(e) => setNewEmail(e.target.value)}
+          />
+        </div>
+      </ModalPopover>
     </ContainerEditUser>
   );
 };

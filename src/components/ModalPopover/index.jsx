@@ -1,12 +1,16 @@
-import { Popover } from "@material-ui/core";
-import { Component, useState } from "react";
-import { Container } from "./styles.js";
+import { useState } from "react";
+import { Container, PopoverStyled } from "./styles.js";
+import Button from "../Button";
+
 export const ModalPopover = ({
   children,
   ele,
   msg = "enviar",
   msgButton = false,
   icon,
+  callback,
+  classe,
+  ...rest
 }) => {
   const [open, setOpen] = useState(false);
   const [alvo, setAlvo] = useState("");
@@ -28,7 +32,7 @@ export const ModalPopover = ({
         {ele ? ele : icon}
       </div>
       {open && (
-        <Popover
+        <PopoverStyled
           id={open && "simple-popover"}
           open={open}
           anchorEl={alvo}
@@ -38,14 +42,33 @@ export const ModalPopover = ({
             horizontal: "left",
           }}
         >
-          <div className="modalPopover">
-            <div>
-              {msg} <span onClick={abriModal}>X</span>
-            </div>
+          <div className={classe}>
             {children}
-            {msgButton && <button onClick={abriModal}>{msgButton}</button>}
+            {msgButton && (
+              <div className="buttons">
+                <Button
+                  {...rest}
+                  onClick={() => {
+                    abriModal();
+                    callback();
+                  }}
+                >
+                  {msgButton[0]}
+                </Button>
+
+                {msgButton.includes("Cancelar") ? (
+                  <Button red onClick={abriModal}>
+                    {msgButton.find((e) => e.includes("Cancelar"))}
+                  </Button>
+                ) : (
+                  <Button {...rest} onClick={abriModal}>
+                    {msg}
+                  </Button>
+                )}
+              </div>
+            )}
           </div>
-        </Popover>
+        </PopoverStyled>
       )}
     </Container>
   );

@@ -7,7 +7,6 @@ export const Container = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
-  /* padding: 100px 0; */
 `;
 
 export const Header = styled.header`
@@ -130,6 +129,7 @@ export const ContainerEditUser = styled.div`
     flex-direction: column;
     gap: 20px;
     margin-top: 20px;
+    background-color: red;
   }
 
   button {
