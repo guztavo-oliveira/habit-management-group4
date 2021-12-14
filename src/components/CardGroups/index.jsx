@@ -86,7 +86,7 @@ const CardGroups = ({ group, updateGroup, setAlvo }) => {
   const { myGroups } = useGroup();
 
   const subscribe = () => {
-    console.log(tokenBearer);
+    
     api
       .post(`/groups/${group.id}/subscribe/`, {}, tokenBearer)
       .then(() => {
@@ -98,7 +98,8 @@ const CardGroups = ({ group, updateGroup, setAlvo }) => {
       );
   };
 
-  const unsubscribe = () => {
+  const unsubscribe = (e) => {
+    e.stopPropagation()
     api
       .delete(`/groups/${group.id}/unsubscribe/`, tokenBearer)
       .then(() => {
@@ -118,9 +119,6 @@ const CardGroups = ({ group, updateGroup, setAlvo }) => {
         <div className='group-icon'/>
         <Content>
           <div>
-            {/* <ModalDialog ele={"teste"}>
-              
-            </ModalDialog> */}
           </div>
       
             <h2>{group.name} </h2> 
@@ -142,8 +140,7 @@ const CardGroups = ({ group, updateGroup, setAlvo }) => {
       <div className="containerEditar">
 
         <ButtonGroup
-          onClick={
-            myGroups.some((item) => item.id === group.id)
+          onClick={myGroups.some((item) => item.id === group.id)
               ? unsubscribe
               : subscribe
           }
