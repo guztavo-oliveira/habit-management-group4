@@ -10,10 +10,12 @@ import { toast } from "react-toastify";
 import { ModalDialog } from "../ModalDialog";
 import { TextField } from "@mui/material";
 import { useAuth } from "../../providers/AuthContext";
+import { set } from "react-hook-form";
 
 const ListGroups = () => {
   const { myGroups, updateGroup } = useGroup();
   const { tokenBearer } = useAuth();
+  const [fechar, setFechar] = useState(false)
   const [groups, setGroups] = useState([]);
   const [search, setSearch] = useState("");
   const [show, setShow] = useState(true);
@@ -31,7 +33,7 @@ const ListGroups = () => {
   }, []);
 
   const getNextPage = () => {
-    if (!!groups.next) {
+    if (groups.next) {
       axios.get(groups.next).then((resp) => {
         setGroups({
           count: resp.data.count,
@@ -46,6 +48,10 @@ const ListGroups = () => {
     }
   };
   const criarGrupo = () => {
+    if(!(!!name && !!category && !!description)){
+      setFechar(false)
+      return toast.error("Adcione todas a informaçoes para criar!")
+    }
     const data = {
       name,
       category,
@@ -56,17 +62,14 @@ const ListGroups = () => {
       .then(() => {
         updateGroup();
         toast("Grupo criado com sucesso");
+        setFechar("fechar");
+        setName("");
+        setCategory("");
+        setDescription("")
       })
-      .catch(() => toast("Adcione todas a informaçoes para criar!"));
+      .catch(() => {toast("Adcione todas a informaçoes para criar!");setFechar(false)});
   };
-  console.log(groups);
-  const style = {
-    height: "400px",
-    overflowY: "auto",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-  };
+
   return (
     <Container>
       {!!!alvo && (
@@ -80,8 +83,10 @@ const ListGroups = () => {
           <span onClick={() => setSearch("")}>X</span>
           <ModalDialog
             ele="Criar um Grupo"
-            msgButton="Criar um Grupo"
-            callBack={criarGrupo}
+            msgButton={["Criar um Grupo","Cancelar"]}
+            callback={criarGrupo}
+            fechar={fechar}
+            darkBlue
           >
             <TextField
               id="outlined-basic"
@@ -118,22 +123,20 @@ const ListGroups = () => {
       )}
 
       {showAllGroups ? (
-        <div className="containerPesquisa">
+        <div className="containerPesquisa" >
           <InfiniteScroll
-            style={style}
+            
             dataLength={
-              groups.results.filter((ele) =>
-                ele.name
-                  .toLocaleLowerCase()
-                  .includes(search.trim().toLocaleLowerCase())
-              ).length
+              groups.results.length
             }
             next={() => {
               getNextPage();
               console.log("carregou mais");
             }}
-            loader={<CircularProgress />}
+            height={400}
             hasMore={show}
+            loader={<CircularProgress />}
+            
           >
             {!!search ? (
               <>
