@@ -43,11 +43,9 @@ export const SectionB = styled.section`
     height: 50px;
     border-radius: 8px;
     color:white;
+    background-color: #0870ff;
     &:nth-child(2) {
       background-color: #08afff;
-    }
-    &:nth-child(1) {
-      background-color: #0870ff;
     }
   }
 `;
