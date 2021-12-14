@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Container, PopoverStyled } from "./styles.js";
 import Button from "../Button";
 
@@ -15,12 +15,16 @@ export const ModalPopover = ({
 }) => {
   const [open, setOpen] = useState(false);
   const [alvo, setAlvo] = useState("");
-  const abriModal = (e) => {
+  const abriModal = () => {
     setOpen(!open);
+    console.log(open)
   };
   const selecionado = (e) => {
     setAlvo(e.currentTarget);
   };
+  useEffect(() => {
+    fechar === "fechar" && abriModal()
+  },[fechar])
   return (
     <Container>
       <div
@@ -31,7 +35,7 @@ export const ModalPopover = ({
       >
         {ele ? ele : icon}
       </div>
-      {open && (
+   
         <PopoverStyled
           id={open && "simple-popover"}
           open={open}
@@ -50,7 +54,6 @@ export const ModalPopover = ({
                   {...rest}
                   onClick={() => {
                     callback();
-                    fechar && abriModal();
                   }}
                 >
                   {msgButton[0]}
@@ -65,7 +68,6 @@ export const ModalPopover = ({
             )}
           </div>
         </PopoverStyled>
-      )}
     </Container>
   );
 };

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DialogStyled } from "./styles.js";
 import Button from "../Button";
 
@@ -14,18 +14,22 @@ export const ModalDialog = ({
   ...rest
 }) => {
   const [open, setOpen] = useState(false);
-  const abriModal = (e) => {
+  const abriModal = () => {
     setOpen(!open);
   };
-
+  useEffect(() => {
+    fechar === "fechar" && abriModal()
+  },[fechar])
   return (
-    <div
-      onClick={() => {
-        setOpen(true);
-      }}
-    >
-      {ele ? ele : icon}
-      {open && (
+    <>
+      <div
+        onClick={() => {
+          setOpen(true);
+        }}
+      >
+        {ele ? ele : icon}
+      </div>
+  
         <DialogStyled open={open} onClose={abriModal}>
           {children}
           {msgButton && (
@@ -34,12 +38,10 @@ export const ModalDialog = ({
                 {...rest}
                 onClick={() => {
                   callback();
-                  fechar && abriModal();
                 }}
               >
                 {msgButton[0]}
               </Button>
-
               {msgButton.includes("Cancelar") && (
                 <Button red onClick={abriModal}>
                   {msgButton.find((e) => e.includes("Cancelar"))}
@@ -48,7 +50,6 @@ export const ModalDialog = ({
             </div>
           )}
         </DialogStyled>
-      )}
-    </div>
+    </>
   );
 };

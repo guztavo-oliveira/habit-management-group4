@@ -48,11 +48,7 @@ const Dashboard = () => {
             <p>{user.username}</p>
             <p>{user.email}</p>
           </div>
-          <Profile
-            username={user.username}
-            email={user.email}
-            getUserData={getUserData}
-          />
+          <Profile username={user.username} email={user.email} getUserData={getUserData} />
         </div>
       </Header>
       {habits ? (
@@ -80,41 +76,41 @@ const Dashboard = () => {
 export default Dashboard;
 
 const Profile = ({ username, email, getUserData }) => {
-  const [newUser, setNewUser] = useState(username);
-  const [newEmail, setNewEmail] = useState(email);
-  const [fechar, setFechar] = useState(false);
-  console.log(fechar);
+  const [newUser, setNewUser] = useState("");
+  const [newEmail, setNewEmail] = useState("");
+  const [user, setUser] = useState({});
+  const [fechar, setFechar] = useState(false)
   const { tokenBearer, id } = useAuth();
   const submit = () => {
     if (newUser === "" || newEmail === "") {
-      setFechar(false);
       return toast.error("Preencha todos os campos");
     }
     const data = {
       username: newUser || username,
       email: newEmail || email,
     };
-    setFechar(true);
+    console.log(data, id);
     api
       .patch(`/users/${id}/`, data, tokenBearer)
       .then((response) => {
         toast.success("Usuario modificado com sucesso");
-
         getUserData();
+        setFechar("fechar")
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {console.log(err);setFechar(false)});
   };
 
   return (
     <ContainerEditUser>
       <ModalPopover
         icon={<BsGear className="gear" />}
-        msgButton={["Atualizar", "Cancelar"]}
-        callback={submit}
-        classe="editUserModal"
-        darkBlue //cor de fundo do botão de enviar
+        msgButton="Atualizar"
         fechar={fechar}
+        callback={submit}
+        classe="modalPerfil"
       >
+        {/* {errors && toast.error(errors)} */}
+
         <div className="header">
           <h3>Alterar dados do usuário</h3>
         </div>
