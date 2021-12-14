@@ -15,4 +15,11 @@ code {
 @font-face {
   font-family: titleFont;
   src: url("./assets/fonts/planetncond.ttf");
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@font-face {
+  font-family: infoFont;
+  src: url("./assets/fonts/Comfortaa-VariableFont_wght.ttf");
 }
