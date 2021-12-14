@@ -12,7 +12,6 @@ export const Container = styled.div`
   min-width: 300px;
   max-width: 600px;
   background: var(--card-background);
-
   border: 1px var(--light-blue) solid;
   border-radius: 10px;
   box-shadow: 0px 0px 10px var(--light-blue);
@@ -28,7 +27,7 @@ export const Container = styled.div`
     background-repeat: no-repeat;
     color:var(--dark-blue);
     background-color: var(--neon-blue) ;
-    border-radius: 5px;
+    border-radius: 10px;
   }
   .container {
     display: flex;
@@ -52,8 +51,7 @@ export const Content = styled.div`
   height: 100%;
 
   h2 {
-    font-family: "titleFont", sans-serif;
-
+    font-family: "logoFont", sans-serif;
     color: var(--dark-blue);
     font-size: 26px;
     margin: 10px;
