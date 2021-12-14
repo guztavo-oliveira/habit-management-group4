@@ -1,4 +1,4 @@
-import { Content, Container, ButtonGroup } from "./style";
+import { Content, Container, ButtonGroup, ListsContainer } from "./style";
 import { useAuth } from "../../providers/AuthContext";
 import api from "../../services/api";
 import { ModalDialog } from "../ModalDialog";
@@ -82,12 +82,12 @@ const EditGroup = ({ groupid, updateGroup }) => {
 };
 
 const CardGroups = ({ group, updateGroup, setAlvo }) => {
-  const { id, tokenBearer, refresh } = useAuth();
+  const { id, tokenBearer } = useAuth();
   const [visibleGroup, setVisibleGroup] = useState(false);
   const { myGroups } = useGroup();
 
   const subscribe = () => {
-    console.log(tokenBearer);
+    
     api
       .post(`/groups/${group.id}/subscribe/`, {}, tokenBearer)
       .then(() => {
@@ -99,7 +99,8 @@ const CardGroups = ({ group, updateGroup, setAlvo }) => {
       );
   };
 
-  const unsubscribe = () => {
+  const unsubscribe = (e) => {
+    e.stopPropagation()
     api
       .delete(`/groups/${group.id}/unsubscribe/`, tokenBearer)
       .then(() => {
@@ -119,9 +120,6 @@ const CardGroups = ({ group, updateGroup, setAlvo }) => {
         <FiUser size={60} />
         <Content>
           <div>
-            {/* <ModalDialog ele={"teste"}>
-              
-            </ModalDialog> */}
           </div>
           <p>
             <span> Nome:</span> {group.name}
@@ -147,8 +145,7 @@ const CardGroups = ({ group, updateGroup, setAlvo }) => {
           </ButtonGroup>
         )}
         <ButtonGroup
-          onClick={
-            myGroups.some((item) => item.id === group.id)
+          onClick={myGroups.some((item) => item.id === group.id)
               ? unsubscribe
               : subscribe
           }
@@ -236,14 +233,14 @@ export const RenderOneGroup = ({ group, setAlvo }) => {
             <span>Integrantes: </span> {group.users_on_group.length}
           </p>
         </Content>
-        <Grid container>
+        <ListsContainer>
           <GroupActivities activities={activities} groupId={group.id} />
           <GroupGoals
             openGoals={openGoals}
             achievedGoals={achievedGoals}
             groupId={group.id}
           />
-        </Grid>
+        </ListsContainer>
       </div>
       <div className="containerEditar">
         {group.creator.id === id && (

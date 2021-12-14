@@ -8,11 +8,6 @@ const GlobalStyle = createGlobalStyle`
 	box-sizing: border-box;
 	text-decoration: none;
 }
-
-	@font-face {
-  font-family: logoFont;
-  src: url('./assets/fonts/planetncond.ttf') format(truetype)
-	}
 	
 	*{
 		padding: 0;

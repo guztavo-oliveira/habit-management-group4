@@ -82,39 +82,48 @@ export default Dashboard;
 const Profile = ({ username, email, getUserData }) => {
   const [newUser, setNewUser] = useState(username);
   const [newEmail, setNewEmail] = useState(email);
+
   const [fechar, setFechar] = useState(false);
-  console.log(fechar);
+
   const { tokenBearer, id } = useAuth();
   const submit = () => {
     if (newUser === "" || newEmail === "") {
-      setFechar(false);
       return toast.error("Preencha todos os campos");
     }
     const data = {
       username: newUser || username,
       email: newEmail || email,
     };
-    setFechar(true);
+    console.log(data, id);
     api
       .patch(`/users/${id}/`, data, tokenBearer)
       .then((response) => {
         toast.success("Usuario modificado com sucesso");
-
         getUserData();
+        setFechar("fechar");
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        setFechar(false);
+      });
   };
 
   return (
     <ContainerEditUser>
       <ModalPopover
         icon={<BsGear className="gear" />}
-        msgButton={["Atualizar", "Cancelar"]}
+        msgButton={{
+          atualizar: "Atualizar",
+          cancelar: "Cancelar",
+        }}
+        fechar={fechar}
+        setFechar={setFechar}
         callback={submit}
         classe="editUserModal"
-        darkBlue //cor de fundo do botão de enviar
-        fechar={fechar}
+        darkBlue
       >
+        {/* {errors && toast.error(errors)} */}
+
         <div className="header">
           <h3>Alterar dados do usuário</h3>
         </div>

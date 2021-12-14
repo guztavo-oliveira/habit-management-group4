@@ -2,11 +2,20 @@ import { useState } from "react";
 import api from "../../services/api";
 import { useForm, Controller } from "react-hook-form";
 import Toastify from "toastify";
-import { Button, TextField, Grid } from "@material-ui/core";
+import { Button, TextField } from "@material-ui/core";
 import { useAuth } from "../../providers/AuthContext";
-import { ModalDialog } from "../ModalDialog";
 import { AddActivForm, EditActivForm } from "../GroupActivities/styles";
 import { ModalPopover } from "../ModalPopover";
+import {
+  AddButton,
+  Card,
+  CardButtons,
+  CardInfo,
+  CardsContainer,
+  CardsList,
+  MainButtons,
+} from "../GroupGoals/styles";
+import { RiDeleteBin6Line } from "react-icons/ri";
 
 const GroupActivities = ({ groupId, activities }) => {
   const { tokenBearer, refresh, setRefresh } = useAuth();
@@ -63,74 +72,82 @@ const GroupActivities = ({ groupId, activities }) => {
       });
   };
   return (
-    <Grid item xs={12} sm={8} md={6} lg={6} xl={6}>
-      <ModalDialog ele="Adicionar atividade">
-        <AddActivForm onSubmit={handleSubmit(addActiv)}>
-          <Controller
-            render={({ field }) => (
-              <TextField
-                id="outlined-basic"
-                label="Título da atividade"
-                variant="outlined"
-                type="text"
-                sx={{ width: "80%" }}
-                {...field}
-              />
-            )}
-            name="title"
-            control={control}
-            defaultValue=""
-          />
-          <Controller
-            render={({ field }) => (
-              <TextField
-                id="outlined-basic"
-                label="Data limite"
-                variant="outlined"
-                type="datetime-local"
-                required
-                sx={{ width: "80%" }}
-                {...field}
-              />
-            )}
-            name="realization_time"
-            control={control}
-            defaultValue=""
-          />
-          <Button variant="contained" type="submit">
-            ADICIONAR
-          </Button>
-        </AddActivForm>
-      </ModalDialog>
-      <ul>
+    <CardsContainer boxShadow={3}>
+      <MainButtons>
+        <ModalPopover ele={<AddButton>ADD ATIVIDADE</AddButton>}>
+          <AddActivForm onSubmit={handleSubmit(addActiv)}>
+            <Controller
+              render={({ field }) => (
+                <TextField
+                  id="outlined-basic"
+                  label="Título da atividade"
+                  variant="outlined"
+                  type="text"
+                  sx={{ width: "80%" }}
+                  {...field}
+                />
+              )}
+              name="title"
+              control={control}
+              defaultValue=""
+            />
+            <Controller
+              render={({ field }) => (
+                <TextField
+                  id="outlined-basic"
+                  label="Data limite"
+                  variant="outlined"
+                  type="datetime-local"
+                  required
+                  sx={{ width: "80%" }}
+                  {...field}
+                />
+              )}
+              name="realization_time"
+              control={control}
+              defaultValue=""
+            />
+            <Button variant="contained" type="submit">
+              ADICIONAR
+            </Button>
+          </AddActivForm>
+        </ModalPopover>
+      </MainButtons>
+      <CardsList>
         {activities.map((item, index) => {
           return (
-            <li key={index}>
-              <div>{item.title}</div>
-              <div>{item.realization_time}</div>
-              <button onClick={() => deleteActiv(item.id)}>X</button>
+            <Card key={index}>
+              <CardInfo>
+                <h1>{item.title}</h1>
+                <h2>{item.realization_time}</h2>
+              </CardInfo>
+              <CardButtons>
+                <Button onClick={() => deleteActiv(item.id)}>
+                  <RiDeleteBin6Line fill="#ff5252" />
+                </Button>
 
-              <ModalPopover ele="Editar">
-                <EditActivForm>
-                  <TextField
-                    type="text"
-                    value={userInput}
-                    onChange={(e) => setUserInput(e.currentTarget.value)}
-                  />
-                  <Button
-                    variant="contained"
-                    type="submit"
-                    onClick={() => editActiv(item.id, userInput)}
-                  >
-                    SALVAR
-                  </Button>
-                </EditActivForm>
-              </ModalPopover>
-            </li>
+                <ModalPopover ele="Editar">
+                  <EditActivForm>
+                    <TextField
+                      type="text"
+                      value={userInput}
+                      onChange={(e) => setUserInput(e.currentTarget.value)}
+                    />
+                    <Button
+                      variant="contained"
+                      type="submit"
+                      onClick={() => editActiv(item.id, userInput)}
+                    >
+                      SALVAR
+                    </Button>
+                  </EditActivForm>
+                </ModalPopover>
+              </CardButtons>
+            </Card>
           );
         })}
-      </ul>
-    </Grid>
+      </CardsList>
+    </CardsContainer>
   );
 };
 
