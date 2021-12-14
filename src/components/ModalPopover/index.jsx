@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Container, PopoverStyled } from "./styles.js";
+import Button from "../Button";
 
 export const ModalPopover = ({
   children,
@@ -8,16 +9,22 @@ export const ModalPopover = ({
   msgButton = false,
   icon,
   callback,
-  classe
+  classe,
+  fechar = true, //teste
+  ...rest
 }) => {
   const [open, setOpen] = useState(false);
   const [alvo, setAlvo] = useState("");
-  const abriModal = (e) => {
+  const abriModal = () => {
     setOpen(!open);
+    console.log(open)
   };
   const selecionado = (e) => {
     setAlvo(e.currentTarget);
   };
+  useEffect(() => {
+    fechar === "fechar" && abriModal()
+  },[fechar])
   return (
     <Container>
       <div
@@ -28,7 +35,7 @@ export const ModalPopover = ({
       >
         {ele ? ele : icon}
       </div>
-      {open && (
+   
         <PopoverStyled
           id={open && "simple-popover"}
           open={open}
@@ -40,14 +47,27 @@ export const ModalPopover = ({
           }}
         >
           <div className={classe}>
-            <div>
-              {msg} <span onClick={abriModal}>X</span>
-            </div>
             {children}
-            {msgButton && <button onClick={() => {abriModal();callback()}}>{msgButton}</button>}
+            {msgButton && (
+              <div className="buttons">
+                <Button
+                  {...rest}
+                  onClick={() => {
+                    callback();
+                  }}
+                >
+                  {msgButton[0]}
+                </Button>
+
+                {msgButton.includes("Cancelar") && (
+                  <Button red onClick={abriModal}>
+                    {msgButton.find((e) => e.includes("Cancelar"))}
+                  </Button>
+                )}
+              </div>
+            )}
           </div>
         </PopoverStyled>
-      )}
     </Container>
   );
 };

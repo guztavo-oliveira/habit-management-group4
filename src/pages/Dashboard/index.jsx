@@ -79,6 +79,7 @@ const Profile = ({ username, email, getUserData }) => {
   const [newUser, setNewUser] = useState("");
   const [newEmail, setNewEmail] = useState("");
   const [user, setUser] = useState({});
+  const [fechar, setFechar] = useState(false)
   const { tokenBearer, id } = useAuth();
   const submit = () => {
     if (newUser === "" || newEmail === "") {
@@ -94,8 +95,9 @@ const Profile = ({ username, email, getUserData }) => {
       .then((response) => {
         toast.success("Usuario modificado com sucesso");
         getUserData();
+        setFechar("fechar")
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {console.log(err);setFechar(false)});
   };
 
   return (
@@ -103,10 +105,12 @@ const Profile = ({ username, email, getUserData }) => {
       <ModalPopover
         icon={<BsGear className="gear" />}
         msgButton="Atualizar"
+        fechar={fechar}
         callback={submit}
         classe="modalPerfil"
       >
         {/* {errors && toast.error(errors)} */}
+
         <div className="header">
           <h3>Alterar dados do usuário</h3>
         </div>
