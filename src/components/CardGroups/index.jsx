@@ -86,7 +86,6 @@ const CardGroups = ({ group, updateGroup, setAlvo }) => {
   const { myGroups } = useGroup();
 
   const subscribe = () => {
-    
     api
       .post(`/groups/${group.id}/subscribe/`, {}, tokenBearer)
       .then(() => {
@@ -99,7 +98,7 @@ const CardGroups = ({ group, updateGroup, setAlvo }) => {
   };
 
   const unsubscribe = (e) => {
-    e.stopPropagation()
+    e.stopPropagation();
     api
       .delete(`/groups/${group.id}/unsubscribe/`, tokenBearer)
       .then(() => {
@@ -116,16 +115,16 @@ const CardGroups = ({ group, updateGroup, setAlvo }) => {
       }}
     >
       <div className="container">
-        <div className='group-icon'/>
+        <div className="group-icon" />
         <Content>
-          <div>
-          </div>
-      
-            <h2>{group.name} </h2> 
-       <p>
-         <span>Categoria: </span>{group.category}
-       </p>
-          
+          <div></div>
+
+          <h2>{group.name} </h2>
+          <p>
+            <span>Categoria: </span>
+            {group.category}
+          </p>
+
           <p>
             <span> Criador:</span> {group.creator.username}
           </p>
@@ -138,9 +137,9 @@ const CardGroups = ({ group, updateGroup, setAlvo }) => {
         </Content>
       </div>
       <div className="containerEditar">
-
         <ButtonGroup
-          onClick={myGroups.some((item) => item.id === group.id)
+          onClick={
+            myGroups.some((item) => item.id === group.id)
               ? unsubscribe
               : subscribe
           }
@@ -214,9 +213,9 @@ export const RenderOneGroup = ({ group, setAlvo }) => {
           <div>
             <button onClick={() => setAlvo("")}>Voltar</button>
           </div>
-    
-            <span>{group.name} </span> 
-     
+
+          <span>{group.name} </span>
+
           <span> {group.category}</span>
           <p>
             <span> Criador:</span> {group.creator.username}

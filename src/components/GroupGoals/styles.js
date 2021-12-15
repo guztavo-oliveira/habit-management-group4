@@ -50,24 +50,26 @@ export const CardsContainer = styled(Box)`
   align-self: center;
   justify-self: center;
   height: 45vh;
-  background-color: var(--white);
+  background-color: var(--card-background);
   display: flex;
   flex-direction: column;
   margin-bottom: 2vh;
   border-radius: 4px;
+  border-bottom: 2px solid var(--dark-blue);
 `;
 
 export const Card = styled.li`
   width: 90%;
   height: 15vh;
-  background-color: var(--background);
+  background-color: var(--white);
   margin-bottom: 1vh;
   margin-top: 1vh;
-  -webkit-box-shadow: 1px 1px 7px 1px var(--gray);
-  box-shadow: 1px 1px 7px 1px var(--gray);
+  -webkit-box-shadow: 1px 1px 4px 1px var(--gray);
+  box-shadow: 1px 1px 4px 1px var(--gray);
   display: flex;
   flex-direction: row;
   border-radius: 5px;
+  border: 2px solid var(--dark-blue);
 `;
 
 export const CardInfo = styled.div`
@@ -91,13 +93,14 @@ export const CardInfo = styled.div`
     font-family: "infoFont", sans-serif;
     font-weight: bold;
 
-    text-shadow: 0px 0px 3px rgba(0, 0, 0, 1);
+    //text-shadow: 0px 0px 3px rgba(0, 0, 0, 1);
   }
 
   h2 {
-    color: lightgray;
+    color: var(--gray);
     font-size: 1rem;
     line-clamp: 1;
+    font-weight: lighter;
   }
   h3 {
     color: var(--light-blue);
@@ -109,25 +112,63 @@ export const CardInfo = styled.div`
 export const CardButtons = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: space-around;
+  align-items: center;
   justify-content: center;
   height: 100%;
   width: 20%;
   padding: 1vh;
+  gap: 2vh;
 `;
 
 export const CardsList = styled.ul`
   overflow: auto;
   height: 85%;
-  margin-top: 2vh;
-  margin-bottom: 2vh;
+  margin-bottom: 1vh;
   padding-left: 2vh;
 `;
 
 export const AddButton = styled(Button)`
-  background-color: var(--green);
+  background-color: var(--background);
   border: none;
   font-weight: bolder;
-  color: var(--white);
-  text-shadow: 2px 2px 3px rgba(0, 0, 0, 1);
+  color: var(--dark-blue);
+  //text-shadow: 2px 2px 3px rgba(0, 0, 0, 1);
+  padding: 0.8vh;
+  padding-left: 0vh;
+  padding-right: 0vh;
+`;
+
+export const CardsHeader = styled(Box)`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 2vh;
+`;
+
+export const AtvHeader = styled(Box)`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 2vh;
+`;
+
+export const AtvTitle = styled.h1`
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-align: center;
+  font-family: "titleFont", sans-serif;
+  color: var(--dark-blue);
+  padding-left: 30%;
+`;
+
+export const GoalTitle = styled.h1`
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-align: center;
+  font-family: "titleFont", sans-serif;
+  color: var(--dark-blue);
 `;
