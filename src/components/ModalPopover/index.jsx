@@ -11,7 +11,12 @@ export const ModalPopover = ({
   callback,
   classe,
   fechar = true,
-  setFechar, //teste
+  setFechar,
+  transformOrigin, //altera a posição do modal
+  anchorOrigin = {
+    vertical: "bottom",
+    horizontal: "left",
+  },
   ...rest
 }) => {
   const [open, setOpen] = useState(false);
@@ -45,10 +50,8 @@ export const ModalPopover = ({
         open={open}
         anchorEl={alvo}
         onClose={abriModal}
-        anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "left",
-        }}
+        anchorOrigin={anchorOrigin}
+        transformOrigin={transformOrigin}
       >
         <div className={classe}>
           {children}
