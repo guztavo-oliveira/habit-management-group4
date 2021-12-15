@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useGroup } from "../../providers/JsonGroups";
 import CardGroups, { RenderOneGroup } from "../CardGroups";
-import { Container } from "./styles";
+import { Container, ModalCriarGrupo } from "./styles";
 import api from "../../services/api";
 import InfiniteScroll from "react-infinite-scroll-component";
 import axios from "axios";
@@ -23,7 +23,7 @@ const ListGroups = () => {
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
   const [alvo, setAlvo] = useState("");
-  const [pode, setPode] = useState(true)
+  const [pode, setPode] = useState(true);
   const getGroups = () => {
     api.get("/groups/").then((resp) => setGroups(resp.data));
   };
@@ -33,9 +33,9 @@ const ListGroups = () => {
   }, []);
 
   const getNextPage = () => {
-    setPode(false)
-    
-    if(groups.next) {
+    setPode(false);
+
+    if (groups.next) {
       axios.get(groups.next).then((resp) => {
         setGroups({
           count: resp.data.count,
@@ -43,19 +43,19 @@ const ListGroups = () => {
           previous: resp.data.previous,
           results: [...groups.results, ...resp.data.results],
         });
-        console.log("setei true", groups.next)
-        if(resp.data.next === null){
-          setShow(false)
-          console.log("false dentro")
-        }else{
-          setPode(true)
-          setShow(true)
+        console.log("setei true", groups.next);
+        if (resp.data.next === null) {
+          setShow(false);
+          console.log("false dentro");
+        } else {
+          setPode(true);
+          setShow(true);
         }
       });
     }
-    if(groups.next === null){
-      setShow(false)
-      console.log("false dentro")
+    if (groups.next === null) {
+      setShow(false);
+      console.log("false dentro");
     }
   };
   const criarGrupo = () => {
@@ -84,18 +84,17 @@ const ListGroups = () => {
       });
   };
   useEffect(() => {
-    if(!!groups.next && groups.previous !== groups.next && !!search && pode){
-    
-        getNextPage()
-      }
-  },[groups, search, pode])
-  console.log(groups, show, pode)
+    if (!!groups.next && groups.previous !== groups.next && !!search && pode) {
+      getNextPage();
+    }
+  }, [groups, search, pode]);
+
   return (
     <Container>
       {!!!alvo && (
         <div className="headerPesquisaGroups">
           <div className="containerCriarGrupo">
-            <h1>Seus grupos</h1>
+            <h1>{showAllGroups ? "Buscando novos grupos" : "Seus grupos"}</h1>
             <ModalDialog
               // ele="Criar um Grupo"
               ele={<Button darkBlue>Criar grupo</Button>}
@@ -105,54 +104,58 @@ const ListGroups = () => {
               fechar={fechar}
               darkBlue
             >
-              <TextField
-                id="outlined-basic"
-                label="Name group"
-                type="text"
-                variant="outlined"
-                sx={{ marginTop: 5 }}
-                fullWidth
-                onChange={(e) => setName(e.target.value)}
-              />
-              <TextField
-                id="outlined-basic"
-                label="description"
-                type="text"
-                variant="outlined"
-                sx={{ marginTop: 5 }}
-                fullWidth
-                onChange={(e) => setDescription(e.target.value)}
-              />
-              <TextField
-                id="outlined-basic"
-                label="category"
-                type="text"
-                variant="outlined"
-                sx={{ marginTop: 5 }}
-                fullWidth
-                onChange={(e) => setCategory(e.target.value)}
-              />
+              <ModalCriarGrupo>
+                <h2>Criar um grupo novo</h2>
+                <TextField
+                  className="inputCriarGrupo"
+                  id="outlined-basic"
+                  label="Name group"
+                  type="text"
+                  variant="outlined"
+                  sx={{ marginTop: 5 }}
+                  fullWidth
+                  onChange={(e) => setName(e.target.value)}
+                />
+                <TextField
+                  className="inputCriarGrupo"
+                  id="outlined-basic"
+                  label="description"
+                  type="text"
+                  variant="outlined"
+                  sx={{ marginTop: 5 }}
+                  fullWidth
+                  onChange={(e) => setDescription(e.target.value)}
+                />
+                <TextField
+                  className="inputCriarGrupo"
+                  id="outlined-basic"
+                  label="category"
+                  type="text"
+                  variant="outlined"
+                  sx={{ marginTop: 5 }}
+                  fullWidth
+                  onChange={(e) => setCategory(e.target.value)}
+                />
+              </ModalCriarGrupo>
             </ModalDialog>
-            <button onClick={() => setShowAllGroups(!showAllGroups)}>
+            <Button green  onClick={() => setShowAllGroups(!showAllGroups)}>
               {showAllGroups
-                ? "Mostrar meus grupos"
-                : "Mostrar todos os grupos"}
-            </button>
+                ? "Meus grupos"
+                : "Buscar mais grupos"}
+            </Button>
           </div>
           <div>
-
-          <TextField
-                id="outlined-basic"
-                label="Pesquisar grupos"
-                value={search}
-                type="search"
-                variant="outlined"
-                sx={{ marginTop: 5 }}
-                fullWidth
-                onChange={(evt) => setSearch(evt.target.value)}
-              />
+            <TextField
+              id="outlined-basic"
+              label="Pesquisar grupos"
+              value={search}
+              type="search"
+              variant="outlined"
+              sx={{ marginTop: 5 }}
+              fullWidth
+              onChange={(evt) => setSearch(evt.target.value)}
+            />
           </div>
-              {/* <TextField id="standard-basic" type="search" label="Standard" variant="standard" /> */}
         </div>
       )}
 
@@ -172,9 +175,14 @@ const ListGroups = () => {
             {!!search ? (
               <>
                 {groups.results
-                  .filter((ele) =>
-                    ele.name.toLocaleLowerCase().includes(search.trim().toLocaleLowerCase()) ||
-                    ele.category.toLocaleLowerCase().includes(search.trim().toLocaleLowerCase())
+                  .filter(
+                    (ele) =>
+                      ele.name
+                        .toLocaleLowerCase()
+                        .includes(search.trim().toLocaleLowerCase()) ||
+                      ele.category
+                        .toLocaleLowerCase()
+                        .includes(search.trim().toLocaleLowerCase())
                   )
                   .map((ele, ind) => (
                     <CardGroups

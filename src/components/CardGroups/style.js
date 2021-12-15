@@ -2,7 +2,7 @@ import { Box } from "@material-ui/core";
 import styled from "styled-components";
 
 export const Container = styled.div`
-  margin: 15px 0;
+  margin-bottom:15px;
   padding: 10px;
   display: flex;
   justify-content: space-between;
