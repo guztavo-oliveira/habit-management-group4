@@ -9,6 +9,4 @@ export const Container = styled.div`
 
   justify-content: center;
   background: var(--card-background);
-
-  margin-bottom: 90px;
 `;

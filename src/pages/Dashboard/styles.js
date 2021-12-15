@@ -2,10 +2,11 @@ import styled from "styled-components";
 import logoPreto from "../../assets/images/simbolo-preto.png";
 
 export const Container = styled.div`
-  height: 100vh;
+  height: 100%;
   display: flex;
   align-items: center;
   flex-direction: column;
+  background-color: var(--card-background);
 `;
 
 export const Header = styled.header`
@@ -52,29 +53,35 @@ export const Header = styled.header`
 
 export const MenuBar = styled.div`
   width: 100%;
-  height: 50px;
+  height: 45px;
   position: fixed;
   bottom: 0;
-  background-color: var(--light-blue);
+  background-color: var(--dark-blue);
   display: flex;
   justify-content: center;
 
   svg {
-    font-size: 36px;
+    font-size: 55px;
     background-color: var(--white);
     border-radius: 50%;
     color: var(--dark-blue);
     padding: 7px;
-    margin-left: 10px;
     cursor: pointer;
+    outline: 5px solid var(--dark-blue);
   }
 
   .icons {
     height: 100%;
-    width: 80%;
+    width: 90%;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: absolute;
+    bottom: 22px;
+  }
+
+  .adjustDivModal {
+    height: 55px;
   }
 
   .logo {
