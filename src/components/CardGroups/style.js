@@ -10,11 +10,13 @@ export const Container = styled.div`
   flex-direction: row;
   align-items: center;
   min-height: 150px;
-  min-width: 300px;
-  max-width: 600px;
+  /* min-width: 300px;
+  max-width: 600px; */
+  width:600px;
   background: var(--card-background);
   border: 1px var(--light-blue) solid;
   border-radius: 10px;
+  
   box-shadow: 0px 0px 10px var(--light-blue);
 
   cursor: pointer;
@@ -44,18 +46,24 @@ export const Container = styled.div`
 `;
 
 export const Content = styled.div`
-  margin-left: 10px;
+  margin:0px 20px;
   display: flex;
   flex-direction: column;
   align-items: left;
   justify-content: flex-end;
   height: 100%;
+  max-width:70% ;
 
   h2 {
     font-family: "logoFont", sans-serif;
     color: var(--dark-blue);
     font-size: 26px;
     margin: 10px;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   p {
     margin: 0;
@@ -97,3 +105,4 @@ export const ListsContainer = styled(Box)`
   width: 100%;
   height: 90vh;
 `;
+
