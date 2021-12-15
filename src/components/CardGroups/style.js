@@ -17,7 +17,7 @@ export const Container = styled.div`
   border: 1px var(--light-blue) solid;
   border-radius: 10px;
   
-  box-shadow: 0px 0px 10px var(--light-blue);
+  box-shadow: 0px 0px 10px var(--gray);
 
   cursor: pointer;
 
