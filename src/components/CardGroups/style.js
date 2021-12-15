@@ -73,12 +73,12 @@ export const Content = styled.div`
   }
 `;
 export const ButtonGroup = styled.button`
-  border: none ;
   align-self: flex-end ;
   height: 40px ;
   font-size: 16px ;
   color: var(--gray);
   margin-right: 5px ;
+  border:none;
   border-bottom: 2px solid var(--light-blue);
   background-color: transparent ;
   font-family: 'Nova Round', cursive; 
@@ -87,7 +87,6 @@ export const ButtonGroup = styled.button`
     cursor: pointer;
   }
   
-  border: none;
   align-self: flex-end;
   height: 40px;
 `;
