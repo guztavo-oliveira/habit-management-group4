@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { DialogStyled } from "./styles.js";
+import { DialogStyled } from "./styles";
 import Button from "../Button";
 
 export const ModalDialog = ({
@@ -35,24 +35,26 @@ export const ModalDialog = ({
       </div>
 
       <DialogStyled open={open} onClose={abriModal}>
-        {children}
-        {msgButton && (
-          <div className="buttons">
-            <Button
-              {...rest}
-              onClick={() => {
-                callback();
-              }}
-            >
-              {msgButton[0]}
-            </Button>
-            {msgButton.includes("Cancelar") && (
-              <Button red onClick={abriModal}>
-                {msgButton.find((e) => e.includes("Cancelar"))}
+        <div className={classe}>
+          {children}
+          {msgButton && (
+            <div className="buttons">
+              <Button
+                {...rest}
+                onClick={() => {
+                  callback();
+                }}
+              >
+                {msgButton.atualizar}
               </Button>
-            )}
-          </div>
-        )}
+              {msgButton.cancelar && (
+                <Button red onClick={abriModal}>
+                  {msgButton.cancelar}
+                </Button>
+              )}
+            </div>
+          )}
+        </div>
       </DialogStyled>
     </>
   );
