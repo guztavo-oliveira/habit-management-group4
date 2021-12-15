@@ -71,92 +71,121 @@ const Dashboard = () => {
 
   //////////////////////////////////////////////////////////
 
+  function useWindowSize() {
+    const [size, setSize] = useState([0, 0]);
+    useLayoutEffect(() => {
+      function updateSize() {
+        setSize([window.innerWidth, window.innerHeight]);
+      }
+      window.addEventListener("resize", updateSize);
+      updateSize();
+      return () => window.removeEventListener("resize", updateSize);
+    }, []);
+    return size;
+  }
+
+  function ShowWindowDimensions(props) {
+    return useWindowSize();
+  }
+
+  const [width] = ShowWindowDimensions();
+  const resize = 800;
+
   return (
-    <Container>
-      <Header></Header>
-      {habits ? (
-        <ContainerHabits>
-          <h1>Hábitos</h1>
+    <>
+      {width >= resize ? (
+        <Container width={resize}>
           <Habits />
-        </ContainerHabits>
-      ) : (
-        <ContainerGroups>
-          <h1>Groups</h1>
           <ListGroups />
-        </ContainerGroups>
-      )}
+        </Container>
+      ) : (
+        <Container>
+          <Header></Header>
+          {habits ? (
+            <ContainerHabits>
+              <h1>Hábitos</h1>
+              <Habits />
+            </ContainerHabits>
+          ) : (
+            <ContainerGroups>
+              <h1>Groups</h1>
+              <ListGroups />
+            </ContainerGroups>
+          )}
 
-      {/*Menu inferior*/}
-      <MenuBar>
-        <div className="icons">
-          <BiGroup onClick={() => setHabits(false)} />
+          {/*Menu inferior*/}
+          <MenuBar>
+            <div className="icons">
+              <BiGroup onClick={() => setHabits(false)} />
 
-          {/*Editar perfil de usuário e sair */}
-          <ModalPopover
-            icon={<BiUser />}
-            classe="userProfile"
-            darkBlue
-            transformOrigin={{
-              vertical: "bottom",
-              horizontal: "right",
-            }}
-            anchorOrigin={{
-              vertical: "top",
-              horizontal: "right",
-            }}
-            setFechar={setFechar}
-            fechar={fechar}
-          >
-            <p>{user.username}</p>
-            <p>{user.email}</p>
-
-            <div className="editProfile">
-              <ModalDialog
-                ele={"Editar perfil"}
-                msgButton={{
-                  atualizar: "Atualizar",
-                  cancelar: "Cancelar",
-                }}
-                fechar={fechar}
-                setFechar={setFechar}
-                callback={submit}
-                classe="editUserModal"
+              {/*Editar perfil de usuário e sair */}
+              <ModalPopover
+                icon={<BiUser />}
+                classe="userProfile"
                 darkBlue
+                transformOrigin={{
+                  vertical: "bottom",
+                  horizontal: "right",
+                }}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                setFechar={setFechar}
+                fechar={fechar}
               >
-                <div className="header">
-                  <h3>Alterar dados do usuário</h3>
+                <p>{user.username}</p>
+                <p>{user.email}</p>
+
+                <div className="editProfile">
+                  <ModalDialog
+                    ele={"Editar perfil"}
+                    msgButton={{
+                      atualizar: "Atualizar",
+                      cancelar: "Cancelar",
+                    }}
+                    fechar={fechar}
+                    setFechar={setFechar}
+                    callback={submit}
+                    classe="editUserModal"
+                    darkBlue
+                  >
+                    <div className="header">
+                      <h3>Alterar dados do usuário</h3>
+                    </div>
+
+                    <div className="edit">
+                      <TextField
+                        label="Nome"
+                        variant="outlined"
+                        defaultValue={user.username}
+                        onChange={(e) => setNewUser(e.target.value)}
+                      />
+                      <TextField
+                        label="E-mail"
+                        variant="outlined"
+                        defaultValue={user.email}
+                        onChange={(e) => setNewEmail(e.target.value)}
+                      />
+                    </div>
+                  </ModalDialog>
                 </div>
 
-                <div className="edit">
-                  <TextField
-                    label="Nome"
-                    variant="outlined"
-                    defaultValue={user.username}
-                    onChange={(e) => setNewUser(e.target.value)}
-                  />
-                  <TextField
-                    label="E-mail"
-                    variant="outlined"
-                    defaultValue={user.email}
-                    onChange={(e) => setNewEmail(e.target.value)}
-                  />
+                <div
+                  id="exitButton"
+                  onClick={() => {
+                    signOut();
+                    history.push("/login");
+                  }}
+                >
+                  <p>Sair</p>
                 </div>
-              </ModalDialog>
+              </ModalPopover>
             </div>
-
-            <div
-              id="exitButton"
-              onClick={() => {
-                signOut();
-                history.push("/login");
-              }}
-            >
-              <p>Sair</p>
-            </div>
-          </ModalPopover>
-        </div>
-      </MenuBar>
-    </Container>
+          </MenuBar>
+        </Container>
+      )}
+    </>
   );
 };
 export default Dashboard;
