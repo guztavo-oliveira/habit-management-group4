@@ -18,7 +18,7 @@ import { ModalDialog } from "../../components/ModalDialog";
 
 import { TextField } from "@mui/material";
 import { toast } from "react-toastify";
-import { useHistory } from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
 
 const Dashboard = () => {
   const [habits, setHabits] = useState(true);
@@ -47,6 +47,7 @@ const Dashboard = () => {
   const [newEmail, setNewEmail] = useState(user.email);
 
   const [fechar, setFechar] = useState(false);
+  const [larguraTela] = useState(window.innerWidth)
 
   const submit = () => {
     if (!!newUser || !!newEmail) {
@@ -68,12 +69,27 @@ const Dashboard = () => {
         setFechar(false);
       });
   };
-
+  console.log(larguraTela)
   //////////////////////////////////////////////////////////
 
   return (
     <Container>
+      <button onClick={() => console.log(larguraTela)}>mostra</button>
       <Header></Header>
+      {larguraTela >= 1024 ?
+      <>
+      <ContainerHabits>
+          <h1>Hábitos</h1>
+          <Habits />
+        </ContainerHabits>
+        <ContainerGroups>
+          <h1>Groups</h1>
+          <ListGroups />
+        </ContainerGroups>
+      </>
+      
+      : <>
+      
       {habits ? (
         <ContainerHabits>
           <h1>Hábitos</h1>
@@ -85,6 +101,7 @@ const Dashboard = () => {
           <ListGroups />
         </ContainerGroups>
       )}
+      </>} 
 
       {/*Menu inferior*/}
       <MenuBar>
@@ -148,7 +165,7 @@ const Dashboard = () => {
               id="exitButton"
               onClick={() => {
                 signOut();
-                history.push("/login");
+                
               }}
             >
               <p>Sair</p>

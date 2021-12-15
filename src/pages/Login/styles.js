@@ -1,13 +1,14 @@
 import { css, keyframes } from "styled-components";
 import styled from "styled-components";
-import loginLogo from "../../assets/images/login-logo.png";
+// import loginLogo from "../../assets/images/login-logo.png";
+import loginLogo from "../../assets/images/loginLogo.svg";
 
 export const Container = styled.div`
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   background-color: var(--dark-blue);
-  padding-top: 125px;
-  position: relative;
+  display: flex;
+  align-items: center;
 `;
 
 const appearFromTop = keyframes`
@@ -48,9 +49,10 @@ const logoFromRight = keyframes`
 
 export const RegisterLogo = styled.div`
   @media (min-width: 1000px) {
-    width: 40%;
-    height: 40%;
+    width: 45%;
+    height: 45%;
     background: url(${loginLogo}) no-repeat center;
+    /* background-size: 1000px; */
     background-size: contain;
     animation: ${logoFromRight} 1s;
     position: absolute;

@@ -31,7 +31,9 @@ const AuthProvider = ({ children }) => {
   const signOut = () => {
     localStorage.removeItem("@gestaodehabitos:id");
     localStorage.removeItem("@gestaodehabitos:access");
-    // <Redirect to="/login" />;
+
+    atualizarToken()
+    return <Redirect to="/login"/>
   };
 
   const [refresh, setRefresh] = useState(false);
