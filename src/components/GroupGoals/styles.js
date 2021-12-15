@@ -1,5 +1,4 @@
 import styled from "styled-components";
-
 import { Box, Button } from "@material-ui/core";
 
 export const GoalsContainer = styled.div`
@@ -51,22 +50,24 @@ export const CardsContainer = styled(Box)`
   align-self: center;
   justify-self: center;
   height: 45vh;
-  background-color: var(--background);
+  background-color: var(--white);
   display: flex;
   flex-direction: column;
   margin-bottom: 2vh;
+  border-radius: 4px;
 `;
 
 export const Card = styled.li`
   width: 90%;
   height: 15vh;
-  background-color: var(--white);
+  background-color: var(--background);
   margin-bottom: 1vh;
   margin-top: 1vh;
   -webkit-box-shadow: 1px 1px 7px 1px var(--gray);
   box-shadow: 1px 1px 7px 1px var(--gray);
   display: flex;
   flex-direction: row;
+  border-radius: 5px;
 `;
 
 export const CardInfo = styled.div`
@@ -87,11 +88,14 @@ export const CardInfo = styled.div`
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
-    font-family: "titleFont", sans-serif;
+    font-family: "infoFont", sans-serif;
+    font-weight: bold;
+
+    text-shadow: 0px 0px 3px rgba(0, 0, 0, 1);
   }
 
   h2 {
-    color: var(--gray);
+    color: lightgray;
     font-size: 1rem;
     line-clamp: 1;
   }

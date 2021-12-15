@@ -8,21 +8,23 @@ import {
 } from "./styles";
 import { BiUser, BiGroup } from "react-icons/bi";
 import { BsGear } from "react-icons/bs";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useLayoutEffect } from "react";
 import api from "../../services/api";
 import { useAuth } from "../../providers/AuthContext";
 import ListGroups from "../../components/ListGroups";
 import Habits from "../../components/Habits";
 import { ModalPopover } from "../../components/ModalPopover";
+import { ModalDialog } from "../../components/ModalDialog";
 
-import Button from "../../components/Button";
 import { TextField } from "@mui/material";
 import { toast } from "react-toastify";
+import { useHistory } from "react-router-dom";
 
 const Dashboard = () => {
   const [habits, setHabits] = useState(true);
   const [user, setUser] = useState({});
-  const { id, tokenBearer } = useAuth();
+  const [editProfile, setEditProfile] = useState(false);
+  const { id, tokenBearer, signOut } = useAuth();
 
   const getUserData = () => {
     api
@@ -37,20 +39,41 @@ const Dashboard = () => {
     getUserData();
   }, []);
 
+  const history = useHistory();
+
+  ////////////////////////////////////////////////////////// Profile
+
+  const [newUser, setNewUser] = useState(user.username);
+  const [newEmail, setNewEmail] = useState(user.email);
+
+  const [fechar, setFechar] = useState(false);
+
+  const submit = () => {
+    if (newUser === "" || newEmail === "") {
+      return toast.error("Preencha todos os campos");
+    }
+    const data = {
+      username: newUser || user.username,
+      email: newEmail || user.email,
+    };
+    api
+      .patch(`/users/${id}/`, data, tokenBearer)
+      .then((response) => {
+        toast.success("Usuario modificado com sucesso");
+        getUserData();
+        setFechar("fechar");
+      })
+      .catch((err) => {
+        console.log(err);
+        setFechar(false);
+      });
+  };
+
+  //////////////////////////////////////////////////////////
+
   return (
     <Container>
-      <Header>
-        <div className="header__icon">
-          <BiUser />
-        </div>
-        <div className="content">
-          <div className="username">
-            <p>{user.username}</p>
-            <p>{user.email}</p>
-          </div>
-          <Profile username={user.username} email={user.email} getUserData={getUserData} />
-        </div>
-      </Header>
+      <Header></Header>
       {habits ? (
         <ContainerHabits>
           <h1>Hábitos</h1>
@@ -63,11 +86,74 @@ const Dashboard = () => {
         </ContainerGroups>
       )}
 
+      {/*Menu inferior*/}
       <MenuBar>
         <div className="icons">
           <BiGroup onClick={() => setHabits(false)} />
-          <div className="logo" />
-          <BiUser onClick={() => setHabits(true)} />
+
+          {/*Editar perfil de usuário e sair */}
+          <ModalPopover
+            icon={<BiUser />}
+            classe="userProfile"
+            darkBlue
+            transformOrigin={{
+              vertical: "bottom",
+              horizontal: "right",
+            }}
+            anchorOrigin={{
+              vertical: "top",
+              horizontal: "right",
+            }}
+            setFechar={setFechar}
+            fechar={fechar}
+          >
+            <p>{user.username}</p>
+            <p>{user.email}</p>
+
+            <div className="editProfile">
+              <ModalDialog
+                ele={"Editar perfil"}
+                msgButton={{
+                  atualizar: "Atualizar",
+                  cancelar: "Cancelar",
+                }}
+                fechar={fechar}
+                setFechar={setFechar}
+                callback={submit}
+                classe="editUserModal"
+                darkBlue
+              >
+                <div className="header">
+                  <h3>Alterar dados do usuário</h3>
+                </div>
+
+                <div className="edit">
+                  <TextField
+                    label="Nome"
+                    variant="outlined"
+                    defaultValue={user.username}
+                    onChange={(e) => setNewUser(e.target.value)}
+                  />
+                  <TextField
+                    label="E-mail"
+                    variant="outlined"
+                    defaultValue={user.email}
+                    onChange={(e) => setNewEmail(e.target.value)}
+                  />
+                </div>
+              </ModalDialog>
+            </div>
+
+            <div
+              id="exitButton"
+              onClick={() => {
+                signOut();
+                history.push("/login");
+              }}
+            >
+              <p>Sair</p>
+            </div>
+          </ModalPopover>
         </div>
       </MenuBar>
     </Container>
@@ -75,61 +161,69 @@ const Dashboard = () => {
 };
 export default Dashboard;
 
-const Profile = ({ username, email, getUserData }) => {
-  const [newUser, setNewUser] = useState("");
-  const [newEmail, setNewEmail] = useState("");
-  const [user, setUser] = useState({});
-  const [fechar, setFechar] = useState(false)
-  const { tokenBearer, id } = useAuth();
-  const submit = () => {
-    if (newUser === "" || newEmail === "") {
-      return toast.error("Preencha todos os campos");
-    }
-    const data = {
-      username: newUser || username,
-      email: newEmail || email,
-    };
-    console.log(data, id);
-    api
-      .patch(`/users/${id}/`, data, tokenBearer)
-      .then((response) => {
-        toast.success("Usuario modificado com sucesso");
-        getUserData();
-        setFechar("fechar")
-      })
-      .catch((err) => {console.log(err);setFechar(false)});
-  };
+// const Profile = ({ username, email, getUserData }) => {
+//   const [newUser, setNewUser] = useState(username);
+//   const [newEmail, setNewEmail] = useState(email);
 
-  return (
-    <ContainerEditUser>
-      <ModalPopover
-        icon={<BsGear className="gear" />}
-        msgButton="Atualizar"
-        fechar={fechar}
-        callback={submit}
-        classe="modalPerfil"
-      >
-        {/* {errors && toast.error(errors)} */}
+//   const [fechar, setFechar] = useState(false);
 
-        <div className="header">
-          <h3>Alterar dados do usuário</h3>
-        </div>
+//   const { tokenBearer, id } = useAuth();
+//   const submit = () => {
+//     if (newUser === "" || newEmail === "") {
+//       return toast.error("Preencha todos os campos");
+//     }
+//     const data = {
+//       username: newUser || username,
+//       email: newEmail || email,
+//     };
+//     api
+//       .patch(`/users/${id}/`, data, tokenBearer)
+//       .then((response) => {
+//         toast.success("Usuario modificado com sucesso");
+//         getUserData();
+//         setFechar("fechar");
+//       })
+//       .catch((err) => {
+//         console.log(err);
+//         setFechar(false);
+//       });
+//   };
 
-        <div className="edit">
-          <TextField
-            label="Nome"
-            variant="outlined"
-            defaultValue={username}
-            onChange={(e) => setNewUser(e.target.value)}
-          />
-          <TextField
-            label="E-mail"
-            variant="outlined"
-            defaultValue={email}
-            onChange={(e) => setNewEmail(e.target.value)}
-          />
-        </div>
-      </ModalPopover>
-    </ContainerEditUser>
-  );
-};
+//   return (
+//     <ContainerEditUser>
+//       <ModalDialog
+//         // icon={<BsGear className="gear" />}
+//         msgButton={{
+//           atualizar: "Atualizar",
+//           cancelar: "Cancelar",
+//         }}
+//         fechar={fechar}
+//         setFechar={setFechar}
+//         callback={submit}
+//         classe="editUserModal"
+//         darkBlue
+//       >
+//         {/* {errors && toast.error(errors)} */}
+
+//         <div className="header">
+//           <h3>Alterar dados do usuário</h3>
+//         </div>
+
+//         <div className="edit">
+//           <TextField
+//             label="Nome"
+//             variant="outlined"
+//             defaultValue={username}
+//             onChange={(e) => setNewUser(e.target.value)}
+//           />
+//           <TextField
+//             label="E-mail"
+//             variant="outlined"
+//             defaultValue={email}
+//             onChange={(e) => setNewEmail(e.target.value)}
+//           />
+//         </div>
+//       </ModalDialog>
+//     </ContainerEditUser>
+//   );
+// };
