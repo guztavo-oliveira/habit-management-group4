@@ -1,3 +1,4 @@
+import { Box } from "@material-ui/core";
 import styled from "styled-components";
 import groupIcon from '../../assets/images/grupo-icone.png'
 
@@ -59,6 +60,11 @@ export const Content = styled.div`
   p {
     margin: 0;
     color: var(--gray);
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   span {
     margin:0 5px ;
@@ -73,9 +79,22 @@ export const ButtonGroup = styled.button`
   font-size: 16px ;
   color: var(--gray);
   margin-right: 5px ;
-  border-bottom: 1px solid var(--light-blue);
+  border-bottom: 2px solid var(--light-blue);
   background-color: transparent ;
-  font-family: 'Nova Round', cursive;  &:hover[
+  font-family: 'Nova Round', cursive; 
+  
+  &:hover{
     cursor: pointer;
-  ]
-  `
+  }
+  
+  border: none;
+  align-self: flex-end;
+  height: 40px;
+`;
+
+export const ListsContainer = styled(Box)`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 90vh;
+`;

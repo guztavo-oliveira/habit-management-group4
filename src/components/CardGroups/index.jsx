@@ -1,4 +1,4 @@
-import { Content, Container, ButtonGroup } from "./style";
+import { Content, Container, ButtonGroup, ListsContainer } from "./style";
 import { useAuth } from "../../providers/AuthContext";
 import api from "../../services/api";
 import { ModalDialog } from "../ModalDialog";
@@ -228,14 +228,14 @@ export const RenderOneGroup = ({ group, setAlvo }) => {
             <span>Integrantes: </span> {group.users_on_group.length} membros
           </p>
         </Content>
-        <Grid container>
+        <ListsContainer>
           <GroupActivities activities={activities} groupId={group.id} />
           <GroupGoals
             openGoals={openGoals}
             achievedGoals={achievedGoals}
             groupId={group.id}
           />
-        </Grid>
+        </ListsContainer>
       </div>
       <div className="containerEditar">
         {group.creator.id === id && (
