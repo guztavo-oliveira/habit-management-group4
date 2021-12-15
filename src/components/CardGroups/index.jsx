@@ -82,8 +82,8 @@ const EditGroup = ({ groupid, updateGroup }) => {
 };
 
 const CardGroups = ({ group, updateGroup, setAlvo }) => {
-  const { id, tokenBearer } = useAuth();
-  const [visibleGroup, setVisibleGroup] = useState(false);
+  const { id, tokenBearer, refresh } = useAuth();
+
   const { myGroups } = useGroup();
 
   const subscribe = () => {
@@ -117,14 +117,16 @@ const CardGroups = ({ group, updateGroup, setAlvo }) => {
       }}
     >
       <div className="container">
-        <FiUser size={60} />
+        <div className='group-icon'/>
         <Content>
           <div>
           </div>
-          <p>
-            <span> Nome:</span> {group.name}
-          </p>
-          <span> {group.category}</span>
+      
+            <h2>{group.name} </h2> 
+       <p>
+         <span>Categoria: </span>{group.category}
+       </p>
+          
           <p>
             <span> Criador:</span> {group.creator.username}
           </p>
@@ -132,18 +134,12 @@ const CardGroups = ({ group, updateGroup, setAlvo }) => {
             <span>Descrição:</span> {group.description}
           </p>
           <p>
-            <span>Integrantes: </span> {group.users_on_group.length}
+            <span>Integrantes: </span> {group.users_on_group.length} membros
           </p>
         </Content>
       </div>
       <div className="containerEditar">
-        {group.creator.id === id && (
-          <ButtonGroup onClick={(e) => e.stopPropagation()}>
-            <ModalDialog ele={"Editar"}>
-              <EditGroup id={group.id} updateGroup={updateGroup} />
-            </ModalDialog>
-          </ButtonGroup>
-        )}
+
         <ButtonGroup
           onClick={myGroups.some((item) => item.id === group.id)
               ? unsubscribe
@@ -219,9 +215,9 @@ export const RenderOneGroup = ({ group, setAlvo }) => {
           <div>
             <button onClick={() => setAlvo("")}>Voltar</button>
           </div>
-          <p>
-            <span> Nome:</span> {group.name}
-          </p>
+    
+            <span>{group.name} </span> 
+     
           <span> {group.category}</span>
           <p>
             <span> Criador:</span> {group.creator.username}
@@ -230,7 +226,7 @@ export const RenderOneGroup = ({ group, setAlvo }) => {
             <span>Descrição:</span> {group.description}
           </p>
           <p>
-            <span>Integrantes: </span> {group.users_on_group.length}
+            <span>Integrantes: </span> {group.users_on_group.length} membros
           </p>
         </Content>
         <ListsContainer>
