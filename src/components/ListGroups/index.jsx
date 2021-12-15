@@ -10,12 +10,11 @@ import { toast } from "react-toastify";
 import { ModalDialog } from "../ModalDialog";
 import { TextField } from "@mui/material";
 import { useAuth } from "../../providers/AuthContext";
-import { set } from "react-hook-form";
-
+import Button from "../Button";
 const ListGroups = () => {
   const { myGroups, updateGroup } = useGroup();
   const { tokenBearer } = useAuth();
-  const [fechar, setFechar] = useState(false)
+  const [fechar, setFechar] = useState(false);
   const [groups, setGroups] = useState([]);
   const [search, setSearch] = useState("");
   const [show, setShow] = useState(true);
@@ -24,6 +23,7 @@ const ListGroups = () => {
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
   const [alvo, setAlvo] = useState("");
+  const [pode, setPode] = useState(true)
   const getGroups = () => {
     api.get("/groups/").then((resp) => setGroups(resp.data));
   };
@@ -33,7 +33,9 @@ const ListGroups = () => {
   }, []);
 
   const getNextPage = () => {
-    if (groups.next) {
+    setPode(false)
+    
+    if(groups.next) {
       axios.get(groups.next).then((resp) => {
         setGroups({
           count: resp.data.count,
@@ -41,16 +43,25 @@ const ListGroups = () => {
           previous: resp.data.previous,
           results: [...groups.results, ...resp.data.results],
         });
-        setShow(true);
+        console.log("setei true", groups.next)
+        if(resp.data.next === null){
+          setShow(false)
+          console.log("false dentro")
+        }else{
+          setPode(true)
+          setShow(true)
+        }
       });
-    } else {
-      setShow(false);
+    }
+    if(groups.next === null){
+      setShow(false)
+      console.log("false dentro")
     }
   };
   const criarGrupo = () => {
-    if(!(!!name && !!category && !!description)){
-      setFechar(false)
-      return toast.error("Adcione todas a informaçoes para criar!")
+    if (!(!!name && !!category && !!description)) {
+      setFechar(false);
+      return toast.error("Adcione todas a informaçoes para criar!");
     }
     const data = {
       name,
@@ -61,74 +72,94 @@ const ListGroups = () => {
       .post("/groups/", data, tokenBearer)
       .then(() => {
         updateGroup();
-        toast("Grupo criado com sucesso");
+        toast.success("Grupo criado com sucesso");
         setFechar("fechar");
         setName("");
         setCategory("");
-        setDescription("")
+        setDescription("");
       })
-      .catch(() => {toast("Adcione todas a informaçoes para criar!");setFechar(false)});
+      .catch(() => {
+        toast("Adcione todas a informaçoes para criar!");
+        setFechar(false);
+      });
   };
-
+  useEffect(() => {
+    if(!!groups.next && groups.previous !== groups.next && !!search && pode){
+    
+        getNextPage()
+      }
+  },[groups, search, pode])
+  console.log(groups, show, pode)
   return (
     <Container>
       {!!!alvo && (
-        <div>
-          <input
-            value={search}
-            type="text"
-            placeholder="Pesquisar grupos"
-            onChange={(evt) => setSearch(evt.target.value)}
-          />
-          <span onClick={() => setSearch("")}>X</span>
-          <ModalDialog
-            ele="Criar um Grupo"
-            msgButton={["Criar um Grupo","Cancelar"]}
-            callback={criarGrupo}
-            fechar={fechar}
-            darkBlue
-          >
-            <TextField
-              id="outlined-basic"
-              label="Name group"
-              type="text"
-              variant="outlined"
-              sx={{ marginTop: 5 }}
-              fullWidth
-              onChange={(e) => setName(e.target.value)}
-            />
-            <TextField
-              id="outlined-basic"
-              label="description"
-              type="text"
-              variant="outlined"
-              sx={{ marginTop: 5 }}
-              fullWidth
-              onChange={(e) => setDescription(e.target.value)}
-            />
-            <TextField
-              id="outlined-basic"
-              label="category"
-              type="text"
-              variant="outlined"
-              sx={{ marginTop: 5 }}
-              fullWidth
-              onChange={(e) => setCategory(e.target.value)}
-            />
-          </ModalDialog>
-          <button onClick={() => setShowAllGroups(!showAllGroups)}>
-            {showAllGroups ? "Mostrar meus grupos" : "Mostrar todos os grupos"}
-          </button>
+        <div className="headerPesquisaGroups">
+          <div className="containerCriarGrupo">
+            <h1>Seus grupos</h1>
+            <ModalDialog
+              // ele="Criar um Grupo"
+              ele={<Button darkBlue>Criar grupo</Button>}
+              msgButton={["Criar um Grupo", "Cancelar"]}
+              callback={criarGrupo}
+              setFechar={setFechar}
+              fechar={fechar}
+              darkBlue
+            >
+              <TextField
+                id="outlined-basic"
+                label="Name group"
+                type="text"
+                variant="outlined"
+                sx={{ marginTop: 5 }}
+                fullWidth
+                onChange={(e) => setName(e.target.value)}
+              />
+              <TextField
+                id="outlined-basic"
+                label="description"
+                type="text"
+                variant="outlined"
+                sx={{ marginTop: 5 }}
+                fullWidth
+                onChange={(e) => setDescription(e.target.value)}
+              />
+              <TextField
+                id="outlined-basic"
+                label="category"
+                type="text"
+                variant="outlined"
+                sx={{ marginTop: 5 }}
+                fullWidth
+                onChange={(e) => setCategory(e.target.value)}
+              />
+            </ModalDialog>
+            <button onClick={() => setShowAllGroups(!showAllGroups)}>
+              {showAllGroups
+                ? "Mostrar meus grupos"
+                : "Mostrar todos os grupos"}
+            </button>
+          </div>
+          <div>
+
+          <TextField
+                id="outlined-basic"
+                label="Pesquisar grupos"
+                value={search}
+                type="search"
+                variant="outlined"
+                sx={{ marginTop: 5 }}
+                fullWidth
+                onChange={(evt) => setSearch(evt.target.value)}
+              />
+          </div>
+              {/* <TextField id="standard-basic" type="search" label="Standard" variant="standard" /> */}
         </div>
       )}
 
       {showAllGroups ? (
-        <div className="containerPesquisa" >
+        <div className="containerPesquisa">
           <InfiniteScroll
-            
-            dataLength={
-              groups.results.length
-            }
+            dataLength={groups?.results.length}
             next={() => {
               getNextPage();
               console.log("carregou mais");
@@ -136,19 +167,18 @@ const ListGroups = () => {
             height={400}
             hasMore={show}
             loader={<CircularProgress />}
-            
+            className="scrollInfinite"
           >
             {!!search ? (
               <>
                 {groups.results
                   .filter((ele) =>
-                    ele.name
-                      .toLocaleLowerCase()
-                      .includes(search.trim().toLocaleLowerCase())
+                    ele.name.toLocaleLowerCase().includes(search.trim().toLocaleLowerCase()) ||
+                    ele.category.toLocaleLowerCase().includes(search.trim().toLocaleLowerCase())
                   )
                   .map((ele, ind) => (
                     <CardGroups
-                      props={ele}
+                      group={ele}
                       updateGroup={updateGroup}
                       key={ind}
                     />
@@ -164,7 +194,7 @@ const ListGroups = () => {
           </InfiniteScroll>
         </div>
       ) : (
-        <ul>
+        <ul className="meusGrupos">
           {!!search ? (
             <>
               {myGroups

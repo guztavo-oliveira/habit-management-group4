@@ -5,13 +5,17 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+ 
 }
-
+body::-webkit-scrollbar-thumb {
+  background-color: blue;    /* color of the scroll thumb */
+  border-radius: 20px;       /* roundness of the scroll thumb */
+  border: 3px solid orange;  /* creates padding around scroll thumb */
+}
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
-<<<<<<< HEAD
 
 @font-face {
   font-family: titleFont;
@@ -24,5 +28,3 @@ code {
   font-family: infoFont;
   src: url("./assets/fonts/Comfortaa-VariableFont_wght.ttf");
 }
-=======
->>>>>>> 8d0e6d42607e3f98fe732abd06cf8419376ed4ed

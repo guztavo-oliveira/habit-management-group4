@@ -62,7 +62,6 @@ const Dashboard = () => {
         </ContainerHabits>
       ) : (
         <ContainerGroups>
-          <h1>Groups</h1>
           <ListGroups />
         </ContainerGroups>
       )}
