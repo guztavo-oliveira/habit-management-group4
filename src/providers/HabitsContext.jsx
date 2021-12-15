@@ -54,6 +54,7 @@ const HabitsProvider = ({ children }) => {
         console.log(response.data);
         console.log("completed");
         getHabits();
+        return true
       })
       .catch((_) => console.log("error"));
   };
