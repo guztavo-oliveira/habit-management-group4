@@ -83,10 +83,6 @@ const EditGroup = ({ groupid, updateGroup }) => {
 
 const CardGroups = ({ group, updateGroup, setAlvo }) => {
   const { id, tokenBearer, refresh } = useAuth();
-<<<<<<< HEAD
-=======
-
->>>>>>> d33a4dd560932f6b2e456ee4171faf26454978a3
   const { myGroups } = useGroup();
 
   const subscribe = () => {
