@@ -3,7 +3,7 @@ import styled from "styled-components";
 import groupIcon from '../../assets/images/grupo-icone.png'
 
 export const Container = styled.div`
-  margin: 15px 0;
+  margin-bottom:15px;
   padding: 10px;
   display: flex;
   justify-content: space-between;
