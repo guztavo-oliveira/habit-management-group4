@@ -1,8 +1,9 @@
+import { Box } from "@material-ui/core";
 import styled from "styled-components";
 import groupIcon from '../../assets/images/grupo-icone.png'
 
 export const Container = styled.div`
-  margin: 15px 0;
+  margin-bottom:15px;
   padding: 10px;
   display: flex;
   justify-content: space-between;
@@ -67,6 +68,7 @@ export const Content = styled.div`
   }
 `;
 export const ButtonGroup = styled.button`
+
   border: none ;
   align-self: flex-end ;
   height: 40px ;
@@ -79,3 +81,15 @@ export const ButtonGroup = styled.button`
     cursor: pointer;
   ]
   `
+
+  border: none;
+  align-self: flex-end;
+  height: 40px;
+`;
+
+export const ListsContainer = styled(Box)`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 90vh;
+`;
