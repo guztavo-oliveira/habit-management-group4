@@ -91,7 +91,7 @@ const Login = () => {
               error={!!errors.password}
               type="password"
             />
-            <Button>Entrar</Button>
+            <Button darkBlue>Entrar</Button>
             <p>Ainda não tem conta?</p>
             <Link to="/signup">Cadastre-se</Link>
           </form>
