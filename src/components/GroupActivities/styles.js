@@ -17,13 +17,15 @@ export const EditActivForm = styled.div`
   flex-direction: "column";
   justify-content: "space-around";
   align-items: "center";
+  padding: 3vh;
 `;
 
 export const AddActivForm = styled.form`
   width: "50vh";
-  height: "40vh";
+  height: "50vh";
   display: "flex";
   flex-direction: "column";
-  justify-content: "space-around";
+  justify-content: "center";
   align-items: "center";
+  padding: 4vh;
 `;
