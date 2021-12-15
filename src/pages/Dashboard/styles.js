@@ -6,6 +6,15 @@ export const Container = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
+  justify-content: center;
+  /* @media (min-width: ${({ width }) => `${width}px`}) {
+    flex-direction: row;
+  } */
+  @media (min-width: 1024px) {
+
+    flex-direction: row;
+  }
+
 `;
 
 export const Header = styled.header`

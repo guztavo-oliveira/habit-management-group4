@@ -43,19 +43,17 @@ const ListGroups = () => {
           previous: resp.data.previous,
           results: [...groups.results, ...resp.data.results],
         });
-        console.log("setei true", groups.next);
         if (resp.data.next === null) {
           setShow(false);
-          console.log("false dentro");
         } else {
           setPode(true);
           setShow(true);
         }
+        
       });
     }
     if (groups.next === null) {
       setShow(false);
-      console.log("false dentro");
     }
   };
   const criarGrupo = () => {
@@ -77,10 +75,12 @@ const ListGroups = () => {
         setName("");
         setCategory("");
         setDescription("");
+        return true
       })
       .catch(() => {
         toast("Adcione todas a informaçoes para criar!");
         setFechar(false);
+        return false
       });
   };
   useEffect(() => {
@@ -98,7 +98,7 @@ const ListGroups = () => {
             <ModalDialog
               // ele="Criar um Grupo"
               ele={<Button darkBlue>Criar grupo</Button>}
-              msgButton={["Criar um Grupo", "Cancelar"]}
+              msgButton={{atualizar:"Criar um Grupo",cancelar: "Cancelar"}}
               callback={criarGrupo}
               setFechar={setFechar}
               fechar={fechar}
@@ -151,7 +151,7 @@ const ListGroups = () => {
               value={search}
               type="search"
               variant="outlined"
-              sx={{ marginTop: 5 }}
+              // sx={{ marginTop: 5 }}
               fullWidth
               onChange={(evt) => setSearch(evt.target.value)}
             />

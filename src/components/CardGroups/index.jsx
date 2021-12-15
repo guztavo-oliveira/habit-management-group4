@@ -11,33 +11,33 @@ import { useEffect, useState } from "react";
 import GroupActivities from "../GroupActivities";
 import GroupGoals from "../GroupGoals";
 
-const EditGroup = ({ groupid, updateGroup }) => {
+const EditGroup = ({ id, updateGroup, setFechar }) => {
   const { tokenBearer } = useAuth();
 
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
   const [name, setName] = useState("");
-  const [data, setData] = useState({});
 
-  useEffect(() => {
-    if (!!name) {
-      setData({ ...data, name: name });
-    }
-    if (!!category) {
-      setData({ ...data, category: category });
-    }
-    if (!!description) {
-      setData({ ...data, description: description });
-    }
-  }, [name, category, description]);
+
 
   const submit = () => {
+    if(!(!!name && !!category && !!description)){
+      return toast.error("Algo deu errado ao tentar atualizar o grupo...")
+    }
+    const data = {
+      name,
+      description,
+      category
+    }
     api
-      .patch(`/groups/${groupid}/`, data, tokenBearer)
+      .patch(`/groups/${id}/`, data, tokenBearer)
       .then((_) => {
         toast.success("Grupo atualizado com sucesso!");
         updateGroup();
-        setData({});
+        setName("")
+        setDescription("")
+        setCategory("")
+        setFechar("fechar")
       })
       .catch((_) =>
         toast.error("Algo deu errado ao tentar atualizar o grupo...")
@@ -76,16 +76,15 @@ const EditGroup = ({ groupid, updateGroup }) => {
         variant="filled"
       />
 
-      <Button type="submit" children="Atualizar" />
+      <Button darkBlue type="submit" children="Atualizar" />
     </form>
   );
 };
 
 const CardGroups = ({ group, updateGroup, setAlvo }) => {
   const { id, tokenBearer } = useAuth();
-  const [visibleGroup, setVisibleGroup] = useState(false);
   const { myGroups } = useGroup();
-
+  const [fechar, setFechar] = useState(false)
   const subscribe = () => {
     
     api
@@ -139,8 +138,8 @@ const CardGroups = ({ group, updateGroup, setAlvo }) => {
       <div className="containerEditar">
         {group.creator.id === id && (
           <ButtonGroup onClick={(e) => e.stopPropagation()}>
-            <ModalDialog ele={"Editar"}>
-              <EditGroup id={group.id} updateGroup={updateGroup} />
+            <ModalDialog ele={"Editar"} fechar={fechar} setFechar={setFechar}>
+              <EditGroup id={group.id} updateGroup={updateGroup} fechar={fechar} setFechar={setFechar} />
             </ModalDialog>
           </ButtonGroup>
         )}

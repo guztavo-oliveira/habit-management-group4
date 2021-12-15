@@ -63,6 +63,10 @@ export const Container = styled.div`
   .inputCriarGrupo{
     width: 95%;
   }
+  @media (min-width: 1024px) {
+    width: 550px;
+  }
+
 `;
 export const ModalCriarGrupo = styled.div`
     padding: 15px;
