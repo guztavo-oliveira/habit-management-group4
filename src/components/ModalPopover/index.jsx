@@ -28,9 +28,13 @@ export const ModalPopover = ({
     setAlvo(e.currentTarget);
   };
   useEffect(() => {
-    if (fechar === "fechar") {
+    if ( fechar === "fechar") {
       abriModal();
       setFechar(false);
+    }
+    if(callback){
+      abriModal();
+
     }
   }, [fechar]);
 
