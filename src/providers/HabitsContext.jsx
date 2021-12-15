@@ -28,8 +28,8 @@ const HabitsProvider = ({ children }) => {
     api
       .post("/habits/", data, tokenBearer)
       .then((response) => {
-        console.log(response.data);
         console.log("add");
+
         getHabits();
       })
       .catch((_) => console.log("error"));
@@ -41,6 +41,7 @@ const HabitsProvider = ({ children }) => {
       .delete(`/habits/${id}/`, tokenBearer)
       .then((response) => {
         console.log("remove");
+
         getHabits();
       })
       .catch((_) => console.log("error"));
@@ -53,6 +54,7 @@ const HabitsProvider = ({ children }) => {
       .then((response) => {
         console.log(response.data);
         console.log("completed");
+
         getHabits();
       })
       .catch((_) => console.log("error"));

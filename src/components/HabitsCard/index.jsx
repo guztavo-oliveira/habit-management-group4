@@ -2,7 +2,7 @@ import { Container, Controls } from "./styles";
 import { IoMdRemove, IoMdAdd } from "react-icons/io";
 import { CgTrash } from "react-icons/cg";
 import { ModalPopover } from "../ModalPopover";
-import { Button, TextField } from "@material-ui/core";
+import { TextField } from "@material-ui/core";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -19,14 +19,16 @@ const HabitsCard = ({ elemente }) => {
   //funções de adicionar e remover habitos vem do provider
   const { removeHabits, editHabits } = useHabits();
 
-  const [addDifficulty, setAddDifficulty] = useState("");
-  const [addFrequency, setAddFrequency] = useState("");
+  // const [inputDifficulty, setInputDifficulty] = useState("");
+  // const [inputFrequency, setInputFrequency] = useState("");
+  // const [inputTitle, setInputTitle] = useState("");
+  // const [inputCategory, setInputCategory] = useState("");
 
   const schema = yup.object().shape({
     title: yup.string().required("Required field"),
     category: yup.string().required("Required field"),
-    // difficulty: yup.string().required("Required field"),
-    // frequency: yup.string().required("Required field"),
+    difficulty: yup.string().required("Required field"),
+    frequency: yup.string().required("Required field"),
   });
 
   const {
@@ -40,7 +42,12 @@ const HabitsCard = ({ elemente }) => {
 
   //fucao de editar o habito precisa do id do habito
   const editFunc = (data) => {
+    console.log(data);
     editHabits(id, data);
+    // setInputDifficulty("");
+    // setInputFrequency("");
+    // setInputTitle("");
+    // setInputCategory("");
     reset();
   };
 
@@ -66,6 +73,8 @@ const HabitsCard = ({ elemente }) => {
     }
   };
 
+  const [modalStatus, setModalStatus] = useState(false);
+
   return (
     <Container>
       <div className="info">
@@ -73,11 +82,23 @@ const HabitsCard = ({ elemente }) => {
         <h4>Category: {category}</h4>
         <h4>Frequency: {frequency}</h4>
       </div>
-
+      ico type="submit"
       <div className="edit">
-        <ModalPopover ele={"editar"}>
+        <ModalPopover
+          icon={"Editar"}
+          msgButton={{
+            atualizar: "Atualizar",
+            cancelar: "Cancelar",
+          }}
+          fechar={modalStatus}
+          setFechar={setModalStatus}
+          callback={handleSubmit(editFunc)}
+          classe="editHabitModal"
+          darkBlue
+        >
+          {/* <ModalPopover ele={"editar"}> */}
           <h3>Register New Habits</h3>
-          <form onSubmit={handleSubmit(editFunc)}>
+          <form>
             <TextField
               id="outlined-basic"
               label="Title"
@@ -125,16 +146,16 @@ const HabitsCard = ({ elemente }) => {
             <SelectInput
               label={"Difficulties"}
               options={Difficulties}
-              onchange={setAddDifficulty}
-              value={addDifficulty}
+              name="difficulty"
+              onchange={(e) => e.target.value}
             />
             <SelectInput
               label={"Frequency"}
               options={Frequency}
-              onchange={setAddFrequency}
-              value={addFrequency}
+              name="frequency"
+              register={register}
             />
-            <Button type="submit">Editar</Button>
+            {/* <Button type="submit">Editar</Button> */}
           </form>
         </ModalPopover>
         <CgTrash onClick={() => removeHabits(id)} />

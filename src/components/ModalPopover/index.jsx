@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Container, PopoverStyled } from "./styles.js";
 import Button from "../Button";
 
@@ -10,25 +10,21 @@ export const ModalPopover = ({
   icon,
   callback,
   classe,
-  fechar = true,
-  setFechar, //teste
+  fechar = true, //teste
   ...rest
 }) => {
   const [open, setOpen] = useState(false);
   const [alvo, setAlvo] = useState("");
   const abriModal = () => {
     setOpen(!open);
+    console.log(open);
   };
   const selecionado = (e) => {
     setAlvo(e.currentTarget);
   };
   useEffect(() => {
-    if (fechar === "fechar") {
-      abriModal();
-      setFechar(false);
-    }
+    fechar === "fechar" && abriModal();
   }, [fechar]);
-
   return (
     <Container>
       <div
@@ -60,12 +56,12 @@ export const ModalPopover = ({
                   callback();
                 }}
               >
-                {msgButton.atualizar}
+                {msgButton[0]}
               </Button>
 
-              {msgButton.cancelar && (
+              {msgButton.includes("Cancelar") && (
                 <Button red onClick={abriModal}>
-                  {msgButton.cancelar}
+                  {msgButton.find((e) => e.includes("Cancelar"))}
                 </Button>
               )}
             </div>

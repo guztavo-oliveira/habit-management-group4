@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 
-import { ModalDialog } from "../ModalDialog";
+// import { ModalDialog } from "../ModalDialog";
 import { TextField } from "@material-ui/core";
 import HabitsCard from "../HabitsCard";
 
@@ -15,8 +15,8 @@ import { useHabits } from "../../providers/HabitsContext";
 import { Difficulties, Frequency } from "../../utils";
 import { useState } from "react";
 import SelectInput from "../SelectInput";
-import { FaPlusSquare } from "react-icons/fa";
 import Button from "../Button";
+import { ModalPopover } from "../ModalPopover";
 
 const Habits = () => {
   const [difficulty, setDifficulty] = useState("");
@@ -66,7 +66,7 @@ const Habits = () => {
   return (
     <Container>
       <ModalContainer>
-        <ModalDialog
+        <ModalPopover
           ele={
             <div>
               <h2>Habits</h2>
@@ -121,21 +121,20 @@ const Habits = () => {
               error={!!errors.frequency}
             /> */}
             <SelectInput
-              label={"Difficulties"}
+              label={"Frequency"}
+              options={Frequency}
+              name="frequency"
+              register={register}
+            />
+            <SelectInput
+              label={"Difficulties"} //
               options={Difficulties}
               onchange={setDifficulty}
               value={difficulty}
             />
-            <SelectInput
-              label={"Frequency"}
-              options={Frequency}
-              onchange={setFrequency}
-              value={frequency}
-            />
-
             <Button type="submit">Add Habits</Button>
           </form>
-        </ModalDialog>
+        </ModalPopover>
       </ModalContainer>
 
       <Contente>

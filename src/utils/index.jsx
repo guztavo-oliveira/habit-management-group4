@@ -2,8 +2,8 @@ export const Difficulties = [
   { name: "none", value: "" },
   { name: "easy", value: "easy" },
   { name: "medium", value: "medium" },
-  { name: "very", value: "very" },
   { name: "hard", value: "hard" },
+  { name: "very hard", value: "very hard" },
 ];
 
 export const Frequency = [

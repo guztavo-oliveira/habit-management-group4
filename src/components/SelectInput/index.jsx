@@ -5,7 +5,6 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
 const SelectInput = ({ label, options, onchange, value }) => {
-  console.log(options, label, onchange, value);
   const handleChange = (event) => {
     console.log(event.target.value);
     onchange(event.target.value);

@@ -7,6 +7,13 @@ export const PopoverStyled = styled(Popover)`
   .MuiPopover-paper {
     border-radius: 10px 10px 0 0;
   }
+
+  h3 {
+    font-family: "Nova round";
+    font-size: 20px;
+    margin-left: 5px;
+  }
+
   .editUserModal {
     display: flex;
     flex-direction: column;
@@ -33,12 +40,6 @@ export const PopoverStyled = styled(Popover)`
       background-color: var(--dark-blue);
       margin-bottom: 10px;
       width: 100%;
-
-      h3 {
-        font-family: "Nova round";
-        font-size: 20px;
-        margin-left: 5px;
-      }
     }
 
     .edit {
@@ -46,6 +47,32 @@ export const PopoverStyled = styled(Popover)`
       flex-direction: column;
       gap: 20px;
       margin: 20px;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 20px;
+    }
+  }
+
+  .editHabitModal {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    color: var(--white);
+    margin-bottom: 10px;
+
+    h3 {
+      background-color: var(--dark-blue);
+      transform: translateY(-10px);
+      width: 105%;
+      line-height: 50px;
+      text-align: center;
+    }
+
+    form {
+      padding: 10px;
     }
 
     .buttons {
