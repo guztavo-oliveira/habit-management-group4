@@ -6,7 +6,14 @@ export const Container = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
+
   background-color: var(--card-background);
+
+
+  @media (min-width: ${({ width }) => `${width}px`}) {
+    flex-direction: row;
+  }
+
 `;
 
 export const Header = styled.header`

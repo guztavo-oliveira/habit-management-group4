@@ -47,7 +47,7 @@ const Dashboard = () => {
   const [fechar, setFechar] = useState(false);
 
   const submit = () => {
-    if (newUser === "" || newEmail === "") {
+    if (!!newUser || !!newEmail) {
       return toast.error("Preencha todos os campos");
     }
     const data = {
@@ -69,8 +69,35 @@ const Dashboard = () => {
 
   //////////////////////////////////////////////////////////
 
+  function useWindowSize() {
+    const [size, setSize] = useState([0, 0]);
+    useLayoutEffect(() => {
+      function updateSize() {
+        setSize([window.innerWidth, window.innerHeight]);
+      }
+      window.addEventListener("resize", updateSize);
+      updateSize();
+      return () => window.removeEventListener("resize", updateSize);
+    }, []);
+    return size;
+  }
+
+  function ShowWindowDimensions(props) {
+    return useWindowSize();
+  }
+
+  const [width] = ShowWindowDimensions();
+  const resize = 800;
+
   return (
-    <Container>
+    <>
+      {width >= resize ? (
+        <Container width={resize}>
+          <Habits />
+          <ListGroups />
+        </Container>
+      ) : (
+           <Container>
       {(choose.includes("home") && (
         <ContainerHabits>
           <h1>Hábitos</h1>
@@ -166,6 +193,8 @@ const Dashboard = () => {
         </div>
       </MenuBar>
     </Container>
+      )}
+    </>
   );
 };
 export default Dashboard;
