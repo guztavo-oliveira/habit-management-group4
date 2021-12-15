@@ -49,7 +49,7 @@ const Dashboard = () => {
   const [fechar, setFechar] = useState(false);
 
   const submit = () => {
-    if (newUser === "" || newEmail === "") {
+    if (!!newUser || !!newEmail) {
       return toast.error("Preencha todos os campos");
     }
     const data = {
