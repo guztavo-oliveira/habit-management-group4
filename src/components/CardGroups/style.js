@@ -81,6 +81,8 @@ export const Content = styled.div`
   }
 `;
 export const ButtonGroup = styled.button`
+
+  border: none ;
   align-self: flex-end ;
   height: 40px ;
   font-size: 16px ;
@@ -105,4 +107,3 @@ export const ListsContainer = styled(Box)`
   width: 100%;
   height: 90vh;
 `;
-
