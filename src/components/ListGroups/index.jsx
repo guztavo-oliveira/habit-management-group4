@@ -121,11 +121,12 @@ const ListGroups = () => {
       ) : (
         <div className="headerPesquisaGroups">
           <div className="containerCriarGrupo">
-            <h1>{showAllGroups ? "Buscando novos grupos" : "Seus grupos"}</h1>
+            <h2>{showAllGroups ? "Buscando novos grupos" : "Seus grupos"}</h2>
             <ModalDialog
               ele={<Button darkBlue>Criar grupo</Button>}
               // msgButton={{ atualizar: "Criar um Grupo", cancelar: "Cancelar" }}
               // callback={criarGrupo}
+              // style={{overflow:"hidden"}}
               setFechar={setFechar}
               fechar={fechar}
               darkBlue
@@ -200,10 +201,12 @@ const ListGroups = () => {
             height={500}
             hasMore={show}
             loader={<CircularProgress />}
-            className="scrollInfinite"
+            style={{overflowx:"hidden"}}
           >
+            <div className="containerCardGroups">
+          
             {!!search ? (
-              <>
+                <>
                 {groups.results.filter(
                   (ele) =>
                     ele.name
@@ -241,6 +244,7 @@ const ListGroups = () => {
                 ))}
               </>
             )}
+             </div>
           </InfiniteScroll>
         </div>
       ) : (
