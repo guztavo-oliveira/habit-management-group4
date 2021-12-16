@@ -11,7 +11,6 @@ import api from "../../services/api";
 import { ModalDialog } from "../ModalDialog";
 import { TextField } from "@mui/material";
 import Button from "../Button";
-import { FiUser } from "react-icons/fi";
 import { toast } from "react-toastify";
 import { useGroup } from "../../providers/JsonGroups";
 import { useEffect, useState } from "react";
@@ -99,7 +98,9 @@ const CardGroups = ({ group, updateGroup, setAlvo }) => {
   const { categoryImages } = useCategoryOptions();
   const groupIcon = categoryImages.find((item) => item.name === group.category);
 
-  const subscribe = () => {
+  const subscribe = (e) => {
+    e.stopPropagation();
+
     api
       .post(`/groups/${group.id}/subscribe/`, {}, tokenBearer)
       .then(() => {
@@ -126,37 +127,17 @@ const CardGroups = ({ group, updateGroup, setAlvo }) => {
     <Container
       groupIcon={!!groupIcon ? groupIcon.image : groupIconDefault}
       onClick={() => {
-        console.log("aqui", myGroups);
+        console.log("entrei na funcao click");
         if (myGroups.some((item) => item.name === group.name)) {
+          console.log("entrei no card");
           setAlvo(group);
         } else {
           toast.error("É necessário entrar no grupo para abrir a page...");
         }
       }}
     >
-      <div className="container">
+      <div className="image-button">
         <div className="group-icon" />
-        <Content>
-          <div></div>
-
-          <h2>{group.name} </h2>
-          <p>
-            <span>Categoria: </span>
-            {group.category}
-          </p>
-
-          <p>
-            <span> Criador:</span> {group.creator.username}
-          </p>
-          <p>
-            <span>Descrição:</span> {group.description}
-          </p>
-          <p>
-            <span>Integrantes: </span> {group.users_on_group.length} membros
-          </p>
-        </Content>
-      </div>
-      <div className="containerEditar">
         <ButtonGroup
           onClick={
             myGroups.some((item) => item.id === group.id)
@@ -169,6 +150,24 @@ const CardGroups = ({ group, updateGroup, setAlvo }) => {
             : "Entrar no grupo"}
         </ButtonGroup>
       </div>
+
+      <Content>
+        <h2>{group.name} </h2>
+        <p>
+          <span>Categoria: </span>
+          {group.category}
+        </p>
+
+        <p>
+          <span> Criador:</span> {group.creator.username}
+        </p>
+        <p>
+          <span>Descrição:</span> {group.description}
+        </p>
+        <p>
+          <span>Integrantes: </span> {group.users_on_group.length} membros
+        </p>
+      </Content>
     </Container>
   );
 };
