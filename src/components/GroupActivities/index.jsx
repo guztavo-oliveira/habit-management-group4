@@ -56,10 +56,10 @@ const GroupActivities = ({ groupId, activities }) => {
 
     api
       .patch(`activities/${activId}/`, newData, tokenBearer)
-      .then((response) => {
+      .then((_) => {
         toast.success("A atividade foi modificada com sucesso.");
-
         refresh === true ? setRefresh(false) : setRefresh(true);
+        
       })
       .catch((err) => {
         console.log(err);
@@ -79,7 +79,6 @@ const GroupActivities = ({ groupId, activities }) => {
           darkBlue
         >
           <AddActivForm
-          //onSubmit={handleSubmit(addActiv)}
           >
             <span>Alterar título</span>
             <Controller
@@ -113,14 +112,15 @@ const GroupActivities = ({ groupId, activities }) => {
               control={control}
               defaultValue=""
             />
-            {/*<Button variant="contained" type="submit">
-              ADICIONAR
-            </Button>*/}
+
           </AddActivForm>
         </ModalPopover>
       </AtvHeader>
       <CardsList>
         {activities.map((item, index) => {
+          const editRequest = () =>{
+            return editActiv(item.id, userInput)
+          }
           return (
             <Card key={index}>
               <CardInfo>
@@ -133,7 +133,7 @@ const GroupActivities = ({ groupId, activities }) => {
               </CardInfo>
               <CardButtons>
                 <ModalPopover
-                  callback={editActiv(item.id, userInput)}
+                  callback={editRequest}
                   msgButton={{ atualizar: "atualizar", cancelar: "cancelar" }}
                   setFechar={setClose}
                   fechar={close}
@@ -158,13 +158,7 @@ const GroupActivities = ({ groupId, activities }) => {
                       value={userInput}
                       onChange={(e) => setUserInput(e.currentTarget.value)}
                     />
-                    {/*<Button
-                      variant="contained"
-                      type="submit"
-                      onClick={() => editActiv(item.id, userInput)}
-                    >
-                      SALVAR
-                    </Button>*/}
+
                   </EditActivForm>
                 </ModalPopover>
                 <Button onClick={() => deleteActiv(item.id)}>
