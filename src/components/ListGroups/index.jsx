@@ -203,10 +203,13 @@ const ListGroups = () => {
             loader={<CircularProgress />}
             // className=""
             style={{overflowx:"hidden"}}
+            // style={{}}
             id="scrollInfinite"
           >
+            <div className="containerCardGroups">
+          
             {!!search ? (
-              <>
+                <>
                 {groups.results.filter(
                   (ele) =>
                     ele.name
@@ -244,6 +247,7 @@ const ListGroups = () => {
                 ))}
               </>
             )}
+             </div>
           </InfiniteScroll>
         </div>
       ) : (

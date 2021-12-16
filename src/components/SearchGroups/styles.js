@@ -3,8 +3,10 @@ import styled from "styled-components";
 export const ContainerBuscar = styled.section`
   width: 95%;
   overflow-x: hidden;
+  
   .scrollInfiniteGroups {
     margin-top: 25px;
+    overflow: hidden;
   }
   h2{
     font-family: "Nova Round", cursive;
@@ -20,9 +22,12 @@ export const ContainerBuscar = styled.section`
     justify-content: flex-start;
     margin-top: 25px;
   }
+  .infinite-scroll-component #scrollInfinite{
+    overflow-x: hidden ;
+  }
   
-  .infinite-scroll-component__outerdiv{
+  /* .infinite-scroll-component__outerdiv{
       width: 450px;
-    }
+    } */
  
 `;

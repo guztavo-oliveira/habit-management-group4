@@ -70,6 +70,7 @@ const SearchGroups = () => {
             // className="scrollInfinite"
             dataLength={groups.results.length}
             // style={{overflow:"hidden"}}
+            // style={{overflowy:"auto"}}
             next={() => {
               getNextPage();
               console.log("carregou mais");

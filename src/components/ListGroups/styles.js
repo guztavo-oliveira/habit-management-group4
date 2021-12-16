@@ -8,7 +8,9 @@ export const Container = styled.div`
   align-items: center;
   justify-content: center;
   overflow-x: hidden;
-
+  .containerCardGroups{
+    width: 450px;
+  }
   background: var(--background);
   margin-bottom: 90px;
   h2{
@@ -30,6 +32,7 @@ export const Container = styled.div`
   }
   .containerPesquisa {
     width: 100%;
+    overflow: hidden;
   }
   .headerPesquisaGroups {
     display: flex;
