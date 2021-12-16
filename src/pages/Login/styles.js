@@ -20,14 +20,10 @@ export const Container = styled.div`
 const appearFromTop = keyframes`
 
   from {
-    transform: translateY(-100%);
-   
+    transform: translateY(-100%);   
   }
   to {
     transform: translateY(0);
-    
-  }
-
 `;
 
 export const Bar = styled.div`
@@ -46,6 +42,7 @@ const logoFromRight = keyframes`
   from {
     transform: translate(100%, -50%);
     opacity: 0;
+    
   }
   to {
     transform: translate(-50%,-50%);

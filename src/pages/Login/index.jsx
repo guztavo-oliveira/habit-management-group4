@@ -54,16 +54,13 @@ const Login = () => {
   
   };
 
-
-
+ 
   const handleSignIn = (data) => {
-
     api
       .post("/sessions/", data)
       .then((response) => {
         addData(response);
-        
-      })
+          })
       .catch((err) => console.log("invalid data"));
   };
 
