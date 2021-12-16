@@ -228,6 +228,7 @@ const ListGroups = () => {
                         group={ele}
                         updateGroup={updateGroup}
                         key={ind}
+                        setAlvo={setAlvo}
                       />
                     ))
                 ) : (
@@ -237,7 +238,7 @@ const ListGroups = () => {
             ) : (
               <>
                 {groups.results.map((ele, ind) => (
-                  <CardGroups group={ele} updateGroup={updateGroup} key={ind} />
+                  <CardGroups  group={ele} setAlvo={setAlvo} updateGroup={updateGroup} key={ind} />
                 ))}
               </>
             )}

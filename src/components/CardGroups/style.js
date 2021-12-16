@@ -153,6 +153,48 @@ export const ContainerOneGroup = styled.section`
     border-radius: 10px;
   }
 `;
+export const Content = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: flex-end;
+  height: 100%;
+  box-sizing: content-box;
+  width: 90%;
+  
+  h2 {
+    width:80%;
+    font-family: "infoFont", sans-serif;
+    color: var(--dark-blue);
+    font-size: 26px;
+    margin: 10px;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  p {
+    margin: 0;
+    color: var(--gray);
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+  }
+  span {
+    margin: 0 5px;
+    color: var(--light-blue);
+    font-size: 16px;
+    font-family: "infoFont", sans-serif;
+  }
+  @media (min-width: 1024px) {
+    min-width: 100%;
+  }
+`;
 
 export const ContainerEditarGrupo = styled.div`
   border-radius: 15px;

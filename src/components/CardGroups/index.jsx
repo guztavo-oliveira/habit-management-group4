@@ -1,4 +1,5 @@
 import {
+  Content,
   Container,
   ButtonGroup,
   ListsContainer,
@@ -106,10 +107,10 @@ const CardGroups = ({ group, updateGroup, setAlvo }) => {
       .post(`/groups/${group.id}/subscribe/`, {}, tokenBearer)
       .then(() => {
         updateGroup();
-        toast("Você se increveu no grupo");
+        toast.success("Você se increveu no grupo");
       })
       .catch((err) =>
-        toast("Algo deu errado ao tentar se increver no grupo...")
+        toast.error("Algo deu errado ao tentar se increver no grupo...")
       );
   };
 
@@ -119,9 +120,9 @@ const CardGroups = ({ group, updateGroup, setAlvo }) => {
       .delete(`/groups/${group.id}/unsubscribe/`, tokenBearer)
       .then(() => {
         updateGroup();
-        toast("Você saiu do grupo!");
+        toast.success("Você saiu do grupo!");
       })
-      .catch((err) => toast("Algo deu errado ao tentar sair do grupo..."));
+      .catch((err) => toast.error("Algo deu errado ao tentar sair do grupo..."));
   };
 
   return (
@@ -152,7 +153,7 @@ const CardGroups = ({ group, updateGroup, setAlvo }) => {
       
 
    
-        {/* <Content> */}
+        <Content>
          
 
           <h2>{group.name} </h2>
@@ -170,7 +171,7 @@ const CardGroups = ({ group, updateGroup, setAlvo }) => {
           <p>
             <span>Integrantes: </span> {group.users_on_group.length} membros
           </p>
-        {/* </Content> */}
+        </Content>
      
     </Container>
   );
