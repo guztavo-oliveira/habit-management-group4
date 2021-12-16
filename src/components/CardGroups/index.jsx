@@ -96,9 +96,8 @@ const EditGroup = ({ groupid, updateGroup, setFechar, setAlvo }) => {
 const CardGroups = ({ group, updateGroup, setAlvo }) => {
   const { id, tokenBearer, refresh } = useAuth();
   const { myGroups } = useGroup();
-  const {categoryImages} = useCategoryOptions();
-  const groupIcon = categoryImages.find((item)=>item.name === group.category)
-
+  const { categoryImages } = useCategoryOptions();
+  const groupIcon = categoryImages.find((item) => item.name === group.category);
 
   const subscribe = () => {
     api
@@ -127,18 +126,33 @@ const CardGroups = ({ group, updateGroup, setAlvo }) => {
     <Container
       groupIcon={!!groupIcon ? groupIcon.image : groupIconDefault}
       onClick={() => {
-        if(myGroups.some((item) => item.name === group.name )){
-         setAlvo(group); 
-        }else{
-          toast.error('É necessário entrar no grupo para abrir a page...')
+        if (myGroups.some((item) => item.name === group.name)) {
+          setAlvo(group);
+        } else {
+          toast.error("É necessário entrar no grupo para abrir a page...");
         }
-        
       }}
     >
-      <div className="container">
+      <div className='image-button'>
         <div className="group-icon" />
+        <ButtonGroup
+        className='button'
+          onClick={
+            myGroups.some((item) => item.id === group.id)
+              ? unsubscribe
+              : subscribe
+          }
+        >
+          {myGroups.some((item) => item.id === group.id)
+            ? "Sair do grupo"
+            : "Entrar no grupo"}
+        </ButtonGroup>
+      </div>
+      
+
+   
         <Content>
-          <div></div>
+      
 
           <h2>{group.name} </h2>
           <p>
@@ -156,20 +170,7 @@ const CardGroups = ({ group, updateGroup, setAlvo }) => {
             <span>Integrantes: </span> {group.users_on_group.length} membros
           </p>
         </Content>
-      </div>
-      <div className="containerEditar">
-        <ButtonGroup
-          onClick={
-            myGroups.some((item) => item.id === group.id)
-              ? unsubscribe
-              : subscribe
-          }
-        >
-          {myGroups.some((item) => item.id === group.id)
-            ? "Sair do grupo"
-            : "Entrar no grupo"}
-        </ButtonGroup>
-      </div>
+      
     </Container>
   );
 };
@@ -182,8 +183,8 @@ export const RenderOneGroup = ({ group, setAlvo }) => {
   const [activities, setActivities] = useState([]);
   const [fechar, setFechar] = useState(false);
 
-  const {categoryImages} = useCategoryOptions();
-  const groupIcon = categoryImages.find((item)=>item.name === group.category)
+  const { categoryImages } = useCategoryOptions();
+  const groupIcon = categoryImages.find((item) => item.name === group.category);
 
   useEffect(() => {
     api
@@ -234,14 +235,14 @@ export const RenderOneGroup = ({ group, setAlvo }) => {
   console.log(openGoals);
   console.log(activities);
   return (
-    <ContainerOneGroup groupIcon={!!groupIcon ? groupIcon.image : groupIconDefault }>
-        <div className="group-icon" />
-      
+    <ContainerOneGroup
+      groupIcon={!!groupIcon ? groupIcon.image : groupIconDefault}
+    >
+      <div className="group-icon" />
+
       <div className="container">
-      
         <div className="containerTituloEditar">
           <span>
-          
             <h2>{group.name} </h2>
           </span>
 

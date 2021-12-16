@@ -3,25 +3,38 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   margin-bottom: 15px;
-  padding: 10px;
+  padding: 20px;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
-  min-height: 150px;
+  min-height: 250px;
   box-sizing:border-box;
-  min-width:290px;
+  min-width:287px;
   width:97%;
   background: var(--card-background);
   border: 1px var(--light-blue) solid;
   border-radius: 10px;
   justify-content: space-between;
   box-shadow: 1px 3px 10px var(--gray);
-
   cursor: pointer;
 
+.image-button{
+  width: 100%;
+display:flex;
+flex-direction:row;
+justify-content:space-around;
+
+.button{
+  align-self:center;
+
+}
+
+}
+
   .group-icon {
-    width: 50px;
-    height: 50px;
+    background-color:red ;
+    width: 70px;
+    height: 70px;
     background-image: url(${props => props.groupIcon});
     background-size: contain;
     background-repeat: no-repeat;
@@ -29,18 +42,9 @@ export const Container = styled.div`
     background-color: var(--neon-blue);
     border-radius: 10px;
   }
-  .container {
-    display: flex;
-    align-items: center;
-  }
 
-  .containerEditar {
-    display: flex;
-    align-items: center;
-    height: 130px;
-    flex-direction: column;
-    justify-content: space-between;
-  }
+
+
   
 `;
 
@@ -51,12 +55,11 @@ export const Content = styled.div`
   justify-content: flex-end;
   height: 100%;
   box-sizing: content-box;
-  /* width: 270px; */
-  width: 140px;
+  width: 90%;
 
   
   h2 {
-    width: 80%;
+    width:80%;
     font-family: "infoFont", sans-serif;
     color: var(--dark-blue);
     font-size: 26px;
@@ -68,7 +71,6 @@ export const Content = styled.div`
     text-overflow: ellipsis;
   }
   p {
-    width: 80%;
 
     margin: 0;
     color: var(--gray);
@@ -96,6 +98,7 @@ export const Content = styled.div`
 export const ButtonGroup = styled.button`
   border: none;
   align-self: flex-end;
+  justify-content: flex-end;
   height: auto;
   width: 80px;
   font-size: 16px;
