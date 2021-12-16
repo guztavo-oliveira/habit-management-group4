@@ -11,7 +11,12 @@ import { ModalDialog } from "../ModalDialog";
 import { TextField } from "@mui/material";
 import { useAuth } from "../../providers/AuthContext";
 import Button from "../Button";
+import SelectInput from "../SelectInput";
+import { useCategoryOptions } from "../../providers/CategoryOptions";
+
 const ListGroups = () => {
+  const { categoryOptions } = useCategoryOptions();
+
   const { myGroups, updateGroup } = useGroup();
   const { tokenBearer } = useAuth();
   const [fechar, setFechar] = useState(false);
@@ -88,7 +93,6 @@ const ListGroups = () => {
       getNextPage();
     }
   }, [groups, search, pode]);
-
   return (
     <Container>
       {!!!alvo && (
@@ -126,22 +130,17 @@ const ListGroups = () => {
                   fullWidth
                   onChange={(e) => setDescription(e.target.value)}
                 />
-                <TextField
-                  className="inputCriarGrupo"
-                  id="outlined-basic"
+
+                <SelectInput
                   label="category"
-                  type="text"
-                  variant="outlined"
-                  sx={{ marginTop: 5 }}
-                  fullWidth
-                  onChange={(e) => setCategory(e.target.value)}
+                  options={categoryOptions}
+                  onchange={setCategory}
+                  value={category}
                 />
               </ModalCriarGrupo>
             </ModalDialog>
-            <Button green  onClick={() => setShowAllGroups(!showAllGroups)}>
-              {showAllGroups
-                ? "Meus grupos"
-                : "Buscar mais grupos"}
+            <Button green onClick={() => setShowAllGroups(!showAllGroups)}>
+              {showAllGroups ? "Meus grupos" : "Buscar mais grupos"}
             </Button>
           </div>
           <div>

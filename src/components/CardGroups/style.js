@@ -1,6 +1,6 @@
 import { Box } from "@material-ui/core";
 import styled from "styled-components";
-import groupIcon from "../../assets/images/grupo-icone.png";
+
 
 export const Container = styled.div`
   margin-bottom: 15px;
@@ -24,7 +24,7 @@ export const Container = styled.div`
   .group-icon {
     width: 100px;
     height: 100px;
-    background-image: url(${groupIcon});
+    background-image: url(${props => props.groupIcon});
     background-size: contain;
     background-repeat: no-repeat;
     color: var(--dark-blue);
@@ -104,3 +104,17 @@ export const ListsContainer = styled(Box)`
   width: 100%;
   height: 90vh;
 `;
+
+export const GroupProfileContainer = styled.div`
+
+.group-icon {
+    width: 100px;
+    height: 100px;
+    background-image: url(${props => props.groupIcon});
+    background-size: contain;
+    background-repeat: no-repeat;
+    color: var(--dark-blue);
+    background-color: var(--neon-blue);
+    border-radius: 10px;
+  }
+`
