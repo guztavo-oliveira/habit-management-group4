@@ -79,7 +79,6 @@ const GroupActivities = ({ groupId, activities }) => {
           darkBlue
         >
           <AddActivForm
-          //onSubmit={handleSubmit(addActiv)}
           >
             <span>Alterar título</span>
             <Controller
@@ -113,9 +112,7 @@ const GroupActivities = ({ groupId, activities }) => {
               control={control}
               defaultValue=""
             />
-            {/*<Button variant="contained" type="submit">
-              ADICIONAR
-            </Button>*/}
+
           </AddActivForm>
         </ModalPopover>
       </AtvHeader>
@@ -161,13 +158,7 @@ const GroupActivities = ({ groupId, activities }) => {
                       value={userInput}
                       onChange={(e) => setUserInput(e.currentTarget.value)}
                     />
-                    {/*<Button
-                      variant="contained"
-                      type="submit"
-                      onClick={() => editActiv(item.id, userInput)}
-                    >
-                      SALVAR
-                    </Button>*/}
+
                   </EditActivForm>
                 </ModalPopover>
                 <Button onClick={() => deleteActiv(item.id)}>
