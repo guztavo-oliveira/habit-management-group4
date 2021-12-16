@@ -45,8 +45,8 @@ export const Container = styled.div`
     flex-direction: column;
     justify-content: space-between;
   }
-    @media only screen and  (min-width:900px){
-    width:600px;
+    @media only screen and  (min-width:800px){
+    width:500px;
   } 
 `;
 
@@ -77,13 +77,17 @@ export const Content = styled.div`
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
+    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
   }
   span {
     margin: 0 5px;
     color: var(--light-blue);
     font-size: 16px;
+    font-family: "infoFont", sans-serif;
+
   }
-  @media only screen and  (min-width:900px){
+  @media only screen and  (min-width:800px){
     margin:0px 20px;
   } 
 
