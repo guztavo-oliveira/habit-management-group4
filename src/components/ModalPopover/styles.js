@@ -5,12 +5,13 @@ export const Container = styled.div``;
 
 export const PopoverStyled = styled(Popover)`
   .MuiPopover-paper {
-    border-radius: 10px 10px 0 0;
+    border-radius: 10px;
     width: 250px;
+    padding-top: 20px;
 
-    @media (min-width: 800px) {
+    /* @media (min-width: 800px) {
       border-radius: 10px;
-    }
+    } */
   }
   .userProfile {
     background-color: var(--background);
@@ -24,20 +25,39 @@ export const PopoverStyled = styled(Popover)`
     p {
       font-size: 18px;
       color: #333;
-      margin: 0 0 5px 5px;
-      padding: 5px 0;
+      display: flex;
+      gap: 10px;
     }
 
-    #exitButton {
+    .editProfile {
+      width: 100%;
+
+      div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        cursor: pointer;
+        height: 40px;
+        font-size: 18px;
+      }
+    }
+
+    .exitButton {
       display: flex;
       justify-content: center;
       align-items: center;
-      background-color: red;
+      background-color: var(--red-strong);
       cursor: pointer;
       width: 100%;
+      height: 40px;
+
       p {
-        margin: 0;
         color: var(--white);
+
+        svg {
+          font-size: 24px;
+        }
       }
     }
   }

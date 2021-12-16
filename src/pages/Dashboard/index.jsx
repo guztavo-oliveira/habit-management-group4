@@ -9,7 +9,7 @@ import {
 } from "./styles";
 import { BiUser, BiGroup } from "react-icons/bi";
 import { GoHome, GoPerson, GoSearch } from "react-icons/go";
-import { BsGear } from "react-icons/bs";
+import { MdOutlineExitToApp } from "react-icons/md";
 import { useEffect, useState, useLayoutEffect } from "react";
 import api from "../../services/api";
 import { useAuth } from "../../providers/AuthContext";
@@ -50,7 +50,7 @@ const Dashboard = () => {
   const [larguraTela] = useState(window.innerWidth);
 
   const submit = () => {
-    if (!!newUser || !!newEmail) {
+    if (!!!newUser || !!!newEmail) {
       return toast.error("Preencha todos os campos");
     }
     const data = {
@@ -149,12 +149,14 @@ const Dashboard = () => {
                   </ModalDialog>
                 </div>
                 <div
-                  id="exitButton"
+                  className="exitButton"
                   onClick={() => {
                     signOut();
                   }}
                 >
-                  <p>Sair</p>
+                  <p>
+                    Sair <MdOutlineExitToApp />
+                  </p>
                 </div>
               </ModalPopover>
             </div>
@@ -170,6 +172,9 @@ const Dashboard = () => {
         </Container>
       ) : (
         <Container>
+          <Header width={resize}>
+            <div className="logo" />
+          </Header>
           {(choose.includes("home") && (
             <ContainerHabits>
               <h1>Hábitos</h1>
@@ -253,12 +258,14 @@ const Dashboard = () => {
                     </ModalDialog>
                   </div>
                   <div
-                    id="exitButton"
+                    className="exitButton"
                     onClick={() => {
                       signOut();
                     }}
                   >
-                    <p>Sair</p>
+                    <p>
+                      Sair <MdOutlineExitToApp />
+                    </p>
                   </div>
                 </ModalPopover>
               </div>

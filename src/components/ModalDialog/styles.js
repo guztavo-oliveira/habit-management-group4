@@ -2,7 +2,7 @@ import { Dialog } from "@mui/material";
 import styled from "styled-components";
 
 export const DialogStyled = styled(Dialog)`
-  .MuiPaper-root{
+  .MuiPaper-root {
     border-radius: 10px 10px 0 0;
   }
   .MuiPopover-paper {
@@ -18,11 +18,6 @@ export const DialogStyled = styled(Dialog)`
 
     color: var(--white);
     margin-bottom: 10px;
-
-    &:first-child {
-      color: red;
-      /* background-color: var(--dark-blue); */
-    }
 
     .header {
       display: flex;

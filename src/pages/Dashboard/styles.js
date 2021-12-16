@@ -45,6 +45,7 @@ export const Header = styled.header`
   display: flex;
   align-items: center;
   padding: 0 20px;
+  transition: all ease 0.5s;
 
   @media (min-width: ${({ width }) => `${width}px`}) {
     background: rgba(196, 196, 196, 0.01);
@@ -52,6 +53,13 @@ export const Header = styled.header`
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 0 60px;
+    transition: all ease 0.5s;
+
+    .adjustDivModal {
+      height: 36px;
+      transition: all ease 0.5s;
+    }
   }
 
   .header__icon {
@@ -134,6 +142,7 @@ export const MenuBar = styled.div`
 
   .adjustDivModal {
     height: 55px;
+    transition: all ease 0.5s;
   }
 `;
 
