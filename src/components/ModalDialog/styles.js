@@ -2,6 +2,9 @@ import { Dialog } from "@mui/material";
 import styled from "styled-components";
 
 export const DialogStyled = styled(Dialog)`
+  .MuiPaper-root{
+    border-radius: 10px 10px 0 0;
+  }
   .MuiPopover-paper {
     border-radius: 10px 10px 0 0;
   }

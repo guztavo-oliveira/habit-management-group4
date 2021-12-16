@@ -1,6 +1,5 @@
-import { Box } from "@material-ui/core";
+import { Box } from "@mui/material";
 import styled from "styled-components";
-
 
 export const Container = styled.div`
   margin-bottom: 15px;
@@ -12,11 +11,15 @@ export const Container = styled.div`
   min-height: 150px;
   /* min-width: 300px;
   max-width: 600px; */
-  width:600px;
+<<<<<<< HEAD
+  width: 100%;
+=======
+  width: 600px;
+>>>>>>> 35a9b4553ecaa84abbf7b0190e44d09e72b38088
   background: var(--card-background);
   border: 1px var(--light-blue) solid;
   border-radius: 10px;
-  
+
   box-shadow: 1px 3px 10px var(--gray);
 
   cursor: pointer;
@@ -24,7 +27,7 @@ export const Container = styled.div`
   .group-icon {
     width: 100px;
     height: 100px;
-    background-image: url(${props => props.groupIcon});
+    background-image: url(${(props) => props.groupIcon});
     background-size: contain;
     background-repeat: no-repeat;
     color: var(--dark-blue);
@@ -35,6 +38,7 @@ export const Container = styled.div`
     display: flex;
     align-items: center;
   }
+
   .containerEditar {
     display: flex;
     align-items: center;
@@ -45,13 +49,13 @@ export const Container = styled.div`
 `;
 
 export const Content = styled.div`
-  margin:0px 20px;
+  margin: 0px 20px;
   display: flex;
   flex-direction: column;
   align-items: left;
   justify-content: flex-end;
   height: 100%;
-  max-width:70% ;
+  max-width: 70%;
 
   h2 {
     font-family: "logoFont", sans-serif;
@@ -79,6 +83,7 @@ export const Content = styled.div`
     font-size: 16px;
   }
 `;
+
 export const ButtonGroup = styled.button`
   border: none;
   align-self: flex-end;
@@ -96,6 +101,15 @@ export const ButtonGroup = styled.button`
   border: none;
   align-self: flex-end;
   height: 40px;
+  font-size: 16px;
+  color: var(--gray);
+  margin-right: 5px;
+  border-bottom: 1px solid var(--light-blue);
+  background-color: transparent;
+  font-family: "Nova Round", cursive;
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 export const ListsContainer = styled(Box)`
@@ -105,16 +119,67 @@ export const ListsContainer = styled(Box)`
   height: 90vh;
 `;
 
-export const GroupProfileContainer = styled.div`
+export const ContainerOneGroup = styled.section`
+  .containerEditar {
+    margin-top: 25px;
+    display: flex;
+    justify-content: space-around;
+  }
+  .containerTituloEditar {
+    display: flex;
+    justify-content: space-between;
+    span {
+      display: flex;
+      align-items: center;
+      width: 30%;
+      justify-content: space-between;
+    }
+  }
+  .informacoesGrupo {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    margin: 15px 0;
+    .info {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+`;
 
-.group-icon {
+export const ContainerEditarGrupo = styled.div`
+  border-radius: 15px;
+  h2 {
+    height: 50px;
+    background: var(--dark-blue);
+    display: flex;
+    align-items: center;
+    padding-left: 15px;
+    color: white;
+  }
+  .bodyEditarGrupo {
+    display: flex;
+    flex-direction: column;
+    height: 300px;
+    width: 280px;
+    justify-content: space-around;
+    align-content: space-between;
+    padding: 15px;
+  }
+  .containerEditarGrupoButtons {
+    display: flex;
+  }
+`;
+
+export const GroupProfileContainer = styled.div`
+  .group-icon {
     width: 100px;
     height: 100px;
-    background-image: url(${props => props.groupIcon});
+    background-image: url(${(props) => props.groupIcon});
     background-size: contain;
     background-repeat: no-repeat;
     color: var(--dark-blue);
     background-color: var(--neon-blue);
     border-radius: 10px;
   }
-`
+`;

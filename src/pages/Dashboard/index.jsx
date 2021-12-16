@@ -19,6 +19,7 @@ import { ModalDialog } from "../../components/ModalDialog";
 
 import { TextField } from "@mui/material";
 import { toast } from "react-toastify";
+import SearchGroups from "../../components/SearchGroups";
 
 const Dashboard = () => {
   const [user, setUser] = useState({});
@@ -45,6 +46,7 @@ const Dashboard = () => {
   const [newEmail, setNewEmail] = useState(user.email);
 
   const [fechar, setFechar] = useState(false);
+  const [larguraTela] = useState(window.innerWidth);
 
   const submit = () => {
     if (!!newUser || !!newEmail) {
@@ -66,7 +68,7 @@ const Dashboard = () => {
         setFechar(false);
       });
   };
-
+  console.log(larguraTela);
   //////////////////////////////////////////////////////////
 
   function useWindowSize() {
@@ -97,102 +99,103 @@ const Dashboard = () => {
           <ListGroups />
         </Container>
       ) : (
-           <Container>
-      {(choose.includes("home") && (
-        <ContainerHabits>
-          <h1>Hábitos</h1>
-          <Habits />
-        </ContainerHabits>
-      )) ||
-        (choose.includes("groups") && (
-          <ContainerGroups>
-            <h1>Groups</h1>
-            <ListGroups />
-          </ContainerGroups>
-        )) ||
-        (choose.includes("search") && console.log("inserir o component aqui"))}
+        <Container>
+          {(choose.includes("home") && (
+            <ContainerHabits>
+              <h1>Hábitos</h1>
+              <Habits />
+            </ContainerHabits>
+          )) ||
+            (choose.includes("groups") && (
+              <ContainerGroups>
+                <h1>Groups</h1>
+                <ListGroups />
+              </ContainerGroups>
+            )) ||
+            (choose.includes("search") &&
+            <SearchGroups />)}
 
-      {/*Menu inferior*/}
-      <MenuBar>
-        <div className="icons">
-          <GoHome
-            onClick={() => {
-              setChoose("home");
-            }}
-          />
-
-          <GoSearch
-            onClick={() => {
-              setChoose("search");
-            }}
-          />
-
-          <BiGroup onClick={() => setChoose("groups")} />
-
-          {/*Editar perfil de usuário e sair */}
-          <div className="adjustDivModal">
-            <ModalPopover
-              icon={<BiUser />}
-              classe="userProfile"
-              darkBlue
-              transformOrigin={{
-                vertical: "bottom",
-                horizontal: "right",
-              }}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              setFechar={setFechar}
-              fechar={fechar}
-            >
-              <p>{user.username}</p>
-              <p>{user.email}</p>
-              <div className="editProfile">
-                <ModalDialog
-                  ele={"Editar perfil"}
-                  msgButton={{
-                    atualizar: "Atualizar",
-                    cancelar: "Cancelar",
-                  }}
-                  fechar={fechar}
-                  setFechar={setFechar}
-                  callback={submit}
-                  classe="editUserModal"
-                  darkBlue
-                >
-                  <div className="header">
-                    <h3>Alterar dados do usuário</h3>
-                  </div>
-                  <div className="edit">
-                    <TextField
-                      label="Nome"
-                      variant="outlined"
-                      defaultValue={user.username}
-                      onChange={(e) => setNewUser(e.target.value)}
-                    />
-                    <TextField
-                      label="E-mail"
-                      variant="outlined"
-                      defaultValue={user.email}
-                      onChange={(e) => setNewEmail(e.target.value)}
-                    />
-                  </div>
-                </ModalDialog>
-              </div>
-              <div
-                id="exitButton"
+          {/*Menu inferior*/}
+          <MenuBar>
+            <div className="icons">
+              <GoHome
                 onClick={() => {
-                  signOut();
+                  setChoose("home");
                 }}
-              >
-                <p>Sair</p>
+              />
+
+              <GoSearch
+                onClick={() => {
+                  setChoose("search");
+                }}
+              />
+
+              <BiGroup onClick={() => setChoose("groups")} />
+
+              {/*Editar perfil de usuário e sair */}
+              <div className="adjustDivModal">
+                <ModalPopover
+                  icon={<BiUser />}
+                  classe="userProfile"
+                  darkBlue
+                  transformOrigin={{
+                    vertical: "bottom",
+                    horizontal: "right",
+                  }}
+                  anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  setFechar={setFechar}
+                  fechar={fechar}
+                >
+                  <p>{user.username}</p>
+                  <p>{user.email}</p>
+                  <div className="editProfile">
+                    <ModalDialog
+                      ele={"Editar perfil"}
+                      msgButton={{
+                        atualizar: "Atualizar",
+                        cancelar: "Cancelar",
+                      }}
+                      fechar={fechar}
+                      setFechar={setFechar}
+                      callback={submit}
+                      classe="editUserModal"
+                      darkBlue
+                    >
+                      <div className="header">
+                        <h3>Alterar dados do usuário</h3>
+                      </div>
+                      <div className="edit">
+                        <TextField
+                          label="Nome"
+                          variant="outlined"
+                          defaultValue={user.username}
+                          onChange={(e) => setNewUser(e.target.value)}
+                        />
+                        <TextField
+                          label="E-mail"
+                          variant="outlined"
+                          defaultValue={user.email}
+                          onChange={(e) => setNewEmail(e.target.value)}
+                        />
+                      </div>
+                    </ModalDialog>
+                  </div>
+                  <div
+                    id="exitButton"
+                    onClick={() => {
+                      signOut();
+                    }}
+                  >
+                    <p>Sair</p>
+                  </div>
+                </ModalPopover>
               </div>
-            </ModalPopover>
-          </div>
-        </div>
-      </MenuBar>
-    </Container>
+            </div>
+          </MenuBar>
+        </Container>
       )}
     </>
   );

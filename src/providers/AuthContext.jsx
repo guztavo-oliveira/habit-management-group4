@@ -10,7 +10,7 @@ const useAuth = () => {
 
 const AuthProvider = ({ children }) => {
   const history = useHistory();
-  console.log(history);
+  // console.log(history);
 
   const [access, setAccess] = useState(
     localStorage.getItem("@gestaodehabitos:access")
