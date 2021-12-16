@@ -3,46 +3,43 @@ import logoPreto from "../../assets/images/simbolo-preto.png";
 
 export const Container = styled.div`
   height: 100%;
+  width: 100%;
   display: flex;
   flex-flow: column;
   align-items: center;
   justify-content: center;
 
-  /* @media screen and (min-width: 800px) {
+  @media screen and (min-width: ${({ width }) => `${width}px`}) {
     flex-flow: row;
-    /* align-items: center;
+    align-items: center;
     flex-direction: column;
-    justify-content: center; */
-  } */
-/* 
-  @media (min-width: ${({ width }) => `${width}px`}) {
-    flex-direction: row;
+    justify-content: center;
   }
-
   /* @media (min-width: ${({ width }) => `${width}px`}) {
     flex-direction: row;
   } */
-  /* @media (min-width: 1024px) {
-    background-color: var(--card-background);
-  }
-  @media (min-width: ${({ width }) => `${width}px`}) {
-    flex-direction: row;
-  } */ */
 `;
 
 export const Wrapper = styled.div`
+  height: 100%;
+  width: 100%;
   display: flex;
   flex-flow: row;
+  border: 2px solid;
+  padding: 10px 60px;
+  gap: 40px;
 `;
 
 export const ContainerHabits = styled.div`
   flex: 1;
   padding: 20px;
-  height: 100%;
-  max-width: 500px;
-  /* width: 90%; */
-
+  min-height: 100%;
+  /* max-width: 600px; */
   border: 1px solid blue;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: center;
 `;
 
 export const ContainerGroups = styled.div`
@@ -50,6 +47,10 @@ export const ContainerGroups = styled.div`
   padding: 20px;
   height: 100%;
   border: 1px solid red;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: center;
 `;
 
 export const Header = styled.header`
