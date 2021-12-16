@@ -72,11 +72,11 @@ const GroupActivities = ({ groupId, activities }) => {
         <ModalPopover
           callback={handleSubmit(addActiv)}
           classe="AddActivForm"
-          msgButton={{ atualizar: "atualizar", cancelar: "cancelar" }}
+          msgButton={{ atualizar: "Adicionar", cancelar: "cancelar" }}
           setFechar={setClose}
           fechar={close}
-          blue
           ele={<AddButton variant="contained">+</AddButton>}
+          darkBlue
         >
           <AddActivForm
           //onSubmit={handleSubmit(addActiv)}
@@ -149,6 +149,7 @@ const GroupActivities = ({ groupId, activities }) => {
                     vertical: "top",
                     horizontal: "left",
                   }}
+                  darkBlue
                 >
                   <EditActivForm>
                     <TextField

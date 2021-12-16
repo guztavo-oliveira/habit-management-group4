@@ -9,13 +9,7 @@ export const Container = styled.div`
   flex-direction: row;
   align-items: center;
   min-height: 150px;
-  /* min-width: 300px;
-  max-width: 600px; */
-<<<<<<< HEAD
   width: 100%;
-=======
-  width: 600px;
->>>>>>> 35a9b4553ecaa84abbf7b0190e44d09e72b38088
   background: var(--card-background);
   border: 1px var(--light-blue) solid;
   border-radius: 10px;
@@ -124,6 +118,10 @@ export const ContainerOneGroup = styled.section`
     margin-top: 25px;
     display: flex;
     justify-content: space-around;
+    button {
+      font-size:14px;
+      width:130px;
+    }
   }
   .containerTituloEditar {
     display: flex;
@@ -170,6 +168,7 @@ export const ContainerEditarGrupo = styled.div`
     display: flex;
   }
 `;
+
 
 export const GroupProfileContainer = styled.div`
   .group-icon {

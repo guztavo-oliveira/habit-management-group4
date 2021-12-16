@@ -99,11 +99,11 @@ const GroupGoals = ({ groupId, openGoals, achievedGoals }) => {
           <ModalPopover
             callback={handleSubmit(addGoal)}
             classe="AddGoalForm"
-            msgButton={{ atualizar: "atualizar", cancelar: "cancelar" }}
+            msgButton={{ atualizar: "Adicionar", cancelar: "cancelar" }}
             setFechar={setClose}
             fechar={close}
-            blue
             ele={<AddButton variant="contained">+</AddButton>}
+            darkBlue
           >
             <AddGoalsForm>
               <span>Meta</span>
