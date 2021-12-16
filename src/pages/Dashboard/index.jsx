@@ -5,7 +5,7 @@ import {
   ContainerHabits,
   ContainerGroups,
   ContainerEditUser,
-  ContainerColumns,
+  Wrapper,
 } from "./styles";
 import { BiUser, BiGroup } from "react-icons/bi";
 import { GoHome, GoPerson, GoSearch } from "react-icons/go";
@@ -20,6 +20,7 @@ import { ModalDialog } from "../../components/ModalDialog";
 
 import { TextField } from "@mui/material";
 import { toast } from "react-toastify";
+import SearchGroups from "../../components/SearchGroups";
 
 const Dashboard = () => {
   const [user, setUser] = useState({});
@@ -46,6 +47,7 @@ const Dashboard = () => {
   const [newEmail, setNewEmail] = useState(user.email);
 
   const [fechar, setFechar] = useState(false);
+  const [larguraTela] = useState(window.innerWidth);
 
   const submit = () => {
     if (!!newUser || !!newEmail) {
@@ -67,7 +69,7 @@ const Dashboard = () => {
         setFechar(false);
       });
   };
-
+  console.log(larguraTela);
   //////////////////////////////////////////////////////////
 
   function useWindowSize() {
@@ -93,21 +95,81 @@ const Dashboard = () => {
   return (
     <>
       {width >= resize ? (
-        <>
-          <Container width={resize}>
-            <Header>
-              <div className="logo" />
-            </Header>
-
-            <Habits />
-            <ListGroups />
-          </Container>
-        </>
+        <Container width={resize}>
+          <Header width={resize}>
+            <div className="logo" />
+            <div className="adjustDivModal">
+              <ModalPopover
+                icon={<BiUser />}
+                classe="userProfile"
+                darkBlue
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "right",
+                }}
+                setFechar={setFechar}
+                fechar={fechar}
+              >
+                <p>{user.username}</p>
+                <p>{user.email}</p>
+                <div className="editProfile">
+                  <ModalDialog
+                    ele={"Editar perfil"}
+                    msgButton={{
+                      atualizar: "Atualizar",
+                      cancelar: "Cancelar",
+                    }}
+                    fechar={fechar}
+                    setFechar={setFechar}
+                    callback={submit}
+                    classe="editUserModal"
+                    darkBlue
+                  >
+                    <div className="header">
+                      <h3>Alterar dados do usuário</h3>
+                    </div>
+                    <div className="edit">
+                      <TextField
+                        label="Nome"
+                        variant="outlined"
+                        defaultValue={user.username}
+                        onChange={(e) => setNewUser(e.target.value)}
+                      />
+                      <TextField
+                        label="E-mail"
+                        variant="outlined"
+                        defaultValue={user.email}
+                        onChange={(e) => setNewEmail(e.target.value)}
+                      />
+                    </div>
+                  </ModalDialog>
+                </div>
+                <div
+                  id="exitButton"
+                  onClick={() => {
+                    signOut();
+                  }}
+                >
+                  <p>Sair</p>
+                </div>
+              </ModalPopover>
+            </div>
+          </Header>
+          <Wrapper>
+            <ContainerHabits>
+              <Habits />
+            </ContainerHabits>
+            <ContainerGroups>
+              <ListGroups />
+            </ContainerGroups>
+          </Wrapper>
+        </Container>
       ) : (
         <Container>
-          <Header>
-            <div className="logo"></div>
-          </Header>
           {(choose.includes("home") && (
             <ContainerHabits>
               <h1>Hábitos</h1>
@@ -120,8 +182,7 @@ const Dashboard = () => {
                 <ListGroups />
               </ContainerGroups>
             )) ||
-            (choose.includes("search") &&
-              console.log("inserir o component aqui"))}
+            (choose.includes("search") && <SearchGroups />)}
 
           {/*Menu inferior*/}
           <MenuBar>

@@ -20,19 +20,10 @@ export const Container = styled.div`
     flex-direction: column;
     justify-content: flex-start;
     margin-top: 25px;
-    ::-webkit-scrollbar-track {
-      background-color: var(--light-blue);
-    }
-    ::-webkit-scrollbar {
-      width: 12px;
-      background: blue;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: blue;
-      border-radius: 15px 15px;
-    }
   }
-
+  .containerPesquisa{
+      width: 100%;
+    }
   .headerPesquisaGroups {
     display: flex;
     justify-content: space-around;
@@ -43,37 +34,75 @@ export const Container = styled.div`
   .meusGrupos {
     overflow-y: auto;
     height: 400px;
-
-    ::-webkit-scrollbar-track {
-      background-color: var(--light-blue);
-    }
-    ::-webkit-scrollbar {
-      width: 5px;
-      background: blue;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: blue;
-      border-radius: 15px 15px;
-    }
+    margin-top: 20px;
+    width: 100%;
   }
 
   .containerCriarGrupo {
     display: flex;
     justify-content: space-between;
   }
-  .inputCriarGrupo{
+  .inputCriarGrupo {
     width: 95%;
   }
-
+  @media (min-width: 1024px) {
+    width: 427px;
+    height: 617px;
+    display: flex;
+    overflow-y: auto;
+    justify-content: flex-start;
+    .meusGrupos {
+      ::-webkit-scrollbar-track {
+        background-color: var(--light-blue);
+      }
+      ::-webkit-scrollbar {
+        width: 12px;
+        background: blue;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: blue;
+        border-radius: 15px 15px;
+      }
+    }
+    .scrollInfinite {
+      ::-webkit-scrollbar-track {
+        background-color: var(--light-blue);
+      }
+      ::-webkit-scrollbar {
+        width: 12px;
+        background: blue;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: blue;
+        border-radius: 15px 15px;
+      }
+    }
+    .containerPesquisa{
+      width: 100%;
+    }
+  }
 `;
 export const ModalCriarGrupo = styled.div`
+  h2 {
+    height: 50px;
+    background: var(--dark-blue);
+    display: flex;
+    align-items: center;
+    padding-left: 15px;
+    color: white;
+  }
+  .bodyModalCriarGrupo {
     padding: 15px;
     min-width: 300px;
-    height: 350px;
+    height: 310px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-
-
-` 
+    justify-content: space-between;
+  }
+  .containerCriarGrupoButtons {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+`;

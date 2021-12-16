@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Container, PopoverStyled } from "./styles.js";
 import Button from "../Button";
 
@@ -28,13 +28,9 @@ export const ModalPopover = ({
     setAlvo(e.currentTarget);
   };
   useEffect(() => {
-    if ( fechar === "fechar") {
-      abriModal();
+    if (fechar === "fechar") {
       setFechar(false);
-    }
-    if(callback){
-      abriModal();
-
+      setOpen(false)
     }
   }, [fechar]);
 

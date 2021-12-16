@@ -1,73 +1,84 @@
 import { css, keyframes } from "styled-components";
 import styled from "styled-components";
-import loginLogo from "../../assets/images/login-logo.png";
+// import loginLogo from "../../assets/images/login-logo.png";
+import loginLogo from "../../assets/images/loginLogo.svg";
 
 export const Container = styled.div`
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   background-color: var(--dark-blue);
-  padding-top: 125px;
+  /* padding-top: 125px; */
   position: relative;
+  display: flex;
+  align-items: center;
 `;
+
+// const hideScroll = keyframes`
+// from, to{ overflow: hidden; }
+
+// `;
 
 const appearFromTop = keyframes`
 
   from {
-    transform: translateY(-100%);
+    transform: translateY(-100%);   
   }
   to {
     transform: translateY(0);
-  }
-
 `;
 
 export const Bar = styled.div`
   @media (min-width: 510px) {
-    width: 40%;
+    width: calc(20% + 150px);
     height: 100%;
     z-index: 1;
     animation: ${appearFromTop} 1s;
     position: absolute;
-    background-color: #eaeff5;
+    background-color: var(--card-background);
     left: 0;
   }
 `;
 
 const logoFromRight = keyframes`
   from {
-    transform: translateX(100%);
+    transform: translate(100%, -50%);
     opacity: 0;
+    
   }
   to {
-    transform: translateX(0);
-    opacity:1;
+    transform: translate(-50%,-50%);
+    opacity: 1;
   }
 
 
 `;
 
-export const RegisterLogo = styled.div`
+export const LoginLogo = styled.div`
   @media (min-width: 1000px) {
-    width: 40%;
-    height: 40%;
+    width: 55%;
+    height: 55%;
     background: url(${loginLogo}) no-repeat center;
+    /* background-size: 1000px; */
     background-size: contain;
     animation: ${logoFromRight} 1s;
     position: absolute;
     z-index: 1;
-    top: 210px;
     right: 0;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 70%;
   }
 `;
 
 export const InputContainer = styled.div`
   width: 90%;
-  max-width: 415px;
+  max-width: 300px;
   margin: 0 auto;
   border-radius: 15px;
   background: var(--background);
   display: flex;
   justify-content: center;
+  align-items: center;
   font-family: "Nova Round", cursive;
   box-shadow: 15px 15px 20px 4px rgba(0, 0, 0, 0.26);
 

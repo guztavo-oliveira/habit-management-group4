@@ -1,10 +1,12 @@
 import styled from "styled-components";
 import logoPreto from "../../assets/images/simbolo-preto.png";
 import logoBranco from "../../assets/images/logoBranco.svg";
+import logoBrancoCompleto from "../../assets/images/logoBrancoCompleto.svg";
 
 export const Container = styled.div`
   height: 100vh;
   display: flex;
+  flex-flow: column;
   align-items: center;
   flex-direction: column;
 
@@ -16,49 +18,67 @@ export const Container = styled.div`
   );
 
   @media (min-width: ${({ width }) => `${width}px`}) {
-    flex-direction: row;
+    flex-direction: column;
   }
 `;
 
-export const ContainerColumns = styled.div`
+export const Wrapper = styled.div`
   display: flex;
-  align-items: center;
-  flex-direction: column;
+  flex-flow: row;
+`;
+
+export const ContainerHabits = styled.div`
+  flex: 1;
+  padding: 20px;
+  height: 100%;
+  max-width: 500px;
+`;
+
+export const ContainerGroups = styled.div`
+  flex: 1;
+  padding: 20px;
+  height: 100%;
 `;
 
 export const Header = styled.header`
   width: 100%;
-  /* height: 50px; */
   display: flex;
   align-items: center;
+  padding: 0 20px;
 
-  @media (min-width: 800px) {
+  @media (min-width: ${({ width }) => `${width}px`}) {
     background: rgba(196, 196, 196, 0.01);
     box-shadow: 0px 5px 4px rgba(0, 0, 0, 0.3);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 
   .header__icon {
     width: 36px;
     height: 36px;
   }
+
   .logo {
-    /* background-color: var(--light-blue); */
     background-image: url(${logoBranco});
     background-size: contain;
     background-repeat: no-repeat;
     width: 70px;
-    height: 86px;
+    height: 80px;
 
-    /* position: absolute;
-    transform: translateX(-50%);
-    left: 50%;
-    bottom: -10px; */
+    @media (min-width: ${({ width }) => `${width}px`}) {
+      background-image: url(${logoBrancoCompleto});
+      background-size: contain;
+      background-repeat: no-repeat;
+      width: 240px;
+      height: 80px;
+    }
   }
 
   svg {
     font-size: 36px;
-    background-color: var(--light-blue);
     border-radius: 50%;
+    outline: 2px solid var(--white);
     color: var(--white);
     padding: 7px;
   }
@@ -74,7 +94,6 @@ export const Header = styled.header`
   .gear {
     background-color: var(--white);
     color: black;
-    /* margin-left: 120px; */
     cursor: pointer;
   }
 
@@ -118,20 +137,7 @@ export const MenuBar = styled.div`
   }
 `;
 
-export const ContainerHabits = styled.div`
-  width: 90%;
-  height: 100%;
-  /* border: 1px solid red; */
-`;
-
-export const ContainerGroups = styled.div`
-  width: 90%;
-  height: 100%;
-  /* border: 1px solid red; */
-`;
-
 export const ContainerEditUser = styled.div`
-  /* border: 1px solid chartreuse; */
   margin: 10px;
   border-radius: 10px;
 

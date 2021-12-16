@@ -9,7 +9,7 @@ export const ModalDialog = ({
   msgButton = false,
   callback,
   fechar = true,
-  setFechar, //teste
+  setFechar,
   classe,
   icon,
   ...rest
@@ -18,10 +18,11 @@ export const ModalDialog = ({
   const abriModal = () => {
     setOpen(!open);
   };
+
   useEffect(() => {
     if (fechar === "fechar") {
-      abriModal();
       setFechar(false);
+      setOpen(false)
     }
   }, [fechar]);
   return (
@@ -39,12 +40,7 @@ export const ModalDialog = ({
           {children}
           {msgButton && (
             <div className="buttons">
-              <Button
-                {...rest}
-                onClick={() => {
-                  callback();
-                }}
-              >
+              <Button {...rest} onClick={callback}>
                 {msgButton.atualizar}
               </Button>
               {msgButton.cancelar && (
