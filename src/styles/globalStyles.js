@@ -2,22 +2,34 @@ import { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
 
-	@font-face {
-  font-family: logoFont;
-  src: url('./assets/fonts/planetncond.ttf') format(truetype);
-  
+* {
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+	text-decoration: none;
 }
+	
+	*{
+		padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+		list-style-type:none;
+	}
 
 	:root{
+		--black: #1A2F25;
+		--gray:#717976;
+		--red: #e83f5b;
+		--green: #4bbb97;
 		--dark-blue: #0870FF;
 		--light-blue: #08AFFF;
-		--neon-blue: #B7FFF7;
 		--middle-blue: #08F6FF;
-		--background: #FFFCF8;
+		--neon-blue: #B7FFF7;
 		--card-background: #EAEFF5;
-		--black: #1A2F25;
+		--background: #FFFCF8;
 		--white: #fff;
+	}
 		
-	}`;
+`;
 
 export default GlobalStyle;

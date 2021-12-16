@@ -1,26 +1,61 @@
-import { Dialog } from "@material-ui/core";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { DialogStyled } from "./styles";
+import Button from "../Button";
 
-export const ModalDialog = ({ children, ele , msg="fechar"}) => {
+export const ModalDialog = ({
+  children,
+  ele,
+  msg = "fechar",
+  msgButton = false,
+  callback,
+  fechar = true,
+  setFechar, //teste
+  classe,
+  icon,
+  ...rest
+}) => {
   const [open, setOpen] = useState(false);
-  const abriModal = (e) => {
-    e.stopPropagation();
+  const abriModal = () => {
     setOpen(!open);
   };
-
+  useEffect(() => {
+    if (fechar === "fechar") {
+      abriModal();
+      setFechar(false);
+    }
+  }, [fechar]);
   return (
-    <div>
-      <div onClick={() => {setOpen(true)}}>
-        {ele}
-        {open && (
-          <Dialog open={open} onClose={abriModal}>
-            <div>
-              {msg} <span onClick={abriModal}>X</span>
-            </div>
-            {children}
-          </Dialog>
-        )}
+    <>
+      <div
+        onClick={() => {
+          setOpen(true);
+        }}
+      >
+        {ele ? ele : icon}
       </div>
-    </div>
+
+      <DialogStyled open={open} onClose={abriModal}>
+        <div className={classe}>
+          {children}
+          {msgButton && (
+            <div className="buttons">
+              <Button
+                {...rest}
+                onClick={() => {
+                  callback();
+                }}
+              >
+                {msgButton.atualizar}
+              </Button>
+              {msgButton.cancelar && (
+                <Button red onClick={abriModal}>
+                  {msgButton.cancelar}
+                </Button>
+              )}
+            </div>
+          )}
+        </div>
+      </DialogStyled>
+    </>
   );
 };

@@ -21,13 +21,26 @@ body {
   }
 }
 
-body::-webkit-scrollbar-thumb {
-  background-color: blue; /* color of the scroll thumb */
-  border-radius: 20px; /* roundness of the scroll thumb */
-  border: 3px solid orange; /* creates padding around scroll thumb */
-}
 
+body::-webkit-scrollbar-thumb {
+  background-color: blue;    /* color of the scroll thumb */
+  border-radius: 20px;       /* roundness of the scroll thumb */
+  border: 3px solid orange;  /* creates padding around scroll thumb */
+
+}
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+@font-face {
+  font-family: titleFont;
+  src: url("./assets/fonts/planetncond.ttf");
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@font-face {
+  font-family: infoFont;
+  src: url("./assets/fonts/Comfortaa-VariableFont_wght.ttf");
 }

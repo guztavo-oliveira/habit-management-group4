@@ -39,6 +39,9 @@ const Register = () => {
   const history = useHistory();
 
   const onSubmitForm = (data) => {
+
+    delete data.passwordConfirm;
+
     api
       .post("/users/", data)
       .then((response) => {
@@ -103,7 +106,7 @@ const Register = () => {
               helperText={errors.passwordConfirm?.message}
               type="password"
             />
-            <Button>Registrar</Button>
+            <Button darkBlue>Registrar</Button>
             <p>Já tem conta?</p>
             <Link to="/login">Entrar</Link>
           </form>
