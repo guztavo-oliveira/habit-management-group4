@@ -10,26 +10,30 @@ import { useHabits } from "../../providers/HabitsContext";
 import SelectInput from "../SelectInput";
 import { Difficulties, Frequency } from "../../utils";
 import { useState } from "react";
+import { useAuth } from "../../providers/AuthContext";
+import api from "../../services/api";
+import { toast } from "react-toastify";
 
 const HabitsCard = ({ elemente }) => {
   //desconstruindo o elemeto que vai vir como parametro
   const { id, category, difficulty, frequency, title, how_much_achieved } =
     elemente;
 
-  //funções de adicionar e remover habitos vem do provider
-  const { removeHabits, editHabits } = useHabits();
+  // //funções de adicionar e remover habitos vem do provider
+  const { getHabits } = useHabits();
 
-  // const [inputDifficulty, setInputDifficulty] = useState("");
-  // const [inputFrequency, setInputFrequency] = useState("");
+  ////modal Status
+  const [cardModal, setCardModal] = useState(false);
+
+  const [inputDifficulty, setInputDifficulty] = useState("");
+  const [inputFrequency, setInputFrequency] = useState("");
   // const [inputTitle, setInputTitle] = useState("");
   // const [inputCategory, setInputCategory] = useState("");
 
-  const schema = yup.object().shape({
-    title: yup.string().required("Required field"),
-    category: yup.string().required("Required field"),
-    difficulty: yup.string().required("Required field"),
-    frequency: yup.string().required("Required field"),
-  });
+  // const schema = yup.object().shape({
+  //   title: yup.string(),
+  //   category: yup.string(),
+  // });
 
   const {
     register,
@@ -37,11 +41,21 @@ const HabitsCard = ({ elemente }) => {
     reset,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(schema),
+    defaultValues: {
+      title: title,
+      category: category,
+      difficulty: difficulty,
+      frequency: frequency,
+    },
   });
 
   //fucao de editar o habito precisa do id do habito
   const editFunc = (data) => {
+    const newData = {
+      ...data,
+      frequency: inputFrequency,
+      difficulty: inputDifficulty,
+    };
     console.log(data);
     editHabits(id, data);
     // setInputDifficulty("");
@@ -63,7 +77,6 @@ const HabitsCard = ({ elemente }) => {
         how_much_achieved: value + 1,
       };
       editHabits(id, add);
-      console.log("add");
     } else if (value > 0) {
       const sub = {
         achieved: true,
@@ -71,9 +84,28 @@ const HabitsCard = ({ elemente }) => {
       };
       editHabits(id, sub);
     }
+    getHabits();
   };
 
-  const [modalStatus, setModalStatus] = useState(false);
+  ///token
+  const { tokenBearer } = useAuth();
+
+  //remove habit func
+  const removeHabits = (id) => {
+    api
+      .delete(`/habits/${id}/`, tokenBearer)
+      .then((_) => getHabits(), toast.success("deleted"))
+      .catch((_) => console.log("error"));
+  };
+
+  //edit habit
+  const editHabits = (id, data) => {
+    console.log(data);
+    api
+      .patch(`/habits/${id}/`, data, tokenBearer)
+      .then((_) => getHabits(), setCardModal("fechar"))
+      .catch((_) => console.log("error"), setCardModal(false));
+  };
 
   return (
     <Container>
@@ -82,7 +114,7 @@ const HabitsCard = ({ elemente }) => {
         <h4>Category: {category}</h4>
         <h4>Frequency: {frequency}</h4>
       </div>
-      ico type="submit"
+
       <div className="edit">
         <ModalPopover
           icon={"Editar"}
@@ -90,13 +122,12 @@ const HabitsCard = ({ elemente }) => {
             atualizar: "Atualizar",
             cancelar: "Cancelar",
           }}
-          fechar={modalStatus}
-          setFechar={setModalStatus}
+          fechar={cardModal}
+          setFechar={setCardModal}
           callback={handleSubmit(editFunc)}
-          classe="editHabitModal"
+          classe=""
           darkBlue
         >
-          {/* <ModalPopover ele={"editar"}> */}
           <h3>Register New Habits</h3>
           <form>
             <TextField
@@ -121,41 +152,18 @@ const HabitsCard = ({ elemente }) => {
               {...register("category")}
               error={!!errors.category}
             />
-            {/* <TextField
-              id="outlined-basic"
-              label="difficulty"
-              type="text"
-              variant="outlined"
-              sx={{ marginTop: 5 }}
-              fullWidth
-              helperText={errors.difficulty?.message}
-              {...register("difficulty")}
-              error={!!errors.difficulty}
-            />
-            <TextField
-              id="outlined-basic"
-              label="frequency"
-              type="text"
-              variant="outlined"
-              sx={{ marginTop: 5 }}
-              fullWidth
-              helperText={errors.frequency?.message}
-              {...register("frequency")}
-              error={!!errors.frequency}
-            /> */}
             <SelectInput
               label={"Difficulties"}
               options={Difficulties}
-              name="difficulty"
-              onchange={(e) => e.target.value}
+              onchange={setInputDifficulty}
+              value={inputDifficulty}
             />
             <SelectInput
               label={"Frequency"}
               options={Frequency}
-              name="frequency"
-              register={register}
+              onchange={setInputFrequency}
+              value={inputFrequency}
             />
-            {/* <Button type="submit">Editar</Button> */}
           </form>
         </ModalPopover>
         <CgTrash onClick={() => removeHabits(id)} />

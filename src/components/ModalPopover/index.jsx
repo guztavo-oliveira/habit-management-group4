@@ -10,21 +10,30 @@ export const ModalPopover = ({
   icon,
   callback,
   classe,
-  fechar = true, //teste
+  fechar = true,
+  setFechar,
+  transformOrigin, //altera a posição do modal
+  anchorOrigin = {
+    vertical: "bottom",
+    horizontal: "left",
+  },
   ...rest
 }) => {
   const [open, setOpen] = useState(false);
   const [alvo, setAlvo] = useState("");
   const abriModal = () => {
     setOpen(!open);
-    console.log(open);
   };
   const selecionado = (e) => {
     setAlvo(e.currentTarget);
   };
   useEffect(() => {
-    fechar === "fechar" && abriModal();
+    if (fechar === "fechar") {
+      setFechar(false);
+      abriModal();
+    }
   }, [fechar]);
+
   return (
     <Container>
       <div
@@ -41,10 +50,8 @@ export const ModalPopover = ({
         open={open}
         anchorEl={alvo}
         onClose={abriModal}
-        anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "left",
-        }}
+        anchorOrigin={anchorOrigin}
+        transformOrigin={transformOrigin}
       >
         <div className={classe}>
           {children}
@@ -56,12 +63,12 @@ export const ModalPopover = ({
                   callback();
                 }}
               >
-                {msgButton[0]}
+                {msgButton.atualizar}
               </Button>
 
-              {msgButton.includes("Cancelar") && (
+              {msgButton.cancelar && (
                 <Button red onClick={abriModal}>
-                  {msgButton.find((e) => e.includes("Cancelar"))}
+                  {msgButton.cancelar}
                 </Button>
               )}
             </div>

@@ -7,51 +7,31 @@ export const PopoverStyled = styled(Popover)`
   .MuiPopover-paper {
     border-radius: 10px 10px 0 0;
   }
-
-  h3 {
-    font-family: "Nova round";
-    font-size: 20px;
-    margin-left: 5px;
-  }
-
-  .editUserModal {
+  .userProfile {
+    background-color: var(--background);
+    height: 170px;
+    width: 200px;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
 
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-
-    /* height: 50px; */
-    color: var(--white);
-    /* background-color: var(--dark-blue); */
-    margin-bottom: 10px;
-
-    &:first-child {
-      color: red;
-      /* background-color: var(--dark-blue); */
+    p {
+      font-size: 18px;
+      color: #333;
+      margin: 0 0 5px 5px;
+      padding: 5px 0;
     }
 
-    .header {
+    #exitButton {
       display: flex;
+      justify-content: center;
       align-items: center;
-      height: 50px;
-      color: var(--white);
-      background-color: var(--dark-blue);
-      margin-bottom: 10px;
-      width: 100%;
-    }
-
-    .edit {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      margin: 20px;
-    }
-
-    .buttons {
-      display: flex;
-      gap: 20px;
+      background-color: red;
+      cursor: pointer;
+      p {
+        margin: 0;
+        color: var(--white);
+      }
     }
   }
 
