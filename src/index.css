@@ -12,9 +12,14 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
   background-color: var(--card-background);
   animation: hideScroll 1s;
+}
+
+@media (min-width: 1000px) {
+  body {
+    animation: hideScroll 30s;
+  }
 }
 
 body::-webkit-scrollbar-thumb {

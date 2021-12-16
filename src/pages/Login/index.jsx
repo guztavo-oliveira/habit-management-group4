@@ -14,6 +14,7 @@ import { useAuth } from "../../providers/AuthContext";
 
 const Login = () => {
   const history = useHistory();
+
   const { atualizarToken } = useAuth();
 
   const schema = yup.object().shape({
@@ -50,13 +51,11 @@ const Login = () => {
 
     atualizarToken();
     history.push("/dashboard");
-   
+  
   };
 
  
   const handleSignIn = (data) => {
-    
-
     api
       .post("/sessions/", data)
       .then((response) => {
