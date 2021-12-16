@@ -11,10 +11,11 @@ export const Container = styled.div`
   box-sizing:border-box;
   min-width:287px;
   width:97%;
+  max-width:400px;
+  justify-content:space-between;
   background: var(--card-background);
   border: 1px var(--light-blue) solid;
   border-radius: 10px;
-  justify-content: space-between;
   box-shadow: 1px 3px 10px var(--gray);
   cursor: pointer;
 
