@@ -9,12 +9,9 @@ export const Container = styled.div`
   flex-direction: row;
   align-items: center;
   min-height: 150px;
-
   box-sizing:border-box;
   min-width:290px;
-  width:90%;
- 
-
+  width:97%;
   background: var(--card-background);
   border: 1px var(--light-blue) solid;
   border-radius: 10px;
@@ -45,9 +42,7 @@ export const Container = styled.div`
     flex-direction: column;
     justify-content: space-between;
   }
-    @media only screen and  (min-width:800px){
-    width:500px;
-  } 
+  
 `;
 
 export const Content = styled.div`
@@ -87,9 +82,6 @@ export const Content = styled.div`
     font-family: "infoFont", sans-serif;
 
   }
-  @media only screen and  (min-width:800px){
-    margin:0px 20px;
-  } 
 
 
 `;
@@ -98,6 +90,7 @@ export const ButtonGroup = styled.button`
   border: none;
   align-self: flex-end;
   height: 40px;
+  width: 60px;
   font-size: 16px;
   color: var(--gray);
   margin-right: 5px;
