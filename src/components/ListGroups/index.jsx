@@ -197,30 +197,42 @@ const ListGroups = () => {
           <InfiniteScroll
             dataLength={groups?.results.length}
             next={getNextPage}
-            height={400}
+            height={500}
             hasMore={show}
             loader={<CircularProgress />}
             className="scrollInfinite"
           >
             {!!search ? (
               <>
-                {groups.results
-                  .filter(
-                    (ele) =>
-                      ele.name
-                        .toLocaleLowerCase()
-                        .includes(search.trim().toLocaleLowerCase()) ||
-                      ele.category
-                        .toLocaleLowerCase()
-                        .includes(search.trim().toLocaleLowerCase())
-                  )
-                  .map((ele, ind) => (
-                    <CardGroups
-                      group={ele}
-                      updateGroup={updateGroup}
-                      key={ind}
-                    />
-                  ))}
+                {groups.results.filter(
+                  (ele) =>
+                    ele.name
+                      .toLocaleLowerCase()
+                      .includes(search.trim().toLocaleLowerCase()) ||
+                    ele.category
+                      .toLocaleLowerCase()
+                      .includes(search.trim().toLocaleLowerCase())
+                ).length > 0 ? (
+                  groups.results
+                    .filter(
+                      (ele) =>
+                        ele.name
+                          .toLocaleLowerCase()
+                          .includes(search.trim().toLocaleLowerCase()) ||
+                        ele.category
+                          .toLocaleLowerCase()
+                          .includes(search.trim().toLocaleLowerCase())
+                    )
+                    .map((ele, ind) => (
+                      <CardGroups
+                        group={ele}
+                        updateGroup={updateGroup}
+                        key={ind}
+                      />
+                    ))
+                ) : (
+                  <>{!show && <h3>Não foi possivel encontrar o grupo</h3>}</>
+                )}
               </>
             ) : (
               <>

@@ -117,16 +117,16 @@ const CardGroups = ({ group, updateGroup, setAlvo }) => {
       .delete(`/groups/${group.id}/unsubscribe/`, tokenBearer)
       .then(() => {
         updateGroup();
-        toast("Você saiu do grupo!");
+        toast.success("Você saiu do grupo!");
       })
-      .catch((err) => toast("Algo deu errado ao tentar sair do grupo..."));
+      .catch((err) => toast.error("Algo deu errado ao tentar sair do grupo..."));
   };
 
   return (
     <Container
       groupIcon={!!groupIcon ? groupIcon.image : groupIconDefault}
       onClick={() => {
-        setAlvo(group);
+         setAlvo(group);
       }}
     >
       <div className="container">
