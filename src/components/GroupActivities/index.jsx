@@ -50,10 +50,13 @@ const GroupActivities = ({ groupId, activities }) => {
   };
 
   const editActiv = (activId, data) => {
+    let newData = { title: data };
+
     api
-      .patch(`activities/${activId}/`, data, tokenBearer)
+      .patch(`activities/${activId}/`, newData, tokenBearer)
       .then((response) => {
         toast.success("A atividade foi modificada com sucesso.");
+
         refresh === true ? setRefresh(false) : setRefresh(true);
       })
       .catch((err) => {
