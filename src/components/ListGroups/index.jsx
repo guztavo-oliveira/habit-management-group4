@@ -121,11 +121,12 @@ const ListGroups = () => {
       ) : (
         <div className="headerPesquisaGroups">
           <div className="containerCriarGrupo">
-            <h1>{showAllGroups ? "Buscando novos grupos" : "Seus grupos"}</h1>
+            <h2>{showAllGroups ? "Buscando novos grupos" : "Seus grupos"}</h2>
             <ModalDialog
               ele={<Button darkBlue>Criar grupo</Button>}
               // msgButton={{ atualizar: "Criar um Grupo", cancelar: "Cancelar" }}
               // callback={criarGrupo}
+              // style={{overflow:"hidden"}}
               setFechar={setFechar}
               fechar={fechar}
               darkBlue
@@ -173,9 +174,9 @@ const ListGroups = () => {
                 </div>
               </ModalCriarGrupo>
             </ModalDialog>
-            <Button green onClick={() => setShowAllGroups(!showAllGroups)}>
+            {width >= 800 &&  <Button green onClick={() => setShowAllGroups(!showAllGroups)}>
               {showAllGroups ? "Meus grupos" : "Buscar mais grupos"}
-            </Button>
+            </Button>}
           </div>
           <div>
             <TextField
@@ -197,30 +198,44 @@ const ListGroups = () => {
           <InfiniteScroll
             dataLength={groups?.results.length}
             next={getNextPage}
-            height={400}
+            height={500}
             hasMore={show}
             loader={<CircularProgress />}
-            className="scrollInfinite"
+            style={{overflowx:"hidden"}}
           >
+            <div className="containerCardGroups">
+          
             {!!search ? (
-              <>
-                {groups.results
-                  .filter(
-                    (ele) =>
-                      ele.name
-                        .toLocaleLowerCase()
-                        .includes(search.trim().toLocaleLowerCase()) ||
-                      ele.category
-                        .toLocaleLowerCase()
-                        .includes(search.trim().toLocaleLowerCase())
-                  )
-                  .map((ele, ind) => (
-                    <CardGroups
-                      group={ele}
-                      updateGroup={updateGroup}
-                      key={ind}
-                    />
-                  ))}
+                <>
+                {groups.results.filter(
+                  (ele) =>
+                    ele.name
+                      .toLocaleLowerCase()
+                      .includes(search.trim().toLocaleLowerCase()) ||
+                    ele.category
+                      .toLocaleLowerCase()
+                      .includes(search.trim().toLocaleLowerCase())
+                ).length > 0 ? (
+                  groups.results
+                    .filter(
+                      (ele) =>
+                        ele.name
+                          .toLocaleLowerCase()
+                          .includes(search.trim().toLocaleLowerCase()) ||
+                        ele.category
+                          .toLocaleLowerCase()
+                          .includes(search.trim().toLocaleLowerCase())
+                    )
+                    .map((ele, ind) => (
+                      <CardGroups
+                        group={ele}
+                        updateGroup={updateGroup}
+                        key={ind}
+                      />
+                    ))
+                ) : (
+                  <>{!show && <h3>Não foi possivel encontrar o grupo</h3>}</>
+                )}
               </>
             ) : (
               <>
@@ -229,6 +244,7 @@ const ListGroups = () => {
                 ))}
               </>
             )}
+             </div>
           </InfiniteScroll>
         </div>
       ) : (

@@ -11,7 +11,7 @@ export const ActivitiesContainer = styled.div`
 export const ActivitiesCard = styled.div``;
 
 export const EditActivForm = styled.div`
-  width: "50vh";
+  width: "100%";
   height: "40vh";
   display: "flex";
   flex-direction: "column";

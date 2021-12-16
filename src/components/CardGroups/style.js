@@ -5,20 +5,16 @@ export const Container = styled.div`
   margin-bottom: 15px;
   padding: 10px;
   display: flex;
-  justify-content: space-between;
   flex-direction: row;
   align-items: center;
   min-height: 150px;
-
   box-sizing:border-box;
   min-width:290px;
-  width:90%;
- 
-
+  width:97%;
   background: var(--card-background);
   border: 1px var(--light-blue) solid;
   border-radius: 10px;
-
+  justify-content: space-between;
   box-shadow: 1px 3px 10px var(--gray);
 
   cursor: pointer;
@@ -45,9 +41,7 @@ export const Container = styled.div`
     flex-direction: column;
     justify-content: space-between;
   }
-    @media only screen and  (min-width:900px){
-    width:600px;
-  } 
+  
 `;
 
 export const Content = styled.div`
@@ -56,9 +50,13 @@ export const Content = styled.div`
   align-items: left;
   justify-content: flex-end;
   height: 100%;
-  max-width: 70%;
+  box-sizing: content-box;
+  /* width: 270px; */
+  width: 140px;
 
+  
   h2 {
+    width: 80%;
     font-family: "infoFont", sans-serif;
     color: var(--dark-blue);
     font-size: 26px;
@@ -70,6 +68,8 @@ export const Content = styled.div`
     text-overflow: ellipsis;
   }
   p {
+    width: 80%;
+
     margin: 0;
     color: var(--gray);
     display: -webkit-box;
@@ -77,23 +77,27 @@ export const Content = styled.div`
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
+    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
   }
   span {
     margin: 0 5px;
     color: var(--light-blue);
     font-size: 16px;
+    font-family: "infoFont", sans-serif;
+
   }
-  @media only screen and  (min-width:900px){
-    margin:0px 20px;
-  } 
 
-
+  @media (min-width: 1024px) {
+    min-width: 100%;
+  }
 `;
 
 export const ButtonGroup = styled.button`
   border: none;
   align-self: flex-end;
-  height: 40px;
+  height: auto;
+  width: 80px;
   font-size: 16px;
   color: var(--gray);
   margin-right: 5px;
@@ -104,18 +108,7 @@ export const ButtonGroup = styled.button`
     cursor: pointer;
   }
 
-  border: none;
-  align-self: flex-end;
-  height: 40px;
-  font-size: 16px;
-  color: var(--gray);
-  margin-right: 5px;
-  border-bottom: 1px solid var(--light-blue);
-  background-color: transparent;
-  font-family: "Nova Round", cursive;
-  &:hover {
-    cursor: pointer;
-  }
+
 `;
 
 export const ListsContainer = styled(Box)`
