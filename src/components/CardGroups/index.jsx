@@ -163,19 +163,19 @@ export const RenderOneGroup = ({ group, setAlvo }) => {
 
   useEffect(() => {
     api
-      .get(`/activities/?grupo=${group.id}/`, tokenBearer)
+      .get(`/groups/${group.id}/`, tokenBearer)
       .then((response) => {
-        setActivities(response.data.results);
+        setActivities(response.data.activities);
       })
       .catch((err) => {
         console.log(err);
       });
 
     api
-      .get(`/goals/?grupo=${group.id}/`, tokenBearer)
+      .get(`/groups/${group.id}/`, tokenBearer)
       .then((response) => {
         setAchievedGoals(
-          response.data.results.filter((e) => {
+          response.data.goals.filter((e) => {
             return e.achieved === true;
           })
         );
@@ -184,10 +184,10 @@ export const RenderOneGroup = ({ group, setAlvo }) => {
         console.log(err);
       });
     api
-      .get(`/goals/?grupo=${group.id}/`, tokenBearer)
+      .get(`/groups/${group.id}/`, tokenBearer)
       .then((response) => {
         setOpenGoals(
-          response.data.results.filter((e) => {
+          response.data.goals.filter((e) => {
             return e.achieved === false;
           })
         );
