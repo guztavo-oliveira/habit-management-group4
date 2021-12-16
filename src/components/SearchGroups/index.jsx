@@ -73,7 +73,7 @@ const SearchGroups = () => {
               getNextPage();
               console.log("carregou mais");
             }}
-            height={400}
+            height={500}
             hasMore={show}
             loader={<CircularProgress />}
             className="scrollInfinite"
