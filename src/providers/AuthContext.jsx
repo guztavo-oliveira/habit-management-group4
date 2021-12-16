@@ -1,6 +1,5 @@
-import { useState, createContext, useContext } from "react";
-import jwt_decode from "jwt-decode";
-import api from "../services/api";
+import { createContext, useContext, useEffect, useState } from "react";
+
 
 const AuthContext = createContext({});
 
@@ -10,44 +9,30 @@ const useAuth = () => {
 };
 
 const AuthProvider = ({ children }) => {
-  const [data, setData] = useState(() => {
-    const id = localStorage.getItem("@gestaodehabitos:id");
-    const access = localStorage.getItem("@gestaodehabitos:access");
-
-    if (id && access) {
-      return { access, id };
+    const [access, setAccess] = useState(localStorage.getItem("@gestaodehabitos:access"))
+    const [id, setId] = useState(localStorage.getItem("@gestaodehabitos:id"))
+    const atulizarToken = () => {
+      setId(localStorage.getItem("@gestaodehabitos:id") || "")
+      setAccess(localStorage.getItem("@gestaodehabitos:access"))
     }
-
-    return {};
-  });
-
-  const signIn = async (data) => {
-    const response = await api.post("/sessions/", data);
-
-    const { access } = response.data;
-
-    const { user_id } = jwt_decode(access);
-
-    localStorage.setItem("@gestaodehabitos:id", JSON.stringify(user_id));
-    localStorage.setItem("@gestaodehabitos:access", JSON.stringify(access));
-
-    setData({ user_id, access });
-  };
-
+    const tokenBearer = {
+      headers: {
+        Authorization: `Bearer: ${access}`,
+      },
+    };
+    console.log(access, "este e o acesso")
   const signOut = () => {
     localStorage.removeItem("@gestaodehabitos:id");
     localStorage.removeItem("@gestaodehabitos:access");
-
-    setData({});
   };
 
   return (
     <AuthContext.Provider
       value={{
-        access: data.access,
-        id: data.id,
-        signIn,
-        signOut,
+        access,
+        id,
+        tokenBearer,
+        atulizarToken
       }}
     >
       {children}
