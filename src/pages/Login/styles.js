@@ -10,7 +10,6 @@ export const Container = styled.div`
   position: relative;
   display: flex;
   align-items: center;
-  overflow: hidden;
 `;
 
 // const hideScroll = keyframes`
@@ -22,11 +21,11 @@ const appearFromTop = keyframes`
 
   from {
     transform: translateY(-100%);
-    overflow: hidden;
+   
   }
   to {
     transform: translateY(0);
-    overflow:hidden;
+    
   }
 
 `;
@@ -47,12 +46,10 @@ const logoFromRight = keyframes`
   from {
     transform: translate(100%, -50%);
     opacity: 0;
-    
   }
   to {
     transform: translate(-50%,-50%);
     opacity: 1;
-    
   }
 
 
