@@ -35,6 +35,82 @@ export const PopoverStyled = styled(Popover)`
     }
   }
 
+  .AddActivForm {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1vh;
+    gap: 2vh;
+
+    .buttons {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      flex-direction: center;
+      gap: 2vh;
+    }
+  }
+  .AddActivForm form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 2vh;
+
+    span {
+      font-family: "infoFont", sans-serif;
+      font-size: 1.2rem;
+    }
+    div {
+      width: 100%;
+    }
+  }
+
+  .EditActivForm {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1vh;
+    gap: 2vh;
+
+    .buttons {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      gap: 2vh;
+    }
+  }
+
+  .AddGoalForm {
+    width: 100%;
+    padding: 2vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    .buttons {
+      display: flex;
+      flex-direction: row;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      padding: 2vh;
+      gap: 2vh;
+    }
+
+    form span {
+      text-align: center;
+      font-family: "infoFont", sans-serif;
+    }
+  }
   .editHabitModal {
     padding: 10px;
     display: flex;
