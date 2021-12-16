@@ -9,7 +9,7 @@ const SelectInput = ({ label, options, onchange, value }) => {
     console.log(event.target.value);
     onchange(event.target.value);
   };
-
+console.log(options)
   return (
     <div>
       <FormControl variant="filled" fullWidth>

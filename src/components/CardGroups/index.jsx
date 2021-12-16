@@ -1,4 +1,4 @@
-import { Content, Container, ButtonGroup, ListsContainer } from "./style";
+import { Content, Container, ButtonGroup, ListsContainer, GroupProfileContainer } from "./style";
 import { useAuth } from "../../providers/AuthContext";
 import api from "../../services/api";
 import { ModalDialog } from "../ModalDialog";
@@ -10,9 +10,15 @@ import { useGroup } from "../../providers/JsonGroups";
 import { useEffect, useState } from "react";
 import GroupActivities from "../GroupActivities";
 import GroupGoals from "../GroupGoals";
+import SelectInput from "../SelectInput";
+import { useCategoryOptions } from "../../providers/CategoryOptions";
+import groupIconDefault from '../../assets/images/grupo-icone.png'
 
 const EditGroup = ({ groupid, updateGroup }) => {
+  const { categoryOptions} = useCategoryOptions();
+
   const { tokenBearer } = useAuth();
+  
 
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
@@ -32,6 +38,7 @@ const EditGroup = ({ groupid, updateGroup }) => {
   }, [name, category, description]);
 
   const submit = () => {
+    console.log('data',data)
     api
       .patch(`/groups/${groupid}/`, data, tokenBearer)
       .then((_) => {
@@ -59,14 +66,13 @@ const EditGroup = ({ groupid, updateGroup }) => {
         label="name"
         variant="filled"
       />
-      <TextField
-        onChange={(evt) => {
-          setCategory(evt.target.value);
-        }}
-        value={category}
+      <SelectInput
         label="category"
-        variant="filled"
+        options={categoryOptions}
+        onchange={setCategory}
+        value={category}
       />
+
       <TextField
         onChange={(evt) => {
           setDescription(evt.target.value);
@@ -84,6 +90,11 @@ const EditGroup = ({ groupid, updateGroup }) => {
 const CardGroups = ({ group, updateGroup, setAlvo }) => {
   const { id, tokenBearer, refresh } = useAuth();
   const { myGroups } = useGroup();
+  const {categoryImages} = useCategoryOptions();
+
+  const groupIcon = categoryImages.find((item)=>item.name === group.category)
+
+
 
   const subscribe = () => {
     api
@@ -109,7 +120,7 @@ const CardGroups = ({ group, updateGroup, setAlvo }) => {
   };
 
   return (
-    <Container
+    <Container groupIcon={!!groupIcon ? groupIcon.image : groupIconDefault }
       onClick={() => {
         !!setAlvo && setAlvo(group);
       }}
@@ -159,6 +170,9 @@ export const RenderOneGroup = ({ group, setAlvo }) => {
   const [achievedGoals, setAchievedGoals] = useState([]);
   const [openGoals, setOpenGoals] = useState([]);
   const [activities, setActivities] = useState([]);
+  const {categoryImages} = useCategoryOptions();
+
+  const groupIcon = categoryImages.find((item)=>item.name === group.category)
 
   useEffect(() => {
     api
@@ -206,9 +220,9 @@ export const RenderOneGroup = ({ group, setAlvo }) => {
       .catch((err) => toast("Algo deu errado ao tentar sair do grupo..."));
   };
   return (
-    <>
+    <GroupProfileContainer  groupIcon={!!groupIcon ? groupIcon.image : groupIconDefault } >
       <div className="container">
-        <FiUser size={60} />
+      <div className="group-icon" />
         <Content>
           <div>
             <button onClick={() => setAlvo("")}>Voltar</button>
@@ -240,7 +254,7 @@ export const RenderOneGroup = ({ group, setAlvo }) => {
         {group.creator.id === id && (
           <ButtonGroup>
             <ModalDialog ele={"Editar"}>
-              <EditGroup id={group.id} updateGroup={updateGroup} />
+              <EditGroup groupid={group.id} updateGroup={updateGroup} />
             </ModalDialog>
           </ButtonGroup>
         )}
@@ -253,7 +267,7 @@ export const RenderOneGroup = ({ group, setAlvo }) => {
           Sair do grupo
         </ButtonGroup>
       </div>
-    </>
+    </GroupProfileContainer>
   );
 };
 

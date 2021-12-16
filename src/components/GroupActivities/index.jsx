@@ -1,7 +1,7 @@
 import { useState } from "react";
 import api from "../../services/api";
 import { useForm, Controller } from "react-hook-form";
-import Toastify from "toastify";
+import { toast } from "react-toastify";
 import { Button, TextField } from "@material-ui/core";
 import { useAuth } from "../../providers/AuthContext";
 import { AddActivForm, EditActivForm } from "../GroupActivities/styles";
@@ -13,9 +13,10 @@ import {
   CardInfo,
   CardsContainer,
   CardsList,
-  MainButtons,
+  AtvHeader,
+  AtvTitle,
 } from "../GroupGoals/styles";
-import { RiDeleteBin6Line } from "react-icons/ri";
+import { RiDeleteBin6Line, RiEdit2Fill } from "react-icons/ri";
 
 const GroupActivities = ({ groupId, activities }) => {
   const { tokenBearer, refresh, setRefresh } = useAuth();
@@ -28,43 +29,31 @@ const GroupActivities = ({ groupId, activities }) => {
     api
       .post("/activities/", data, tokenBearer)
       .then((response) => {
-        Toastify.success("Tudo certo!", "Atividade adicionada com sucesso.");
+        toast.success("Tudo certo!", "Atividade adicionada com sucesso.");
         refresh === true ? setRefresh(false) : setRefresh(true);
       })
       .catch((err) => {
-        Toastify.error("Oops!", "Se o erro persistir, faça login novamente.");
+        toast.error("Oops!", "Se o erro persistir, faça login novamente.");
       });
   };
 
   const deleteActiv = (activId) => {
     api
-      .delete(`/activities/${activId}`, tokenBearer)
+      .delete(`/activities/${activId}/`, tokenBearer)
       .then((response) => {
-        Toastify.success(
-          "Tudo certo!",
-          "A atividade foi removida com sucesso."
-        );
+        toast.success("Tudo certo!", "A atividade foi removida com sucesso.");
         refresh === true ? setRefresh(false) : setRefresh(true);
       })
       .catch((err) => {
-        Toastify.error("Oops!", "Caso o erro persista, faça login novamente.");
+        toast.error("Oops!", "Caso o erro persista, faça login novamente.");
       });
   };
 
   const editActiv = (activId, data) => {
     api
-      .patch(`activities/${activId}`, data, {
-        headers: {
-          Authorization: `Bearer: ${JSON.parse(
-            localStorage.getItem("@habits:token")
-          )}`,
-        },
-      })
+      .patch(`activities/${activId}/`, data, tokenBearer)
       .then((response) => {
-        Toastify.success(
-          "Tudo certo!",
-          "A atividade foi modificada com sucesso."
-        );
+        toast.success("A atividade foi modificada com sucesso.");
         refresh === true ? setRefresh(false) : setRefresh(true);
       })
       .catch((err) => {
@@ -73,8 +62,21 @@ const GroupActivities = ({ groupId, activities }) => {
   };
   return (
     <CardsContainer boxShadow={3}>
-      <MainButtons>
-        <ModalPopover ele={<AddButton>ADD ATIVIDADE</AddButton>}>
+      <AtvHeader>
+        <AtvTitle>Atividades</AtvTitle>
+        <ModalPopover
+          ele={<AddButton variant="contained">+</AddButton>}
+          anchorReference="anchorPosition"
+          anchorPosition={{ top: 200, left: 200 }}
+          anchorOrigin={{
+            vertical: "top",
+            horizontal: "center",
+          }}
+          transformOrigin={{
+            vertical: "top",
+            horizontal: "left",
+          }}
+        >
           <AddActivForm onSubmit={handleSubmit(addActiv)}>
             <Controller
               render={({ field }) => (
@@ -95,7 +97,7 @@ const GroupActivities = ({ groupId, activities }) => {
               render={({ field }) => (
                 <TextField
                   id="outlined-basic"
-                  label="Data limite"
+                  helperText="Data limite"
                   variant="outlined"
                   type="datetime-local"
                   required
@@ -112,23 +114,36 @@ const GroupActivities = ({ groupId, activities }) => {
             </Button>
           </AddActivForm>
         </ModalPopover>
-      </MainButtons>
+      </AtvHeader>
       <CardsList>
         {activities.map((item, index) => {
           return (
             <Card key={index}>
               <CardInfo>
                 <h1>{item.title}</h1>
-                <h2>{item.realization_time}</h2>
+                <h2>
+                  {new Date(item.realization_time).toLocaleDateString("pt-BR", {
+                    timeZone: "UTC",
+                  })}
+                </h2>
               </CardInfo>
               <CardButtons>
-                <Button onClick={() => deleteActiv(item.id)}>
-                  <RiDeleteBin6Line fill="#ff5252" />
-                </Button>
-
-                <ModalPopover ele="Editar">
+                <ModalPopover
+                  ele={<RiEdit2Fill fill="var(--dark-blue)" />}
+                  anchorReference="anchorPosition"
+                  anchorPosition={{ top: 200, left: 200 }}
+                  anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "center",
+                  }}
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "left",
+                  }}
+                >
                   <EditActivForm>
                     <TextField
+                      label="Editar título"
                       type="text"
                       value={userInput}
                       onChange={(e) => setUserInput(e.currentTarget.value)}
@@ -142,6 +157,9 @@ const GroupActivities = ({ groupId, activities }) => {
                     </Button>
                   </EditActivForm>
                 </ModalPopover>
+                <Button onClick={() => deleteActiv(item.id)}>
+                  <RiDeleteBin6Line fill="#ff5252" />
+                </Button>
               </CardButtons>
             </Card>
           );

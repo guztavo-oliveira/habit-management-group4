@@ -1,10 +1,16 @@
 import styled from "styled-components";
 
 export const Container = styled.section``;
-export const ModalContainer = styled.section`
-  div {
-    display: inline-flex;
-    width: 100%;
+export const ModalContainer = styled.section``;
+export const Contente = styled.section`
+  background-color: #eaeff5;
+  /* background-color: var(--white); */
+  border-radius: var(--border-radius);
+  margin-bottom: var(--margin);
+  align-self: stretch;
+
+  > div {
+    display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
@@ -14,11 +20,4 @@ export const ModalContainer = styled.section`
       width: 120px;
     }
   }
-`;
-export const Contente = styled.section`
-  background-color: var(--white);
-  border-radius: var(--border-radius);
-  margin-bottom: var(--margin);
-  align-self: stretch;
-  padding-bottom: 30px;
 `;

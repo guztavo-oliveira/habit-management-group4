@@ -21,7 +21,7 @@ const HabitsCard = ({ elemente }) => {
   ////modal Status
   const [cardModal, setCardModal] = useState(false);
 
-  // const [inputDifficulty, setInputDifficulty] = useState("");
+  //states
   const [inputTitle, setInputTitle] = useState("");
   const [inputCategory, setInputCategory] = useState("");
   const [inputFrequency, setInputFrequency] = useState("");
@@ -136,12 +136,6 @@ const HabitsCard = ({ elemente }) => {
               fullWidth
               onChange={(e) => setInputCategory(e.target.value)}
             />
-            {/* <SelectInput
-              label={"Difficulties"}
-              options={Difficulties}
-              onchange={setInputDifficulty}
-              value={inputDifficulty}
-            /> */}
             <SelectInput
               label={"Frequency"}
               options={Frequency}

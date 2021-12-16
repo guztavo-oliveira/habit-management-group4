@@ -7,6 +7,7 @@ export const Container = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+
   background: var(--background);
   margin-bottom: 90px;
 
@@ -63,6 +64,7 @@ export const Container = styled.div`
   .inputCriarGrupo{
     width: 95%;
   }
+
 `;
 export const ModalCriarGrupo = styled.div`
     padding: 15px;
