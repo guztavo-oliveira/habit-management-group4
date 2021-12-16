@@ -18,7 +18,7 @@ const GroupProvider = ({ children }) => {
       .then((response) => {
         setMyGroups(response.data);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {console.log(err)});
   };
 
   return (

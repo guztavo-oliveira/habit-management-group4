@@ -9,7 +9,7 @@ export const ModalDialog = ({
   msgButton = false,
   callback,
   fechar = true,
-  setFechar, //teste
+  setFechar,
   classe,
   icon,
   ...rest
@@ -20,7 +20,7 @@ export const ModalDialog = ({
   };
   useEffect(() => {
     if (fechar === "fechar") {
-      abriModal();
+      setOpen(false)
       setFechar(false);
     }
   }, [fechar]);

@@ -1,4 +1,11 @@
-import { Content, Container, ButtonGroup, ListsContainer } from "./style";
+import {
+  Content,
+  Container,
+  ButtonGroup,
+  ListsContainer,
+  ContainerOneGroup,
+  ContainerEditarGrupo,
+} from "./style";
 import { useAuth } from "../../providers/AuthContext";
 import api from "../../services/api";
 import { ModalDialog } from "../ModalDialog";
@@ -11,33 +18,33 @@ import { useEffect, useState } from "react";
 import GroupActivities from "../GroupActivities";
 import GroupGoals from "../GroupGoals";
 
-const EditGroup = ({ id, updateGroup, setFechar }) => {
+const EditGroup = ({ id, updateGroup, setFechar, setAlvo }) => {
   const { tokenBearer } = useAuth();
 
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
   const [name, setName] = useState("");
 
-
-
   const submit = () => {
-    if(!(!!name && !!category && !!description)){
-      return toast.error("Algo deu errado ao tentar atualizar o grupo...")
+    console.log(id);
+    if (!(!!name && !!category && !!description)) {
+      return toast.error("Algo deu errado ao tentar atualizar o grupo...");
     }
     const data = {
       name,
       description,
-      category
-    }
+      category,
+    };
     api
       .patch(`/groups/${id}/`, data, tokenBearer)
-      .then((_) => {
+      .then((resp) => {
         toast.success("Grupo atualizado com sucesso!");
         updateGroup();
-        setName("")
-        setDescription("")
-        setCategory("")
-        setFechar("fechar")
+        setName("");
+        setDescription("");
+        setCategory("");
+        setFechar("fechar");
+        setAlvo(resp.data);
       })
       .catch((_) =>
         toast.error("Algo deu errado ao tentar atualizar o grupo...")
@@ -45,12 +52,9 @@ const EditGroup = ({ id, updateGroup, setFechar }) => {
   };
 
   return (
-    <form
-      onSubmit={(evt) => {
-        evt.preventDefault();
-        submit();
-      }}
-    >
+    <ContainerEditarGrupo>
+      <h2>Editar grupo</h2>
+      <div className="bodyEditarGrupo">
       <TextField
         onChange={(evt) => {
           setName(evt.target.value);
@@ -75,18 +79,21 @@ const EditGroup = ({ id, updateGroup, setFechar }) => {
         label="description"
         variant="filled"
       />
-
-      <Button darkBlue type="submit" children="Atualizar" />
-    </form>
+      <span className="containerEditarGrupoButtons">
+        <Button darkBlue onClick={() => submit()} children="Atualizar" />
+        <Button red onClick={() => setFechar("fechar")}>
+          Cancelar
+        </Button>
+      </span>
+      </div>
+    </ContainerEditarGrupo>
   );
 };
 
 const CardGroups = ({ group, updateGroup, setAlvo }) => {
-  const { id, tokenBearer } = useAuth();
+  const { id, tokenBearer, refresh } = useAuth();
   const { myGroups } = useGroup();
-  const [fechar, setFechar] = useState(false)
   const subscribe = () => {
-    
     api
       .post(`/groups/${group.id}/subscribe/`, {}, tokenBearer)
       .then(() => {
@@ -99,7 +106,7 @@ const CardGroups = ({ group, updateGroup, setAlvo }) => {
   };
 
   const unsubscribe = (e) => {
-    e.stopPropagation()
+    e.stopPropagation();
     api
       .delete(`/groups/${group.id}/unsubscribe/`, tokenBearer)
       .then(() => {
@@ -112,18 +119,20 @@ const CardGroups = ({ group, updateGroup, setAlvo }) => {
   return (
     <Container
       onClick={() => {
-        !!setAlvo && setAlvo(group);
+        setAlvo(group);
       }}
     >
       <div className="container">
-        <FiUser size={60} />
+        <div className="group-icon" />
         <Content>
-          <div>
-          </div>
+          <div></div>
+
+          <h2>{group.name} </h2>
           <p>
-            <span> Nome:</span> {group.name}
+            <span>Categoria: </span>
+            {group.category}
           </p>
-          <span> {group.category}</span>
+
           <p>
             <span> Criador:</span> {group.creator.username}
           </p>
@@ -131,20 +140,14 @@ const CardGroups = ({ group, updateGroup, setAlvo }) => {
             <span>Descrição:</span> {group.description}
           </p>
           <p>
-            <span>Integrantes: </span> {group.users_on_group.length}
+            <span>Integrantes: </span> {group.users_on_group.length} membros
           </p>
         </Content>
       </div>
       <div className="containerEditar">
-        {group.creator.id === id && (
-          <ButtonGroup onClick={(e) => e.stopPropagation()}>
-            <ModalDialog ele={"Editar"} fechar={fechar} setFechar={setFechar}>
-              <EditGroup id={group.id} updateGroup={updateGroup} fechar={fechar} setFechar={setFechar} />
-            </ModalDialog>
-          </ButtonGroup>
-        )}
         <ButtonGroup
-          onClick={myGroups.some((item) => item.id === group.id)
+          onClick={
+            myGroups.some((item) => item.id === group.id)
               ? unsubscribe
               : subscribe
           }
@@ -164,6 +167,7 @@ export const RenderOneGroup = ({ group, setAlvo }) => {
   const [achievedGoals, setAchievedGoals] = useState([]);
   const [openGoals, setOpenGoals] = useState([]);
   const [activities, setActivities] = useState([]);
+  const [fechar, setFechar] = useState(false);
 
   useEffect(() => {
     api
@@ -211,27 +215,48 @@ export const RenderOneGroup = ({ group, setAlvo }) => {
       .catch((err) => toast("Algo deu errado ao tentar sair do grupo..."));
   };
   return (
-    <>
+    <ContainerOneGroup>
       <div className="container">
-        <FiUser size={60} />
-        <Content>
-          <div>
-            <button onClick={() => setAlvo("")}>Voltar</button>
+        <div className="containerTituloEditar">
+          <span>
+            <FiUser size={60} />
+            <h2>{group.name} </h2>
+          </span>
+
+          {group.creator.id === id && (
+            <ModalDialog
+              ele={<Button darkBlue>Editar</Button>}
+              fechar={fechar}
+              setFechar={setFechar}
+            >
+              <EditGroup
+                id={group.id}
+                updateGroup={updateGroup}
+                setFechar={setFechar}
+                setAlvo={setAlvo}
+              />
+            </ModalDialog>
+          )}
+        </div>
+        <div className="informacoesGrupo">
+          <div className="info">
+            <p>
+              <span>Descrição:</span> {group.description}
+            </p>
+            <p>
+              <span> Categoria: {group.category}</span>
+            </p>
           </div>
-          <p>
-            <span> Nome:</span> {group.name}
-          </p>
-          <span> {group.category}</span>
-          <p>
-            <span> Criador:</span> {group.creator.username}
-          </p>
-          <p>
-            <span>Descrição:</span> {group.description}
-          </p>
-          <p>
-            <span>Integrantes: </span> {group.users_on_group.length}
-          </p>
-        </Content>
+          <div className="info">
+            <p>
+              <span> Criador:</span> {group.creator.username}
+            </p>
+            <p>
+              <span>Integrantes: </span> {group.users_on_group.length} membros
+            </p>
+          </div>
+        </div>
+
         <ListsContainer>
           <GroupActivities activities={activities} groupId={group.id} />
           <GroupGoals
@@ -242,23 +267,31 @@ export const RenderOneGroup = ({ group, setAlvo }) => {
         </ListsContainer>
       </div>
       <div className="containerEditar">
-        {group.creator.id === id && (
-          <ButtonGroup>
-            <ModalDialog ele={"Editar"}>
-              <EditGroup id={group.id} updateGroup={updateGroup} />
-            </ModalDialog>
-          </ButtonGroup>
-        )}
-        <ButtonGroup
-          onClick={() => {
-            unsubscribe();
-            setAlvo("");
-          }}
+        <ModalDialog
+          ele={<Button red>Sair do grupo</Button>}
+          fechar={fechar}
+          setFechar={setFechar}
         >
-          Sair do grupo
-        </ButtonGroup>
+          <h2>Voce tem certeza que deseja sair?</h2>
+
+          <Button
+            green
+            onClick={() => {
+              unsubscribe();
+              setAlvo("");
+            }}
+          >
+            Sim
+          </Button>
+          <Button red onClick={() => setFechar("fechar")}>
+            Não
+          </Button>
+        </ModalDialog>
+        <Button green onClick={() => setAlvo("")}>
+          Voltar
+        </Button>
       </div>
-    </>
+    </ContainerOneGroup>
   );
 };
 
