@@ -3,7 +3,6 @@ import {
   Container,
   ButtonGroup,
   ListsContainer,
-  GroupProfileContainer,
   ContainerOneGroup,
   ContainerEditarGrupo,
 } from "./style";
@@ -97,8 +96,10 @@ const EditGroup = ({ groupid, updateGroup, setFechar, setAlvo }) => {
 const CardGroups = ({ group, updateGroup, setAlvo }) => {
   const { id, tokenBearer, refresh } = useAuth();
   const { myGroups } = useGroup();
-  const { categoryImages } = useCategoryOptions();
-  const groupIcon = categoryImages.find((item) => item.name === group.category);
+  const {categoryImages} = useCategoryOptions();
+  const groupIcon = categoryImages.find((item)=>item.name === group.category)
+
+
   const subscribe = () => {
     api
       .post(`/groups/${group.id}/subscribe/`, {}, tokenBearer)
@@ -117,16 +118,21 @@ const CardGroups = ({ group, updateGroup, setAlvo }) => {
       .delete(`/groups/${group.id}/unsubscribe/`, tokenBearer)
       .then(() => {
         updateGroup();
-        toast.success("Você saiu do grupo!");
+        toast("Você saiu do grupo!");
       })
-      .catch((err) => toast.error("Algo deu errado ao tentar sair do grupo..."));
+      .catch((err) => toast("Algo deu errado ao tentar sair do grupo..."));
   };
 
   return (
     <Container
       groupIcon={!!groupIcon ? groupIcon.image : groupIconDefault}
       onClick={() => {
-         setAlvo(group);
+        if(myGroups.includes((item) => item.name === group.name )){
+         setAlvo(group); 
+        }else{
+          toast.error('É necessário entrar no grupo para abrir a page...')
+        }
+        
       }}
     >
       <div className="container">
@@ -175,7 +181,10 @@ export const RenderOneGroup = ({ group, setAlvo }) => {
   const [openGoals, setOpenGoals] = useState([]);
   const [activities, setActivities] = useState([]);
   const [fechar, setFechar] = useState(false);
-  console.log(group, "dentro do card Group");
+
+  const {categoryImages} = useCategoryOptions();
+  const groupIcon = categoryImages.find((item)=>item.name === group.category)
+
   useEffect(() => {
     api
       .get(`/groups/${group.id}/`, tokenBearer)
@@ -225,11 +234,14 @@ export const RenderOneGroup = ({ group, setAlvo }) => {
   console.log(openGoals);
   console.log(activities);
   return (
-    <ContainerOneGroup>
+    <ContainerOneGroup groupIcon={!!groupIcon ? groupIcon.image : groupIconDefault }>
+        <div className="group-icon" />
+      
       <div className="container">
+      
         <div className="containerTituloEditar">
           <span>
-            <FiUser size={60} />
+          
             <h2>{group.name} </h2>
           </span>
 
