@@ -12,7 +12,6 @@ import api from "../../services/api";
 import { ModalDialog } from "../ModalDialog";
 import { TextField } from "@mui/material";
 import Button from "../Button";
-import { FiUser } from "react-icons/fi";
 import { toast } from "react-toastify";
 import { useGroup } from "../../providers/JsonGroups";
 import { useEffect, useState } from "react";
@@ -129,7 +128,9 @@ const CardGroups = ({ group, updateGroup, setAlvo }) => {
     <Container
       groupIcon={!!groupIcon ? groupIcon.image : groupIconDefault}
       onClick={() => {
+        console.log('entrei na funcao click')
         if (myGroups.some((item) => item.name === group.name)) {
+          console.log('entrei no card')
           setAlvo(group);
         } else {
           toast.error("É necessário entrar no grupo para abrir a page...");

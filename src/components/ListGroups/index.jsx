@@ -149,15 +149,12 @@ const ListGroups = () => {
                     fullWidth
                     onChange={(e) => setDescription(e.target.value)}
                   />
-                  <TextField
-                    className="inputCriarGrupo"
-                    id="outlined-basic"
-                    label="category"
-                    type="text"
-                    variant="outlined"
-                    fullWidth
-                    onChange={(e) => setCategory(e.target.value)}
-                  />
+                <SelectInput
+                  label="category"
+                  options={categoryOptions}
+                  onchange={setCategory}
+                  value={category}
+                />
                   <span className="containerCriarGrupoButtons">
                     <Button
                       darkBlue
