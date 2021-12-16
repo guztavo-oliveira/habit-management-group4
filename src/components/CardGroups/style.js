@@ -11,11 +11,7 @@ export const Container = styled.div`
   min-height: 150px;
   /* min-width: 300px;
   max-width: 600px; */
-<<<<<<< HEAD
   width: 100%;
-=======
-  width: 600px;
->>>>>>> 35a9b4553ecaa84abbf7b0190e44d09e72b38088
   background: var(--card-background);
   border: 1px var(--light-blue) solid;
   border-radius: 10px;

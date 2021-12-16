@@ -67,8 +67,9 @@ const SearchGroups = () => {
       {showAllGroups && (
         <div className="scrollInfiniteGroups">
           <InfiniteScroll
-            className="scrollInfinite"
+            // className="scrollInfinite"
             dataLength={groups.results.length}
+            // style={{overflow:"hidden"}}
             next={() => {
               getNextPage();
               console.log("carregou mais");
@@ -76,7 +77,7 @@ const SearchGroups = () => {
             height={500}
             hasMore={show}
             loader={<CircularProgress />}
-            className="scrollInfinite"
+            id="scrollInfinite"
           >
             {!!search ? (
               <>

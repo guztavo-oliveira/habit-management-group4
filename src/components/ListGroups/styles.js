@@ -7,11 +7,14 @@ export const Container = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  overflow-x: hidden;
 
   background: var(--background);
   margin-bottom: 90px;
-
-  .scrollInfinite {
+  h2{
+    font-family: "Nova Round", cursive;
+  }
+  #scrollInfinite {
     justify-content: center;
     align-items: center;
     height: 400px;
@@ -20,10 +23,14 @@ export const Container = styled.div`
     flex-direction: column;
     justify-content: flex-start;
     margin-top: 25px;
+    overflow-x: hidden ;
   }
-  .containerPesquisa{
-      width: 100%;
-    }
+  .infinite-scroll-component{
+      overflow-x: hidden ;
+  }
+  .containerPesquisa {
+    width: 100%;
+  }
   .headerPesquisaGroups {
     display: flex;
     justify-content: space-around;
@@ -46,10 +53,11 @@ export const Container = styled.div`
     width: 95%;
   }
   @media (min-width: 1024px) {
-    width: 427px;
+    width: 500px;
     height: 617px;
     display: flex;
     overflow-y: auto;
+    overflow-x: hidden;
     justify-content: flex-start;
     .meusGrupos {
       ::-webkit-scrollbar-track {
@@ -64,7 +72,7 @@ export const Container = styled.div`
         border-radius: 15px 15px;
       }
     }
-    .scrollInfinite {
+    #scrollInfinite {
       ::-webkit-scrollbar-track {
         background-color: var(--light-blue);
       }
@@ -77,9 +85,15 @@ export const Container = styled.div`
         border-radius: 15px 15px;
       }
     }
-    .containerPesquisa{
+    .containerPesquisa {
       width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
+    /* .infinite-scroll-component__outerdiv{
+      width: 450px;
+    } */
   }
 `;
 export const ModalCriarGrupo = styled.div`

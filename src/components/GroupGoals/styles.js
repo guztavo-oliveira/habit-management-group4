@@ -162,7 +162,7 @@ export const AtvTitle = styled.h1`
   text-align: center;
   font-family: "titleFont", sans-serif;
   color: var(--dark-blue);
-  padding-left: 30%;
+  padding-left: 20%;
 `;
 
 export const GoalTitle = styled.h1`
