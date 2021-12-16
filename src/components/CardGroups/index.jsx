@@ -241,7 +241,6 @@ export const RenderOneGroup = ({ group, setAlvo }) => {
     <ContainerOneGroup
       groupIcon={!!groupIcon ? groupIcon.image : groupIconDefault}
     >
-      <div className="group-icon" />
 
       <div className="container">
         <div className="containerTituloEditar">

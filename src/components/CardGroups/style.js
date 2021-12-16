@@ -45,7 +45,7 @@ justify-content:space-around;
 
   justify-content: flex-end;
   height: 100%;
-  box-sizing: content-box;
+  box-sizing: border-box;
 
   h2 {
     width:80%;
@@ -159,7 +159,7 @@ export const Content = styled.div`
   align-items: left;
   justify-content: flex-end;
   height: 100%;
-  box-sizing: content-box;
+  box-sizing: border-box;
   width: 90%;
   
   h2 {
