@@ -1,4 +1,12 @@
-import { Content, Container, ButtonGroup, ListsContainer, GroupProfileContainer,  ContainerOneGroup,ContainerEditarGrupo} from "./style";
+import {
+  Content,
+  Container,
+  ButtonGroup,
+  ListsContainer,
+  GroupProfileContainer,
+  ContainerOneGroup,
+  ContainerEditarGrupo,
+} from "./style";
 import { useAuth } from "../../providers/AuthContext";
 import api from "../../services/api";
 import { ModalDialog } from "../ModalDialog";
@@ -12,13 +20,12 @@ import GroupActivities from "../GroupActivities";
 import GroupGoals from "../GroupGoals";
 import SelectInput from "../SelectInput";
 import { useCategoryOptions } from "../../providers/CategoryOptions";
-import groupIconDefault from '../../assets/images/grupo-icone.png'
+import groupIconDefault from "../../assets/images/grupo-icone.png";
 
-const EditGroup = ({ groupid, updateGroup, setFechar , setAlvo}) => {
-  const { categoryOptions} = useCategoryOptions();
+const EditGroup = ({ groupid, updateGroup, setFechar, setAlvo }) => {
+  const { categoryOptions } = useCategoryOptions();
 
   const { tokenBearer } = useAuth();
-  
 
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
@@ -53,35 +60,35 @@ const EditGroup = ({ groupid, updateGroup, setFechar , setAlvo}) => {
     <ContainerEditarGrupo>
       <h2>Editar grupo</h2>
       <div className="bodyEditarGrupo">
-      <TextField
-        onChange={(evt) => {
-          setName(evt.target.value);
-        }}
-        value={name}
-        label="name"
-        variant="filled"
-      />
-      <SelectInput
-        label="category"
-        options={categoryOptions}
-        onchange={setCategory}
-        value={category}
-      />
+        <TextField
+          onChange={(evt) => {
+            setName(evt.target.value);
+          }}
+          value={name}
+          label="name"
+          variant="filled"
+        />
+        <SelectInput
+          label="category"
+          options={categoryOptions}
+          onchange={setCategory}
+          value={category}
+        />
 
-      <TextField
-        onChange={(evt) => {
-          setDescription(evt.target.value);
-        }}
-        value={description}
-        label="description"
-        variant="filled"
-      />
-      <span className="containerEditarGrupoButtons">
-        <Button darkBlue onClick={() => submit()} children="Atualizar" />
-        <Button red onClick={() => setFechar("fechar")}>
-          Cancelar
-        </Button>
-      </span>
+        <TextField
+          onChange={(evt) => {
+            setDescription(evt.target.value);
+          }}
+          value={description}
+          label="description"
+          variant="filled"
+        />
+        <span className="containerEditarGrupoButtons">
+          <Button darkBlue onClick={() => submit()} children="Atualizar" />
+          <Button red onClick={() => setFechar("fechar")}>
+            Cancelar
+          </Button>
+        </span>
       </div>
     </ContainerEditarGrupo>
   );
@@ -90,9 +97,8 @@ const EditGroup = ({ groupid, updateGroup, setFechar , setAlvo}) => {
 const CardGroups = ({ group, updateGroup, setAlvo }) => {
   const { id, tokenBearer, refresh } = useAuth();
   const { myGroups } = useGroup();
-  const {categoryImages} = useCategoryOptions();
-  const groupIcon = categoryImages.find((item)=>item.name === group.category)
-
+  const { categoryImages } = useCategoryOptions();
+  const groupIcon = categoryImages.find((item) => item.name === group.category);
 
   const subscribe = () => {
     api
@@ -112,13 +118,16 @@ const CardGroups = ({ group, updateGroup, setAlvo }) => {
       .delete(`/groups/${group.id}/unsubscribe/`, tokenBearer)
       .then(() => {
         updateGroup();
-        toast("Você saiu do grupo!");
+        toast.success("Você saiu do grupo!");
       })
-      .catch((err) => toast("Algo deu errado ao tentar sair do grupo..."));
+      .catch((err) =>
+        toast.error("Algo deu errado ao tentar sair do grupo...")
+      );
   };
 
   return (
-    <Container groupIcon={!!groupIcon ? groupIcon.image : groupIconDefault }
+    <Container
+      groupIcon={!!groupIcon ? groupIcon.image : groupIconDefault}
       onClick={() => {
         setAlvo(group);
       }}
@@ -170,24 +179,24 @@ export const RenderOneGroup = ({ group, setAlvo }) => {
   const [activities, setActivities] = useState([]);
   const [fechar, setFechar] = useState(false);
 
-  const {categoryImages} = useCategoryOptions();
-  const groupIcon = categoryImages.find((item)=>item.name === group.category)
+  const { categoryImages } = useCategoryOptions();
+  const groupIcon = categoryImages.find((item) => item.name === group.category);
 
   useEffect(() => {
     api
-      .get(`/activities/?grupo=${group.id}/`, tokenBearer)
+      .get(`/groups/${group.id}/`, tokenBearer)
       .then((response) => {
-        setActivities(response.data.results);
+        setActivities(response.data.activities);
       })
       .catch((err) => {
         console.log(err);
       });
 
     api
-      .get(`/goals/?grupo=${group.id}/`, tokenBearer)
+      .get(`/groups/${group.id}/`, tokenBearer)
       .then((response) => {
         setAchievedGoals(
-          response.data.results.filter((e) => {
+          response.data.goals.filter((e) => {
             return e.achieved === true;
           })
         );
@@ -196,10 +205,10 @@ export const RenderOneGroup = ({ group, setAlvo }) => {
         console.log(err);
       });
     api
-      .get(`/goals/?grupo=${group.id}/`, tokenBearer)
+      .get(`/groups/${group.id}/`, tokenBearer)
       .then((response) => {
         setOpenGoals(
-          response.data.results.filter((e) => {
+          response.data.goals.filter((e) => {
             return e.achieved === false;
           })
         );
@@ -207,7 +216,7 @@ export const RenderOneGroup = ({ group, setAlvo }) => {
       .catch((err) => {
         console.log(err);
       });
-      console.log("atualizou")
+    console.log("atualizou");
   }, [refresh]);
 
   const unsubscribe = () => {
@@ -219,17 +228,17 @@ export const RenderOneGroup = ({ group, setAlvo }) => {
       })
       .catch((err) => toast("Algo deu errado ao tentar sair do grupo..."));
   };
-  console.log(openGoals)
-  console.log(activities)
+  console.log(openGoals);
+  console.log(activities);
   return (
-    <ContainerOneGroup groupIcon={!!groupIcon ? groupIcon.image : groupIconDefault }>
-        <div className="group-icon" />
-      
+    <ContainerOneGroup
+      groupIcon={!!groupIcon ? groupIcon.image : groupIconDefault}
+    >
+      <div className="group-icon" />
+
       <div className="container">
-      
         <div className="containerTituloEditar">
           <span>
-          
             <h2>{group.name} </h2>
           </span>
 

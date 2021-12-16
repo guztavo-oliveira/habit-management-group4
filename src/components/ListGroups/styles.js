@@ -21,7 +21,9 @@ export const Container = styled.div`
     justify-content: flex-start;
     margin-top: 25px;
   }
-
+  .containerPesquisa{
+      width: 100%;
+    }
   .headerPesquisaGroups {
     display: flex;
     justify-content: space-around;
@@ -74,6 +76,9 @@ export const Container = styled.div`
         background: blue;
         border-radius: 15px 15px;
       }
+    }
+    .containerPesquisa{
+      width: 100%;
     }
   }
 `;
