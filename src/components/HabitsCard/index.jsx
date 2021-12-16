@@ -108,7 +108,7 @@ const HabitsCard = ({ elemente }) => {
 
       <div className="edit">
         <ModalPopover
-          icon={"Editar"}
+          icon={<p>Editar</p>}
           msgButton={{
             atualizar: "Atualizar",
             cancelar: "Cancelar",
@@ -148,7 +148,7 @@ const HabitsCard = ({ elemente }) => {
           </div>
         </ModalPopover>
         <CgTrash onClick={() => removeHabits(id)} />
-        <h3>{how_much_achieved}</h3>
+        <p>{how_much_achieved}</p>
       </div>
       <Controls>
         <span onClick={() => updateAchievemente("add")}>

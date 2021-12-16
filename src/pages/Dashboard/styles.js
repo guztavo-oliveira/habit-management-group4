@@ -4,21 +4,52 @@ import logoPreto from "../../assets/images/simbolo-preto.png";
 export const Container = styled.div`
   height: 100%;
   display: flex;
+  flex-flow: column;
   align-items: center;
-  flex-direction: column;
   justify-content: center;
-  /* @media (min-width: ${({ width }) => `${width}px`}) {
-    flex-direction: row;
+
+  /* @media screen and (min-width: 800px) {
+    flex-flow: row;
+    /* align-items: center;
+    flex-direction: column;
+    justify-content: center; */
   } */
-  @media (min-width: 1024px) {
-
-  background-color: var(--card-background);
-
-
+/* 
   @media (min-width: ${({ width }) => `${width}px`}) {
     flex-direction: row;
   }
 
+  /* @media (min-width: ${({ width }) => `${width}px`}) {
+    flex-direction: row;
+  } */
+  /* @media (min-width: 1024px) {
+    background-color: var(--card-background);
+  }
+  @media (min-width: ${({ width }) => `${width}px`}) {
+    flex-direction: row;
+  } */ */
+`;
+
+export const Wrapper = styled.div`
+  display: flex;
+  flex-flow: row;
+`;
+
+export const ContainerHabits = styled.div`
+  flex: 1;
+  padding: 20px;
+  height: 100%;
+  max-width: 500px;
+  /* width: 90%; */
+
+  border: 1px solid blue;
+`;
+
+export const ContainerGroups = styled.div`
+  flex: 1;
+  padding: 20px;
+  height: 100%;
+  border: 1px solid red;
 `;
 
 export const Header = styled.header`
@@ -32,6 +63,15 @@ export const Header = styled.header`
   .header__icon {
     width: 36px;
     height: 36px;
+  }
+
+  .logo {
+    /* background-color: var(--light-blue); */
+    background-image: url(${logoPreto});
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 70px;
+    height: 86px;
   }
 
   svg {
@@ -109,18 +149,6 @@ export const MenuBar = styled.div`
     left: 50%;
     bottom: -10px;
   }
-`;
-
-export const ContainerHabits = styled.div`
-  width: 90%;
-  height: 100%;
-  /* border: 1px solid red; */
-`;
-
-export const ContainerGroups = styled.div`
-  width: 90%;
-  height: 100%;
-  /* border: 1px solid red; */
 `;
 
 export const ContainerEditUser = styled.div`

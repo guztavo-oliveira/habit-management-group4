@@ -9,21 +9,19 @@ export const Container = styled.div`
   flex-direction: row;
   align-items: center;
   min-height: 150px;
-  box-sizing:border-box;
-  min-width:290px;
-  width:97%;
+  box-sizing: border-box;
+  min-width: 290px;
+  width: 97%;
   background: var(--card-background);
   border: 1px var(--light-blue) solid;
   border-radius: 10px;
-
   box-shadow: 1px 3px 10px var(--gray);
-
   cursor: pointer;
 
   .group-icon {
     width: 50px;
     height: 50px;
-    background-image: url(${props => props.groupIcon});
+    background-image: url(${(props) => props.groupIcon});
     background-size: contain;
     background-repeat: no-repeat;
     color: var(--dark-blue);
@@ -42,7 +40,6 @@ export const Container = styled.div`
     flex-direction: column;
     justify-content: space-between;
   }
-  
 `;
 
 export const Content = styled.div`
@@ -73,17 +70,14 @@ export const Content = styled.div`
     overflow: hidden;
     text-overflow: ellipsis;
     font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+      monospace;
   }
   span {
     margin: 0 5px;
     color: var(--light-blue);
     font-size: 16px;
     font-family: "infoFont", sans-serif;
-
   }
-
-
 `;
 
 export const ButtonGroup = styled.button`
@@ -148,10 +142,10 @@ export const ContainerOneGroup = styled.section`
       flex-direction: column;
     }
   }
-   .group-icon {
+  .group-icon {
     width: 50px;
     height: 50px;
-    background-image: url(${props => props.groupIcon});
+    background-image: url(${(props) => props.groupIcon});
     background-size: contain;
     background-repeat: no-repeat;
     color: var(--dark-blue);
@@ -182,7 +176,4 @@ export const ContainerEditarGrupo = styled.div`
   .containerEditarGrupoButtons {
     display: flex;
   }
-  
 `;
-
-

@@ -9,6 +9,7 @@ export const Container = styled.div`
   justify-content: space-between;
   align-items: center;
   height: 100px;
+  /* max-width: 350px; */
   overflow: hidden;
   margin-bottom: 15px;
 
@@ -56,13 +57,14 @@ export const Container = styled.div`
     svg {
       height: 30px;
       margin: 12px 0;
+      color: gray;
 
       &:hover {
         transition: 1.5s ease;
       }
     }
 
-    h3 {
+    &:nth-child(2) > p {
       transform: translateY(-6px);
     }
   }

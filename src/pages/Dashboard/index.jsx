@@ -5,6 +5,7 @@ import {
   ContainerHabits,
   ContainerGroups,
   ContainerEditUser,
+  Wrapper,
 } from "./styles";
 import { BiUser, BiGroup } from "react-icons/bi";
 import { GoHome, GoPerson, GoSearch } from "react-icons/go";
@@ -94,9 +95,19 @@ const Dashboard = () => {
   return (
     <>
       {width >= resize ? (
-        <Container width={resize}>
-          <Habits />
-          <ListGroups />
+        // <Container width={resivze}>
+        <Container>
+          <Header>
+            <div className="logo" />
+          </Header>
+          <Wrapper>
+            <ContainerHabits>
+              <Habits />
+            </ContainerHabits>
+            <ContainerGroups>
+              <ListGroups />
+            </ContainerGroups>
+          </Wrapper>
         </Container>
       ) : (
         <Container>
@@ -112,8 +123,7 @@ const Dashboard = () => {
                 <ListGroups />
               </ContainerGroups>
             )) ||
-            (choose.includes("search") &&
-            <SearchGroups />)}
+            (choose.includes("search") && <SearchGroups />)}
 
           {/*Menu inferior*/}
           <MenuBar>
