@@ -14,7 +14,6 @@ import SelectInput from "../SelectInput";
 import { useCategoryOptions } from "../../providers/CategoryOptions";
 import groupIconDefault from '../../assets/images/grupo-icone.png'
 
-
 const EditGroup = ({ groupid, updateGroup, setFechar , setAlvo}) => {
   const { categoryOptions} = useCategoryOptions();
 
@@ -91,6 +90,8 @@ const EditGroup = ({ groupid, updateGroup, setFechar , setAlvo}) => {
 const CardGroups = ({ group, updateGroup, setAlvo }) => {
   const { id, tokenBearer, refresh } = useAuth();
   const { myGroups } = useGroup();
+  const {categoryImages} = useCategoryOptions();
+  const groupIcon = categoryImages.find((item)=>item.name === group.category)
   const subscribe = () => {
     api
       .post(`/groups/${group.id}/subscribe/`, {}, tokenBearer)
@@ -115,7 +116,7 @@ const CardGroups = ({ group, updateGroup, setAlvo }) => {
   };
 
   return (
-    <Container 
+    <Container groupIcon={!!groupIcon ? groupIcon.image : groupIconDefault }
       onClick={() => {
         setAlvo(group);
       }}
@@ -166,7 +167,7 @@ export const RenderOneGroup = ({ group, setAlvo }) => {
   const [openGoals, setOpenGoals] = useState([]);
   const [activities, setActivities] = useState([]);
   const [fechar, setFechar] = useState(false);
-
+  console.log(group, "dentro do card Group")
   useEffect(() => {
     api
       .get(`/activities/?grupo=${group.id}/`, tokenBearer)
@@ -201,6 +202,7 @@ export const RenderOneGroup = ({ group, setAlvo }) => {
       .catch((err) => {
         console.log(err);
       });
+      console.log("atualizou")
   }, [refresh]);
 
   const unsubscribe = () => {
@@ -212,6 +214,8 @@ export const RenderOneGroup = ({ group, setAlvo }) => {
       })
       .catch((err) => toast("Algo deu errado ao tentar sair do grupo..."));
   };
+  console.log(openGoals)
+  console.log(activities)
   return (
     <ContainerOneGroup>
       <div className="container">
