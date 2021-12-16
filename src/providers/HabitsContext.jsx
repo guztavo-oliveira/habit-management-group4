@@ -3,13 +3,12 @@ import api from "../services/api";
 import { useAuth } from "./AuthContext";
 
 const HabitsContext = createContext({});
-
 const useHabits = () => {
   const context = useContext(HabitsContext);
   return context;
 };
-
 const HabitsProvider = ({ children }) => {
+  const [fechar, setFechar] = useState(false)
   const { tokenBearer } = useAuth();
 
   //atualiza quando entra
@@ -31,6 +30,7 @@ const HabitsProvider = ({ children }) => {
         console.log(response.data);
         console.log("add");
         getHabits();
+        setFechar("fechar")
       })
       .catch((_) => console.log("error"));
   };
@@ -54,7 +54,7 @@ const HabitsProvider = ({ children }) => {
         console.log(response.data);
         console.log("completed");
         getHabits();
-        return true
+        setFechar("fechar")
       })
       .catch((_) => console.log("error"));
   };
@@ -68,6 +68,8 @@ const HabitsProvider = ({ children }) => {
         removeHabits,
         editHabits,
         getHabits,
+        fechar,
+        setFechar
       }}
     >
       {children}

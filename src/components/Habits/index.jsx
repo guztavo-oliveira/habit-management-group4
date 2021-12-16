@@ -30,7 +30,7 @@ const Habits = () => {
     resolver: yupResolver(schema),
   });
 
-  const { habits, addHabits } = useHabits();
+  const { habits, addHabits, fechar, setFechar } = useHabits();
 
   const onSubmitFunc = (data) => {
     const newData = {
@@ -52,7 +52,7 @@ const Habits = () => {
   return (
     <Container>
       <ModalContainer>
-        <ModalDialog ele={<h2>Adicionar habito +</h2>}>
+        <ModalDialog ele={<h2>Adicionar habito +</h2>} fechar={fechar} setFechar={setFechar} >
           <h3>Register New Habits</h3>
           <form onSubmit={handleSubmit(onSubmitFunc)}>
             <TextField

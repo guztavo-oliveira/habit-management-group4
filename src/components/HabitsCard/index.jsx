@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useHabits } from "../../providers/HabitsContext";
+import { useState } from "react";
 
 const HabitsCard = ({ elemente }) => {
   //desconstruindo o elemeto que vai vir como parametro
@@ -14,7 +15,7 @@ const HabitsCard = ({ elemente }) => {
     elemente;
 
   //funções de adicionar e remover habitos vem do provider
-  const { removeHabits, editHabits } = useHabits();
+  const { removeHabits, editHabits, fechar, setFechar } = useHabits();
 
   const schema = yup.object().shape({
     title: yup.string().required("Required field"),
@@ -59,6 +60,9 @@ const HabitsCard = ({ elemente }) => {
       editHabits(id, sub);
     }
   };
+  // const callBack = () => {
+
+  // }
 
   return (
     <Container>
@@ -70,7 +74,7 @@ const HabitsCard = ({ elemente }) => {
       </div>
 
       <div className="edit">
-        <ModalPopover ele={"editar"}>
+        <ModalPopover ele={"editar"} fechar={fechar} setFechar={setFechar}>
           <h3>Register New Habits</h3>
           <form onSubmit={handleSubmit(editFunc)}>
             <TextField
