@@ -3,7 +3,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { TextField } from "@material-ui/core";
 import { useHistory, Link } from "react-router-dom";
-import { Container, InputContainer, Bar, RegisterLogo } from "./styles";
+import { Container, InputContainer, Bar, LoginLogo } from "./styles";
 import Button from "../../components/Button";
 
 import { useLayoutEffect, useState } from "react";
@@ -15,6 +15,7 @@ import { useAuth } from "../../providers/AuthContext";
 const Login = () => {
   const history = useHistory();
   const { atualizarToken } = useAuth();
+
   const schema = yup.object().shape({
     username: yup
       .string()
@@ -46,25 +47,30 @@ const Login = () => {
 
     localStorage.setItem("@gestaodehabitos:id", user_id);
     localStorage.setItem("@gestaodehabitos:access", access);
+
     atualizarToken();
     history.push("/dashboard");
+   
   };
 
+ 
   const handleSignIn = (data) => {
-    console.log(data)
+    
+
     api
       .post("/sessions/", data)
       .then((response) => {
         addData(response);
-        console.log("success");
-      })
+          })
       .catch((err) => console.log("invalid data"));
   };
 
   return (
     <>
       <Bar />
-      <RegisterLogo />
+
+      <LoginLogo />
+
       <Container>
         <InputContainer>
           <form onSubmit={handleSubmit(handleSignIn)}>
@@ -91,7 +97,9 @@ const Login = () => {
               error={!!errors.password}
               type="password"
             />
+
             <Button darkBlue>Entrar</Button>
+
             <p>Ainda não tem conta?</p>
             <Link to="/signup">Cadastre-se</Link>
           </form>
