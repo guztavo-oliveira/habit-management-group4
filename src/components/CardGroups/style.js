@@ -12,7 +12,7 @@ export const Container = styled.div`
   min-height: 150px;
   box-sizing:border-box;
   min-width:290px;
-  width:80%;
+  width:90%;
   background: var(--card-background);
   border: 1px var(--light-blue) solid;
   border-radius: 10px;
