@@ -5,7 +5,6 @@ export const Container = styled.div`
   margin-bottom: 15px;
   padding: 10px;
   display: flex;
-  justify-content: space-between;
   flex-direction: row;
   align-items: center;
   min-height: 150px;
@@ -51,9 +50,10 @@ export const Content = styled.div`
   align-items: left;
   justify-content: flex-end;
   height: 100%;
-  max-width: 70%;
-
+  box-sizing: content-box;
+  
   h2 {
+    width: 80%;
     font-family: "infoFont", sans-serif;
     color: var(--dark-blue);
     font-size: 26px;
@@ -65,6 +65,8 @@ export const Content = styled.div`
     text-overflow: ellipsis;
   }
   p {
+    width: 80%;
+
     margin: 0;
     color: var(--gray);
     display: -webkit-box;
@@ -89,8 +91,8 @@ export const Content = styled.div`
 export const ButtonGroup = styled.button`
   border: none;
   align-self: flex-end;
-  height: 40px;
-  width: 60px;
+  height: auto;
+  width: 80px;
   font-size: 16px;
   color: var(--gray);
   margin-right: 5px;
@@ -101,18 +103,7 @@ export const ButtonGroup = styled.button`
     cursor: pointer;
   }
 
-  border: none;
-  align-self: flex-end;
-  height: 40px;
-  font-size: 16px;
-  color: var(--gray);
-  margin-right: 5px;
-  border-bottom: 1px solid var(--light-blue);
-  background-color: transparent;
-  font-family: "Nova Round", cursive;
-  &:hover {
-    cursor: pointer;
-  }
+
 `;
 
 export const ListsContainer = styled(Box)`
