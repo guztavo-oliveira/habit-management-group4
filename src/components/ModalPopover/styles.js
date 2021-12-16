@@ -97,6 +97,7 @@ export const PopoverStyled = styled(Popover)`
     .buttons {
       display: flex;
       flex-direction: row;
+      gap:20px;
     }
     form {
       display: flex;

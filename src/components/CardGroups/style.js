@@ -123,6 +123,10 @@ export const ContainerOneGroup = styled.section`
     margin-top: 25px;
     display: flex;
     justify-content: space-around;
+    button {
+      font-size:14px;
+      width:130px;
+    }
   }
   .containerTituloEditar {
     display: flex;
@@ -182,3 +186,15 @@ export const ContainerEditarGrupo = styled.div`
 `;
 
 
+export const GroupProfileContainer = styled.div`
+  .group-icon {
+    width: 100px;
+    height: 100px;
+    background-image: url(${(props) => props.groupIcon});
+    background-size: contain;
+    background-repeat: no-repeat;
+    color: var(--dark-blue);
+    background-color: var(--neon-blue);
+    border-radius: 10px;
+  }
+`;
