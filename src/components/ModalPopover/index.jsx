@@ -30,7 +30,7 @@ export const ModalPopover = ({
   useEffect(() => {
     if (fechar === "fechar") {
       setFechar(false);
-      abriModal();
+      setOpen(false)
     }
   }, [fechar]);
 
