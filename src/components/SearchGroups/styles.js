@@ -11,23 +11,11 @@ export const ContainerBuscar = styled.section`
   h2{
     font-family: "Nova Round", cursive;
   }
-
-  #scrollInfinite {
-    justify-content: center;
-    align-items: center;
-    height: 400px;
+  .infinite-scroll-component {
     display: flex;
-    overflow-y: auto;
     flex-direction: column;
-    justify-content: flex-start;
-    margin-top: 25px;
+    align-items: center;
   }
-  .infinite-scroll-component #scrollInfinite{
-    overflow-x: hidden ;
-  }
-  
-  /* .infinite-scroll-component__outerdiv{
-      width: 450px;
-    } */
+
  
 `;

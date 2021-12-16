@@ -1,34 +1,32 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  width: 95%;
+  /* width: 95%; */
   display: flex;
-  padding: 15px;
+  /* padding: 15px; */
   flex-direction: column;
   align-items: center;
   justify-content: center;
   overflow-x: hidden;
-  .containerCardGroups{
-    width: 450px;
+  .containerCardGroups {
+    width: 320px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
   background: var(--background);
   margin-bottom: 90px;
-  h2{
+  h2 {
     font-family: "Nova Round", cursive;
   }
-  #scrollInfinite {
-    justify-content: center;
-    align-items: center;
-    height: 400px;
+  .infinite-scroll-component {
     display: flex;
-    overflow-y: auto;
     flex-direction: column;
-    justify-content: flex-start;
-    margin-top: 25px;
-    overflow-x: hidden ;
+    align-items: center;
   }
-  .infinite-scroll-component{
-      overflow-x: hidden ;
+
+  .infinite-scroll-component {
+    overflow-x: hidden;
   }
   .containerPesquisa {
     width: 100%;
@@ -39,6 +37,7 @@ export const Container = styled.div`
     justify-content: space-around;
     width: 100%;
     flex-direction: column;
+    margin-bottom: 25px;
   }
 
   .meusGrupos {
@@ -51,11 +50,12 @@ export const Container = styled.div`
   .containerCriarGrupo {
     display: flex;
     justify-content: space-between;
+    margin-bottom: 15px;
   }
   .inputCriarGrupo {
-    width: 95%;
   }
   @media (min-width: 1024px) {
+    padding: 20px;
     width: 500px;
     height: 617px;
     display: flex;
@@ -94,6 +94,9 @@ export const Container = styled.div`
       flex-direction: column;
       align-items: center;
     }
+    .containerCardGroups {
+    width: 430px;
+  }
     /* .infinite-scroll-component__outerdiv{
       width: 450px;
     } */

@@ -5,25 +5,24 @@ export const Container = styled.div`
   margin-bottom: 15px;
   padding: 10px;
   display: flex;
-  justify-content: space-between;
   flex-direction: row;
   align-items: center;
   min-height: 150px;
-  /* min-width: 300px;
-  max-width: 600px; */
-  width: 100%;
+  box-sizing:border-box;
+  min-width:290px;
+  width:97%;
   background: var(--card-background);
   border: 1px var(--light-blue) solid;
   border-radius: 10px;
-
+  justify-content: space-between;
   box-shadow: 1px 3px 10px var(--gray);
 
   cursor: pointer;
 
   .group-icon {
-    width: 100px;
-    height: 100px;
-    background-image: url(${(props) => props.groupIcon});
+    width: 50px;
+    height: 50px;
+    background-image: url(${props => props.groupIcon});
     background-size: contain;
     background-repeat: no-repeat;
     color: var(--dark-blue);
@@ -42,19 +41,23 @@ export const Container = styled.div`
     flex-direction: column;
     justify-content: space-between;
   }
+  
 `;
 
 export const Content = styled.div`
-  margin: 0px 20px;
   display: flex;
   flex-direction: column;
   align-items: left;
   justify-content: flex-end;
   height: 100%;
-  max-width: 70%;
+  box-sizing: content-box;
+  /* width: 270px; */
+  width: 140px;
 
+  
   h2 {
-    font-family: "logoFont", sans-serif;
+    width: 80%;
+    font-family: "infoFont", sans-serif;
     color: var(--dark-blue);
     font-size: 26px;
     margin: 10px;
@@ -65,6 +68,8 @@ export const Content = styled.div`
     text-overflow: ellipsis;
   }
   p {
+    width: 80%;
+
     margin: 0;
     color: var(--gray);
     display: -webkit-box;
@@ -72,18 +77,27 @@ export const Content = styled.div`
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
+    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
   }
   span {
     margin: 0 5px;
     color: var(--light-blue);
     font-size: 16px;
+    font-family: "infoFont", sans-serif;
+
+  }
+
+  @media (min-width: 1024px) {
+    min-width: 100%;
   }
 `;
 
 export const ButtonGroup = styled.button`
   border: none;
   align-self: flex-end;
-  height: 40px;
+  height: auto;
+  width: 80px;
   font-size: 16px;
   color: var(--gray);
   margin-right: 5px;
@@ -94,18 +108,7 @@ export const ButtonGroup = styled.button`
     cursor: pointer;
   }
 
-  border: none;
-  align-self: flex-end;
-  height: 40px;
-  font-size: 16px;
-  color: var(--gray);
-  margin-right: 5px;
-  border-bottom: 1px solid var(--light-blue);
-  background-color: transparent;
-  font-family: "Nova Round", cursive;
-  &:hover {
-    cursor: pointer;
-  }
+
 `;
 
 export const ListsContainer = styled(Box)`
@@ -141,6 +144,16 @@ export const ContainerOneGroup = styled.section`
       flex-direction: column;
     }
   }
+   .group-icon {
+    width: 50px;
+    height: 50px;
+    background-image: url(${props => props.groupIcon});
+    background-size: contain;
+    background-repeat: no-repeat;
+    color: var(--dark-blue);
+    background-color: var(--neon-blue);
+    border-radius: 10px;
+  }
 `;
 
 export const ContainerEditarGrupo = styled.div`
@@ -165,17 +178,7 @@ export const ContainerEditarGrupo = styled.div`
   .containerEditarGrupoButtons {
     display: flex;
   }
+  
 `;
 
-export const GroupProfileContainer = styled.div`
-  .group-icon {
-    width: 100px;
-    height: 100px;
-    background-image: url(${(props) => props.groupIcon});
-    background-size: contain;
-    background-repeat: no-repeat;
-    color: var(--dark-blue);
-    background-color: var(--neon-blue);
-    border-radius: 10px;
-  }
-`;
+

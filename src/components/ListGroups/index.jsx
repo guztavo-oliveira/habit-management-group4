@@ -201,10 +201,7 @@ const ListGroups = () => {
             height={500}
             hasMore={show}
             loader={<CircularProgress />}
-            // className=""
             style={{overflowx:"hidden"}}
-            // style={{}}
-            id="scrollInfinite"
           >
             <div className="containerCardGroups">
           
