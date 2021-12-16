@@ -92,6 +92,8 @@ const CardGroups = ({ group, updateGroup, setAlvo }) => {
   const { myGroups } = useGroup();
   const {categoryImages} = useCategoryOptions();
   const groupIcon = categoryImages.find((item)=>item.name === group.category)
+
+
   const subscribe = () => {
     api
       .post(`/groups/${group.id}/subscribe/`, {}, tokenBearer)
@@ -167,7 +169,10 @@ export const RenderOneGroup = ({ group, setAlvo }) => {
   const [openGoals, setOpenGoals] = useState([]);
   const [activities, setActivities] = useState([]);
   const [fechar, setFechar] = useState(false);
-  console.log(group, "dentro do card Group")
+
+  const {categoryImages} = useCategoryOptions();
+  const groupIcon = categoryImages.find((item)=>item.name === group.category)
+
   useEffect(() => {
     api
       .get(`/activities/?grupo=${group.id}/`, tokenBearer)
@@ -217,11 +222,14 @@ export const RenderOneGroup = ({ group, setAlvo }) => {
   console.log(openGoals)
   console.log(activities)
   return (
-    <ContainerOneGroup>
+    <ContainerOneGroup groupIcon={!!groupIcon ? groupIcon.image : groupIconDefault }>
+        <div className="group-icon" />
+      
       <div className="container">
+      
         <div className="containerTituloEditar">
           <span>
-            <FiUser size={60} />
+          
             <h2>{group.name} </h2>
           </span>
 

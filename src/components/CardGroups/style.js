@@ -151,6 +151,16 @@ export const ContainerOneGroup = styled.section`
       flex-direction: column;
     }
   }
+   .group-icon {
+    width: 50px;
+    height: 50px;
+    background-image: url(${props => props.groupIcon});
+    background-size: contain;
+    background-repeat: no-repeat;
+    color: var(--dark-blue);
+    background-color: var(--neon-blue);
+    border-radius: 10px;
+  }
 `;
 
 export const ContainerEditarGrupo = styled.div`
@@ -175,17 +185,7 @@ export const ContainerEditarGrupo = styled.div`
   .containerEditarGrupoButtons {
     display: flex;
   }
+  
 `;
 
-export const GroupProfileContainer = styled.div`
-  .group-icon {
-    width: 100px;
-    height: 100px;
-    background-image: url(${(props) => props.groupIcon});
-    background-size: contain;
-    background-repeat: no-repeat;
-    color: var(--dark-blue);
-    background-color: var(--neon-blue);
-    border-radius: 10px;
-  }
-`;
+
