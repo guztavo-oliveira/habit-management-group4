@@ -1,9 +1,10 @@
 import { css, keyframes } from "styled-components";
 import styled from "styled-components";
-import loginLogo from "../../assets/images/login-logo.png";
+// import loginLogo from "../../assets/images/login-logo.png";
+import loginLogo from "../../assets/images/loginLogo.svg";
 
 export const Container = styled.div`
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   background-color: var(--dark-blue);
   /* padding-top: 125px; */
@@ -57,6 +58,7 @@ export const LoginLogo = styled.div`
     width: 55%;
     height: 55%;
     background: url(${loginLogo}) no-repeat center;
+    /* background-size: 1000px; */
     background-size: contain;
     animation: ${logoFromRight} 1s;
     position: absolute;

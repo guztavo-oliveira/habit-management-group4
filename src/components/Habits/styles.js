@@ -13,17 +13,11 @@ export const Contente = styled.section`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 12px;
     margin-bottom: 10px;
 
-    svg {
-      width: 28px;
-      height: 28px;
-
-      &:hover {
-        cursor: pointer;
-        filter: brightness(1.3);
-      }
+    button {
+      height: 30px;
+      width: 120px;
     }
   }
 `;

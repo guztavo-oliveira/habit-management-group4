@@ -34,4 +34,30 @@ export const PopoverStyled = styled(Popover)`
       }
     }
   }
+
+  .editHabitModal {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    color: var(--white);
+    margin-bottom: 10px;
+
+    h3 {
+      background-color: var(--dark-blue);
+      transform: translateY(-10px);
+      width: 105%;
+      line-height: 50px;
+      text-align: center;
+    }
+
+    form {
+      padding: 10px;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 20px;
+    }
+  }
 `;

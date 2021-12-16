@@ -6,6 +6,11 @@ export const Container = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
+  justify-content: center;
+  /* @media (min-width: ${({ width }) => `${width}px`}) {
+    flex-direction: row;
+  } */
+  @media (min-width: 1024px) {
 
   background-color: var(--card-background);
 
