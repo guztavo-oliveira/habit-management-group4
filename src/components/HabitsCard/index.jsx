@@ -3,21 +3,17 @@ import { IoMdRemove, IoMdAdd } from "react-icons/io";
 import { CgTrash } from "react-icons/cg";
 import { ModalPopover } from "../ModalPopover";
 import { TextField } from "@material-ui/core";
-import { useForm } from "react-hook-form";
-import * as yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
 import { useHabits } from "../../providers/HabitsContext";
 import SelectInput from "../SelectInput";
-import { Difficulties, Frequency } from "../../utils";
-import { useState } from "react";
+import { Frequency } from "../../utils";
+import { useEffect, useState } from "react";
 import { useAuth } from "../../providers/AuthContext";
 import api from "../../services/api";
 import { toast } from "react-toastify";
 
 const HabitsCard = ({ elemente }) => {
   //desconstruindo o elemeto que vai vir como parametro
-  const { id, category, difficulty, frequency, title, how_much_achieved } =
-    elemente;
+  const { id, category, frequency, title, how_much_achieved } = elemente;
 
   // //funções de adicionar e remover habitos vem do provider
   const { getHabits } = useHabits();
@@ -25,45 +21,23 @@ const HabitsCard = ({ elemente }) => {
   ////modal Status
   const [cardModal, setCardModal] = useState(false);
 
-  const [inputDifficulty, setInputDifficulty] = useState("");
+  // const [inputDifficulty, setInputDifficulty] = useState("");
+  const [inputTitle, setInputTitle] = useState("");
+  const [inputCategory, setInputCategory] = useState("");
   const [inputFrequency, setInputFrequency] = useState("");
-  // const [inputTitle, setInputTitle] = useState("");
-  // const [inputCategory, setInputCategory] = useState("");
+  const [newData, setNewData] = useState({});
 
-  // const schema = yup.object().shape({
-  //   title: yup.string(),
-  //   category: yup.string(),
-  // });
-
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm({
-    defaultValues: {
-      title: title,
-      category: category,
-      difficulty: difficulty,
-      frequency: frequency,
-    },
-  });
-
-  //fucao de editar o habito precisa do id do habito
-  const editFunc = (data) => {
-    const newData = {
-      ...data,
-      frequency: inputFrequency,
-      difficulty: inputDifficulty,
-    };
-    console.log(data);
-    editHabits(id, data);
-    // setInputDifficulty("");
-    // setInputFrequency("");
-    // setInputTitle("");
-    // setInputCategory("");
-    reset();
-  };
+  useEffect(() => {
+    if (inputTitle) {
+      setNewData({ ...newData, title: inputTitle });
+    }
+    if (inputCategory) {
+      setNewData({ ...newData, category: inputCategory });
+    }
+    if (inputFrequency) {
+      setNewData({ ...newData, frequency: inputFrequency });
+    }
+  }, [inputTitle, inputCategory, inputFrequency]);
 
   //fução de de editar habito concluido
   const updateAchievemente = (type) => {
@@ -77,14 +51,37 @@ const HabitsCard = ({ elemente }) => {
         how_much_achieved: value + 1,
       };
       editHabits(id, add);
+      toast.success("habit conclued");
     } else if (value > 0) {
       const sub = {
         achieved: true,
         how_much_achieved: value - 1,
       };
       editHabits(id, sub);
+      toast.success("habit conclued");
     }
     getHabits();
+  };
+
+  //fucao de editar o habito precisa do id do habito
+  const editFunc = () => {
+    editHabits(id, newData);
+    setCardModal("fechar");
+    setInputTitle("");
+    setInputCategory("");
+    setInputFrequency("");
+    setNewData({});
+    toast.success("edited");
+  };
+
+  //edit habit
+  const editHabits = (id, newData) => {
+    api
+      .patch(`/habits/${id}/`, newData, tokenBearer)
+      .then((_) => {
+        getHabits();
+      })
+      .catch((_) => toast.error("error"), setCardModal(false));
   };
 
   ///token
@@ -95,16 +92,7 @@ const HabitsCard = ({ elemente }) => {
     api
       .delete(`/habits/${id}/`, tokenBearer)
       .then((_) => getHabits(), toast.success("deleted"))
-      .catch((_) => console.log("error"));
-  };
-
-  //edit habit
-  const editHabits = (id, data) => {
-    console.log(data);
-    api
-      .patch(`/habits/${id}/`, data, tokenBearer)
-      .then((_) => getHabits(), setCardModal("fechar"))
-      .catch((_) => console.log("error"), setCardModal(false));
+      .catch((_) => toast.error("error"));
   };
 
   return (
@@ -124,12 +112,12 @@ const HabitsCard = ({ elemente }) => {
           }}
           fechar={cardModal}
           setFechar={setCardModal}
-          callback={handleSubmit(editFunc)}
+          callback={editFunc}
           classe=""
           darkBlue
         >
           <h3>Register New Habits</h3>
-          <form>
+          <div>
             <TextField
               id="outlined-basic"
               label="Title"
@@ -137,9 +125,7 @@ const HabitsCard = ({ elemente }) => {
               variant="outlined"
               sx={{ marginTop: 5 }}
               fullWidth
-              helperText={errors.title?.message}
-              {...register("title")}
-              error={!!errors.title}
+              onChange={(e) => setInputTitle(e.target.value)}
             />
             <TextField
               id="outlined-basic"
@@ -148,23 +134,21 @@ const HabitsCard = ({ elemente }) => {
               variant="outlined"
               sx={{ marginTop: 5 }}
               fullWidth
-              helperText={errors.category?.message}
-              {...register("category")}
-              error={!!errors.category}
+              onChange={(e) => setInputCategory(e.target.value)}
             />
-            <SelectInput
+            {/* <SelectInput
               label={"Difficulties"}
               options={Difficulties}
               onchange={setInputDifficulty}
               value={inputDifficulty}
-            />
+            /> */}
             <SelectInput
               label={"Frequency"}
               options={Frequency}
               onchange={setInputFrequency}
               value={inputFrequency}
             />
-          </form>
+          </div>
         </ModalPopover>
         <CgTrash onClick={() => removeHabits(id)} />
         <h3>{how_much_achieved}</h3>

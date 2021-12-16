@@ -14,7 +14,13 @@ const SelectInput = ({ label, options, onchange, value }) => {
     <div>
       <FormControl variant="filled" fullWidth>
         <InputLabel>{label}</InputLabel>
-        <Select value={value ?? ""} onChange={handleChange} label={label}>
+        <Select
+          defaultValue={""}
+          value={value ?? ""}
+          onChange={handleChange}
+          label={label}
+          id="select-input"
+        >
           {options.map((el, idx) => (
             <MenuItem key={idx} value={el.value}>
               {el.name}
