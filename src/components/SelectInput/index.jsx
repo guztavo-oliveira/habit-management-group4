@@ -9,12 +9,18 @@ const SelectInput = ({ label, options, onchange, value }) => {
     console.log(event.target.value);
     onchange(event.target.value);
   };
-
+console.log(options)
   return (
     <div>
-      <FormControl variant="filled" sx={{ m: 1, minWidth: 120 }}>
+      <FormControl variant="filled" fullWidth>
         <InputLabel>{label}</InputLabel>
-        <Select value={value ?? ""} onChange={handleChange} label={label}>
+        <Select
+          defaultValue={""}
+          value={value ?? ""}
+          onChange={handleChange}
+          label={label}
+          id="select-input"
+        >
           {options.map((el, idx) => (
             <MenuItem key={idx} value={el.value}>
               {el.name}

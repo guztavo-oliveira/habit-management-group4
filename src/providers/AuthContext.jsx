@@ -10,7 +10,7 @@ const useAuth = () => {
 
 const AuthProvider = ({ children }) => {
   const history = useHistory();
-  console.log(history);
+  // console.log(history);
 
   const [access, setAccess] = useState(
     localStorage.getItem("@gestaodehabitos:access")
@@ -31,7 +31,8 @@ const AuthProvider = ({ children }) => {
   const signOut = () => {
     localStorage.removeItem("@gestaodehabitos:id");
     localStorage.removeItem("@gestaodehabitos:access");
-    // <Redirect to="/login" />;
+    atualizarToken();
+    <Redirect to="/login" />;
   };
 
   const [refresh, setRefresh] = useState(false);

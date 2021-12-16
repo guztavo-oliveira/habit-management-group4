@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Container, PopoverStyled } from "./styles.js";
 import Button from "../Button";
 
@@ -29,8 +29,8 @@ export const ModalPopover = ({
   };
   useEffect(() => {
     if (fechar === "fechar") {
-      abriModal();
       setFechar(false);
+      abriModal();
     }
   }, [fechar]);
 
