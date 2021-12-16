@@ -11,7 +11,7 @@ const SearchGroups = () => {
   const [search, setSearch] = useState("");
   const { updateGroup } = useGroup();
   const [groups, setGroups] = useState([]);
-  const [pode, setPode] = useState(false);
+  const [pode, setPode] = useState(true);
   const [show, setShow] = useState(true);
   const [showAllGroups, setShowAllGroups] = useState(false);
   useEffect(() => {
@@ -47,11 +47,10 @@ const SearchGroups = () => {
   };
 
   useEffect(() => {
-    if (!!groups.next && groups.previous !== groups.next && !!search && pode) {
+    if (!!search && pode) {
       getNextPage();
     }
   }, [groups, search, pode]);
-  console.log(groups);
   return (
     <ContainerBuscar>
       <h2>Buscando Novos grupos</h2>

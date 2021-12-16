@@ -173,9 +173,9 @@ const ListGroups = () => {
                 </div>
               </ModalCriarGrupo>
             </ModalDialog>
-            <Button green onClick={() => setShowAllGroups(!showAllGroups)}>
+            {width >= 800 &&  <Button green onClick={() => setShowAllGroups(!showAllGroups)}>
               {showAllGroups ? "Meus grupos" : "Buscar mais grupos"}
-            </Button>
+            </Button>}
           </div>
           <div>
             <TextField
