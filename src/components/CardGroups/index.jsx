@@ -1,15 +1,8 @@
-import {
-  Content,
-  Container,
-  ButtonGroup,
-  ListsContainer,
-  ContainerOneGroup,
-  ContainerEditarGrupo,
-} from "./style";
+import { Content, Container, ButtonGroup, ListsContainer, GroupProfileContainer,  ContainerOneGroup,ContainerEditarGrupo} from "./style";
 import { useAuth } from "../../providers/AuthContext";
 import api from "../../services/api";
 import { ModalDialog } from "../ModalDialog";
-import { TextField, Grid } from "@mui/material";
+import { TextField } from "@mui/material";
 import Button from "../Button";
 import { FiUser } from "react-icons/fi";
 import { toast } from "react-toastify";
@@ -17,16 +10,22 @@ import { useGroup } from "../../providers/JsonGroups";
 import { useEffect, useState } from "react";
 import GroupActivities from "../GroupActivities";
 import GroupGoals from "../GroupGoals";
+import SelectInput from "../SelectInput";
+import { useCategoryOptions } from "../../providers/CategoryOptions";
+import groupIconDefault from '../../assets/images/grupo-icone.png'
 
-const EditGroup = ({ id, updateGroup, setFechar, setAlvo }) => {
+
+const EditGroup = ({ groupid, updateGroup, setFechar , setAlvo}) => {
+  const { categoryOptions} = useCategoryOptions();
+
   const { tokenBearer } = useAuth();
+  
 
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
   const [name, setName] = useState("");
 
   const submit = () => {
-    console.log(id);
     if (!(!!name && !!category && !!description)) {
       return toast.error("Algo deu errado ao tentar atualizar o grupo...");
     }
@@ -36,7 +35,7 @@ const EditGroup = ({ id, updateGroup, setFechar, setAlvo }) => {
       category,
     };
     api
-      .patch(`/groups/${id}/`, data, tokenBearer)
+      .patch(`/groups/${groupid}/`, data, tokenBearer)
       .then((resp) => {
         toast.success("Grupo atualizado com sucesso!");
         updateGroup();
@@ -63,14 +62,13 @@ const EditGroup = ({ id, updateGroup, setFechar, setAlvo }) => {
         label="name"
         variant="filled"
       />
-      <TextField
-        onChange={(evt) => {
-          setCategory(evt.target.value);
-        }}
-        value={category}
+      <SelectInput
         label="category"
-        variant="filled"
+        options={categoryOptions}
+        onchange={setCategory}
+        value={category}
       />
+
       <TextField
         onChange={(evt) => {
           setDescription(evt.target.value);
@@ -117,7 +115,7 @@ const CardGroups = ({ group, updateGroup, setAlvo }) => {
   };
 
   return (
-    <Container
+    <Container 
       onClick={() => {
         setAlvo(group);
       }}
