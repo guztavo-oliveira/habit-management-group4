@@ -56,10 +56,10 @@ const GroupActivities = ({ groupId, activities }) => {
 
     api
       .patch(`activities/${activId}/`, newData, tokenBearer)
-      .then((response) => {
+      .then((_) => {
         toast.success("A atividade foi modificada com sucesso.");
-
         refresh === true ? setRefresh(false) : setRefresh(true);
+        
       })
       .catch((err) => {
         console.log(err);
@@ -121,6 +121,9 @@ const GroupActivities = ({ groupId, activities }) => {
       </AtvHeader>
       <CardsList>
         {activities.map((item, index) => {
+          const editRequest = () =>{
+            return editActiv(item.id, userInput)
+          }
           return (
             <Card key={index}>
               <CardInfo>
@@ -133,7 +136,7 @@ const GroupActivities = ({ groupId, activities }) => {
               </CardInfo>
               <CardButtons>
                 <ModalPopover
-                  callback={editActiv(item.id, userInput)}
+                  callback={editRequest}
                   msgButton={{ atualizar: "atualizar", cancelar: "cancelar" }}
                   setFechar={setClose}
                   fechar={close}

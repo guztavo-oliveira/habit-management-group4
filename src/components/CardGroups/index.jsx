@@ -127,7 +127,7 @@ const CardGroups = ({ group, updateGroup, setAlvo }) => {
     <Container
       groupIcon={!!groupIcon ? groupIcon.image : groupIconDefault}
       onClick={() => {
-        if(myGroups.includes((item) => item.name === group.name )){
+        if(myGroups.some((item) => item.name === group.name )){
          setAlvo(group); 
         }else{
           toast.error('É necessário entrar no grupo para abrir a page...')
