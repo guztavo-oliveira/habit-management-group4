@@ -99,7 +99,9 @@ const CardGroups = ({ group, updateGroup, setAlvo }) => {
   const { categoryImages } = useCategoryOptions();
   const groupIcon = categoryImages.find((item) => item.name === group.category);
 
-  const subscribe = () => {
+  const subscribe = (e) => {
+    e.stopPropagation();
+
     api
       .post(`/groups/${group.id}/subscribe/`, {}, tokenBearer)
       .then(() => {
@@ -136,7 +138,6 @@ const CardGroups = ({ group, updateGroup, setAlvo }) => {
       <div className='image-button'>
         <div className="group-icon" />
         <ButtonGroup
-        className='button'
           onClick={
             myGroups.some((item) => item.id === group.id)
               ? unsubscribe
@@ -152,7 +153,7 @@ const CardGroups = ({ group, updateGroup, setAlvo }) => {
 
    
         <Content>
-      
+         
 
           <h2>{group.name} </h2>
           <p>
@@ -170,7 +171,7 @@ const CardGroups = ({ group, updateGroup, setAlvo }) => {
             <span>Integrantes: </span> {group.users_on_group.length} membros
           </p>
         </Content>
-      
+     
     </Container>
   );
 };
