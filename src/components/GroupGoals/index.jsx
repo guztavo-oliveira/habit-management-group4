@@ -1,7 +1,7 @@
 import { useState } from "react";
 import api from "../../services/api";
 import { useForm, Controller } from "react-hook-form";
-import { Button, TextField } from "@material-ui/core";
+import { TextField } from "@material-ui/core";
 import { ToggleButtonGroup, ToggleButton } from "@mui/material";
 import { useAuth } from "../../providers/AuthContext";
 import {
@@ -25,6 +25,7 @@ const GroupGoals = ({ groupId, openGoals, achievedGoals }) => {
   const [data, setData] = useState("achieved: true");
   const [alternate, setAlternate] = useState(true);
   const { handleSubmit, control } = useForm();
+  const [close, setClose] = useState(false);
 
   const handleAlternate = () => {
     alternate === true ? setAlternate(false) : setAlternate(true);
@@ -73,9 +74,11 @@ const GroupGoals = ({ groupId, openGoals, achievedGoals }) => {
       .then((response) => {
         toast.success("Tudo certo!", "Meta adicionada com sucesso.");
         refresh === true ? setRefresh(false) : setRefresh(true);
+        setClose("fechar");
       })
       .catch((err) => {
         toast.error("Oops!", "Caso o erro permaneça, faça login novamente.");
+        setClose(false);
       });
   };
 
@@ -93,8 +96,17 @@ const GroupGoals = ({ groupId, openGoals, achievedGoals }) => {
               METAS ATUAIS
             </ShowOpen>
           )}
-          <ModalPopover ele={<AddButton variant="contained">+</AddButton>}>
-            <AddGoalsForm onSubmit={handleSubmit(addGoal)}>
+          <ModalPopover
+            callback={handleSubmit(addGoal)}
+            classe="AddGoalForm"
+            msgButton={{ atualizar: "atualizar", cancelar: "cancelar" }}
+            setFechar={setClose}
+            fechar={close}
+            blue
+            ele={<AddButton variant="contained">+</AddButton>}
+          >
+            <AddGoalsForm>
+              <span>Meta</span>
               <Controller
                 render={({ field }) => (
                   <TextField
@@ -110,6 +122,7 @@ const GroupGoals = ({ groupId, openGoals, achievedGoals }) => {
                 control={control}
                 defaultValue=""
               />
+              <span>Dificuldade</span>
               <Controller
                 render={({ field }) => (
                   <ToggleButtonGroup
@@ -137,9 +150,9 @@ const GroupGoals = ({ groupId, openGoals, achievedGoals }) => {
                 defaultValue=""
               />
 
-              <Button variant="contained" type="submit">
+              {/*<Button variant="contained" type="submit">
                 ADICIONAR
-              </Button>
+                </Button>*/}
             </AddGoalsForm>
           </ModalPopover>
         </MainButtons>

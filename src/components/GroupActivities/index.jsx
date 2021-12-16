@@ -21,7 +21,7 @@ import { RiDeleteBin6Line, RiEdit2Fill } from "react-icons/ri";
 const GroupActivities = ({ groupId, activities }) => {
   const { tokenBearer, refresh, setRefresh } = useAuth();
   const [userInput, setUserInput] = useState("");
-
+  const [close, setClose] = useState(false);
   const { handleSubmit, control } = useForm();
 
   const addActiv = (data) => {
@@ -31,9 +31,11 @@ const GroupActivities = ({ groupId, activities }) => {
       .then((response) => {
         toast.success("Tudo certo!", "Atividade adicionada com sucesso.");
         refresh === true ? setRefresh(false) : setRefresh(true);
+        setClose("fechar");
       })
       .catch((err) => {
         toast.error("Oops!", "Se o erro persistir, faça login novamente.");
+        setClose(false);
       });
   };
 
@@ -68,19 +70,18 @@ const GroupActivities = ({ groupId, activities }) => {
       <AtvHeader>
         <AtvTitle>Atividades</AtvTitle>
         <ModalPopover
+          callback={handleSubmit(addActiv)}
+          classe="AddActivForm"
+          msgButton={{ atualizar: "atualizar", cancelar: "cancelar" }}
+          setFechar={setClose}
+          fechar={close}
+          blue
           ele={<AddButton variant="contained">+</AddButton>}
-          anchorReference="anchorPosition"
-          anchorPosition={{ top: 200, left: 200 }}
-          anchorOrigin={{
-            vertical: "top",
-            horizontal: "center",
-          }}
-          transformOrigin={{
-            vertical: "top",
-            horizontal: "left",
-          }}
         >
-          <AddActivForm onSubmit={handleSubmit(addActiv)}>
+          <AddActivForm
+          //onSubmit={handleSubmit(addActiv)}
+          >
+            <span>Alterar título</span>
             <Controller
               render={({ field }) => (
                 <TextField
@@ -88,7 +89,7 @@ const GroupActivities = ({ groupId, activities }) => {
                   label="Título da atividade"
                   variant="outlined"
                   type="text"
-                  sx={{ width: "80%" }}
+                  sx={{ width: "100%", backgroundColor: "black" }}
                   {...field}
                 />
               )}
@@ -112,9 +113,9 @@ const GroupActivities = ({ groupId, activities }) => {
               control={control}
               defaultValue=""
             />
-            <Button variant="contained" type="submit">
+            {/*<Button variant="contained" type="submit">
               ADICIONAR
-            </Button>
+            </Button>*/}
           </AddActivForm>
         </ModalPopover>
       </AtvHeader>
@@ -132,6 +133,11 @@ const GroupActivities = ({ groupId, activities }) => {
               </CardInfo>
               <CardButtons>
                 <ModalPopover
+                  callback={editActiv(item.id, userInput)}
+                  msgButton={{ atualizar: "atualizar", cancelar: "cancelar" }}
+                  setFechar={setClose}
+                  fechar={close}
+                  classe="EditActivForm"
                   ele={<RiEdit2Fill fill="var(--dark-blue)" />}
                   anchorReference="anchorPosition"
                   anchorPosition={{ top: 200, left: 200 }}
@@ -151,13 +157,13 @@ const GroupActivities = ({ groupId, activities }) => {
                       value={userInput}
                       onChange={(e) => setUserInput(e.currentTarget.value)}
                     />
-                    <Button
+                    {/*<Button
                       variant="contained"
                       type="submit"
                       onClick={() => editActiv(item.id, userInput)}
                     >
                       SALVAR
-                    </Button>
+                    </Button>*/}
                   </EditActivForm>
                 </ModalPopover>
                 <Button onClick={() => deleteActiv(item.id)}>
