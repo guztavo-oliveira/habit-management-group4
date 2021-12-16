@@ -44,8 +44,8 @@ export const Container = styled.div`
     width: 95%;
   }
   @media (min-width: 1024px) {
-    width: 550px;
-    height: 70vh;
+    width: 427px;
+    height: 617px;
     display: flex;
     overflow-y: auto;
     justify-content: flex-start;

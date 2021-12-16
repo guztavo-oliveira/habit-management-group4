@@ -22,7 +22,7 @@ export const ModalDialog = ({
   useEffect(() => {
     if (fechar === "fechar") {
       setFechar(false);
-      abriModal();
+      setOpen(false)
     }
   }, [fechar]);
   return (
