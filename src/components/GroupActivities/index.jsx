@@ -1,90 +1,59 @@
 import { useState } from "react";
 import api from "../../services/api";
 import { useForm, Controller } from "react-hook-form";
-import Toastify from "toastify";
-import { Button, TextField, Popover } from "@material-ui/core";
+import { toast } from "react-toastify";
+import { Button, TextField } from "@material-ui/core";
 import { useAuth } from "../../providers/AuthContext";
-import { ModalDialog } from "../ModalDialog";
-import { ActivitiesContainer } from "../GroupActivities/styles";
+import { AddActivForm, EditActivForm } from "../GroupActivities/styles";
 import { ModalPopover } from "../ModalPopover";
+import {
+  AddButton,
+  Card,
+  CardButtons,
+  CardInfo,
+  CardsContainer,
+  CardsList,
+  AtvHeader,
+  AtvTitle,
+} from "../GroupGoals/styles";
+import { RiDeleteBin6Line, RiEdit2Fill } from "react-icons/ri";
 
-
-const GroupActivities = ({ refresh, setRefresh }) => {
-  const { tokenBearer, groupId, activ } = useAuth();
-  const {access} = useAuth()
-  // const [userInput, setUserInput] = useState("");
-
-
-  //const [anchorEl, setAnchorEl] = useState(null);
-
-  /*const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const open = Boolean(anchorEl);
-  const edit = open ? "simple-popover" : undefined;
-  const add = open ? "simple-popover" : undefined;*/
+const GroupActivities = ({ groupId, activities }) => {
+  const { tokenBearer, refresh, setRefresh } = useAuth();
+  const [userInput, setUserInput] = useState("");
 
   const { handleSubmit, control } = useForm();
-
-  /*const getActivities = () => {
-    api
-      .get(`/activities/?grupo=${groupId}`)
-      .then((response) => {
-        setActiv(response.data.results);
-        refresh === true ? setRefresh(false) : setRefresh(true);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };*/
 
   const addActiv = (data) => {
     data = { ...data, group: `${groupId}` };
     api
       .post("/activities/", data, tokenBearer)
       .then((response) => {
-        Toastify.success("Tudo certo!", "Atividade adicionada com sucesso.");
+        toast.success("Tudo certo!", "Atividade adicionada com sucesso.");
         refresh === true ? setRefresh(false) : setRefresh(true);
       })
       .catch((err) => {
-        Toastify.error("Oops!", "Se o erro persistir, faça login novamente.");
+        toast.error("Oops!", "Se o erro persistir, faça login novamente.");
       });
   };
 
   const deleteActiv = (activId) => {
     api
-      .delete(`/activities/${activId}`, tokenBearer)
+      .delete(`/activities/${activId}/`, tokenBearer)
       .then((response) => {
-        Toastify.success(
-          "Tudo certo!",
-          "A atividade foi removida com sucesso."
-        );
+        toast.success("Tudo certo!", "A atividade foi removida com sucesso.");
         refresh === true ? setRefresh(false) : setRefresh(true);
       })
       .catch((err) => {
-        Toastify.error("Oops!", "Caso o erro persista, faça login novamente.");
+        toast.error("Oops!", "Caso o erro persista, faça login novamente.");
       });
   };
 
   const editActiv = (activId, data) => {
     api
-      .patch(`activities/${activId}`, data, {
-        headers: {
-          Authorization: `Bearer: ${JSON.parse(
-            localStorage.getItem("@habits:token")
-          )}`,
-        },
-      })
+      .patch(`activities/${activId}/`, data, tokenBearer)
       .then((response) => {
-        Toastify.success(
-          "Tudo certo!",
-          "A atividade foi modificada com sucesso."
-        );
+        toast.success("A atividade foi modificada com sucesso.");
         refresh === true ? setRefresh(false) : setRefresh(true);
       })
       .catch((err) => {
@@ -92,135 +61,111 @@ const GroupActivities = ({ refresh, setRefresh }) => {
       });
   };
   return (
-    <ActivitiesContainer>
-      {/* <ModalDialog exibirModal={abriModal} open={open}>
-        <Button onClick={abriModal}>Teste</Button>
-      </ModalDialog>
-      <button onClick={abriModal}>exibir modal</button>
-      <ModalDialog exibirModal={abriModal2} open={open2}>
-        <Button onClick={abriModal2}>modal 2 fechar</Button>
-      </ModalDialog>
-      <button onClick={abriModal2}>exibir modal1</button> */}
-      
-      {[1,2,3].map((e, ind) => (
-        <ModalDialog ele={e} key={ind}>
-          <Button>{e}</Button>
-        </ModalDialog>
-      ))}
-
-      <ModalDialog ele={"nome botao"}>
-          <ul>
-            <li>limao</li>
-            <li>limao</li>
-            <li>limao</li>
-            <li>limao</li>
-            <li>limao</li>
-          </ul>
-      </ModalDialog>
-      <ModalDialog ele={"mostrar atividades"}>
-          <ul>
-            <li>caminhar</li>
-            <li>ler</li>
-            <li>escrever</li>
-            <li>limao</li>
-            <li>limao</li>
-          </ul>
-      </ModalDialog>
-      {["a", "b,", "c"].map((ele, ind) => (
-        <ModalPopover ele={ele} key={ind}>
-          <ul>
-            <li>caminhar</li>
-            <li>ler</li>
-            <li>escrever</li>
-            <li>limao</li>
-            <li>limao</li>
-          </ul>
+    <CardsContainer boxShadow={3}>
+      <AtvHeader>
+        <AtvTitle>Atividades</AtvTitle>
+        <ModalPopover
+          ele={<AddButton variant="contained">+</AddButton>}
+          anchorReference="anchorPosition"
+          anchorPosition={{ top: 200, left: 200 }}
+          anchorOrigin={{
+            vertical: "top",
+            horizontal: "center",
+          }}
+          transformOrigin={{
+            vertical: "top",
+            horizontal: "left",
+          }}
+        >
+          <AddActivForm onSubmit={handleSubmit(addActiv)}>
+            <Controller
+              render={({ field }) => (
+                <TextField
+                  id="outlined-basic"
+                  label="Título da atividade"
+                  variant="outlined"
+                  type="text"
+                  sx={{ width: "80%" }}
+                  {...field}
+                />
+              )}
+              name="title"
+              control={control}
+              defaultValue=""
+            />
+            <Controller
+              render={({ field }) => (
+                <TextField
+                  id="outlined-basic"
+                  helperText="Data limite"
+                  variant="outlined"
+                  type="datetime-local"
+                  required
+                  sx={{ width: "80%" }}
+                  {...field}
+                />
+              )}
+              name="realization_time"
+              control={control}
+              defaultValue=""
+            />
+            <Button variant="contained" type="submit">
+              ADICIONAR
+            </Button>
+          </AddActivForm>
         </ModalPopover>
-      )) }
-
-      {access}
-      {/* <Popover
-        id={add}
-        open={open}
-        anchorEl={anchorEl}
-        onClose={handleClose}
-        anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "left",
-        }}
-      > */}
-        {/*
-        <AddActivForm onSubmit={handleSubmit(addActiv)}>
-          <Controller
-            render={({ field }) => (
-              <TextField
-                id="outlined-basic"
-                label="Título da atividade"
-                variant="outlined"
-                type="text"
-                sx={{ width: "80%" }}
-                {...field}
-              />
-            )}
-            name="title"
-            control={control}
-            defaultValue=""
-          />
-          <Controller
-            render={({ field }) => (
-              <TextField
-                id="outlined-basic"
-                label="Data limite"
-                variant="outlined"
-                type="datetime-local"
-                required
-                sx={{ width: "80%" }}
-                {...field}
-              />
-            )}
-            name="realization_time"
-            control={control}
-            defaultValue=""
-          />
-          <Button variant="contained" type="submit">
-            ADICIONAR
-          </Button>
-        </AddActivForm>
-            </Popover>*/}
-      {/* {activ.map((item) => {
-        return (
-          <>
-            <div>{item.title}</div>
-            <div>{item.realization_time}</div>
-            <button onClick={() => deleteActiv(item.id)}>X</button> */}
-            {/*<button onClick={handleClick}>Edit</button>
-            <Popover
-              id={edit}
-              open={open}
-              anchorEl={anchorEl}
-              onClose={handleClose}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
-              }}
-            >
-              <TextField
-                type="text"
-                value={userInput}
-                onChange={(e) => setUserInput(e.currentTarget.value)}
-              />
-              <Button
-                variant="contained"
-                type="submit"
-                onClick={() => editActiv(item.id, userInput)}
-              >
-                SALVAR
-              </Button>
-            </Popover>*/}
-          {/* </>
-        );
-      })} */}
-    </ActivitiesContainer>
+      </AtvHeader>
+      <CardsList>
+        {activities.map((item, index) => {
+          return (
+            <Card key={index}>
+              <CardInfo>
+                <h1>{item.title}</h1>
+                <h2>
+                  {new Date(item.realization_time).toLocaleDateString("pt-BR", {
+                    timeZone: "UTC",
+                  })}
+                </h2>
+              </CardInfo>
+              <CardButtons>
+                <ModalPopover
+                  ele={<RiEdit2Fill fill="var(--dark-blue)" />}
+                  anchorReference="anchorPosition"
+                  anchorPosition={{ top: 200, left: 200 }}
+                  anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "center",
+                  }}
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "left",
+                  }}
+                >
+                  <EditActivForm>
+                    <TextField
+                      label="Editar título"
+                      type="text"
+                      value={userInput}
+                      onChange={(e) => setUserInput(e.currentTarget.value)}
+                    />
+                    <Button
+                      variant="contained"
+                      type="submit"
+                      onClick={() => editActiv(item.id, userInput)}
+                    >
+                      SALVAR
+                    </Button>
+                  </EditActivForm>
+                </ModalPopover>
+                <Button onClick={() => deleteActiv(item.id)}>
+                  <RiDeleteBin6Line fill="#ff5252" />
+                </Button>
+              </CardButtons>
+            </Card>
+          );
+        })}
+      </CardsList>
+    </CardsContainer>
   );
 };
 
