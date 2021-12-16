@@ -11,8 +11,12 @@ import { ModalDialog } from "../ModalDialog";
 import { TextField } from "@mui/material";
 import { useAuth } from "../../providers/AuthContext";
 import Button from "../Button";
+import SelectInput from "../SelectInput";
+import { useCategoryOptions } from "../../providers/CategoryOptions";
 
 const ListGroups = () => {
+  const { categoryOptions } = useCategoryOptions();
+
   const { myGroups, updateGroup } = useGroup();
   const { tokenBearer } = useAuth();
   const [fechar, setFechar] = useState(false);
