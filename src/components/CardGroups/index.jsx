@@ -5,6 +5,7 @@ import {
   ListsContainer,
   ContainerOneGroup,
   ContainerEditarGrupo,
+  ContainerSairGrupo,
 } from "./style";
 import { useAuth } from "../../providers/AuthContext";
 import api from "../../services/api";
@@ -127,7 +128,7 @@ const CardGroups = ({ group, updateGroup, setAlvo }) => {
     <Container
       groupIcon={!!groupIcon ? groupIcon.image : groupIconDefault}
       onClick={() => {
-        if(myGroups.includes((item) => item.name === group.name )){
+        if(myGroups.some((item) => item.name === group.name )){
          setAlvo(group); 
         }else{
           toast.error('É necessário entrar no grupo para abrir a page...')
@@ -159,7 +160,7 @@ const CardGroups = ({ group, updateGroup, setAlvo }) => {
       </div>
       <div className="containerEditar">
         <ButtonGroup
-          onClick={
+          onClick={() => 
             myGroups.some((item) => item.id === group.id)
               ? unsubscribe
               : subscribe
@@ -235,11 +236,11 @@ export const RenderOneGroup = ({ group, setAlvo }) => {
   console.log(activities);
   return (
     <ContainerOneGroup groupIcon={!!groupIcon ? groupIcon.image : groupIconDefault }>
-        <div className="group-icon" />
       
       <div className="container">
       
         <div className="containerTituloEditar">
+        <div className="group-icon" />
           <span>
           
             <h2>{group.name} </h2>
@@ -266,7 +267,7 @@ export const RenderOneGroup = ({ group, setAlvo }) => {
               <span>Descrição:</span> {group.description}
             </p>
             <p>
-              <span> Categoria: {group.category}</span>
+              <span> Categoria:</span> {group.category}
             </p>
           </div>
           <div className="info">
@@ -294,7 +295,9 @@ export const RenderOneGroup = ({ group, setAlvo }) => {
           fechar={fechar}
           setFechar={setFechar}
         >
+          <ContainerSairGrupo>
           <h2>Voce tem certeza que deseja sair?</h2>
+            <div className="ContainerSairGrupoButtons">
 
           <Button
             green
@@ -308,6 +311,8 @@ export const RenderOneGroup = ({ group, setAlvo }) => {
           <Button red onClick={() => setFechar("fechar")}>
             Não
           </Button>
+            </div>
+          </ContainerSairGrupo>
         </ModalDialog>
         <Button green onClick={() => setAlvo("")}>
           Voltar

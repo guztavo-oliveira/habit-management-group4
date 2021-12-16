@@ -8,9 +8,9 @@ export const Container = styled.div`
   flex-direction: row;
   align-items: center;
   min-height: 150px;
-  box-sizing:border-box;
-  min-width:290px;
-  width:97%;
+  box-sizing: border-box;
+  min-width: 290px;
+  width: 97%;
   background: var(--card-background);
   border: 1px var(--light-blue) solid;
   border-radius: 10px;
@@ -22,7 +22,7 @@ export const Container = styled.div`
   .group-icon {
     width: 50px;
     height: 50px;
-    background-image: url(${props => props.groupIcon});
+    background-image: url(${(props) => props.groupIcon});
     background-size: contain;
     background-repeat: no-repeat;
     color: var(--dark-blue);
@@ -41,7 +41,6 @@ export const Container = styled.div`
     flex-direction: column;
     justify-content: space-between;
   }
-  
 `;
 
 export const Content = styled.div`
@@ -54,7 +53,6 @@ export const Content = styled.div`
   /* width: 270px; */
   width: 140px;
 
-  
   h2 {
     width: 80%;
     font-family: "infoFont", sans-serif;
@@ -78,14 +76,13 @@ export const Content = styled.div`
     overflow: hidden;
     text-overflow: ellipsis;
     font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+      monospace;
   }
   span {
     margin: 0 5px;
     color: var(--light-blue);
     font-size: 16px;
     font-family: "infoFont", sans-serif;
-
   }
 
   @media (min-width: 1024px) {
@@ -107,8 +104,6 @@ export const ButtonGroup = styled.button`
   &:hover {
     cursor: pointer;
   }
-
-
 `;
 
 export const ListsContainer = styled(Box)`
@@ -119,22 +114,24 @@ export const ListsContainer = styled(Box)`
 `;
 
 export const ContainerOneGroup = styled.section`
+  width: 100%;
   .containerEditar {
     margin-top: 25px;
     display: flex;
     justify-content: space-around;
     button {
-      font-size:14px;
-      width:130px;
+      font-size: 14px;
+      width: 130px;
     }
   }
   .containerTituloEditar {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     span {
       display: flex;
       align-items: center;
-      width: 30%;
+      width: 75%;
       justify-content: space-between;
     }
   }
@@ -146,12 +143,15 @@ export const ContainerOneGroup = styled.section`
     .info {
       display: flex;
       flex-direction: column;
+      span {
+        color: var(--gray);
+      }
     }
   }
-   .group-icon {
+  .group-icon {
     width: 50px;
     height: 50px;
-    background-image: url(${props => props.groupIcon});
+    background-image: url(${(props) => props.groupIcon});
     background-size: contain;
     background-repeat: no-repeat;
     color: var(--dark-blue);
@@ -182,9 +182,7 @@ export const ContainerEditarGrupo = styled.div`
   .containerEditarGrupoButtons {
     display: flex;
   }
-  
 `;
-
 
 export const GroupProfileContainer = styled.div`
   .group-icon {
@@ -196,5 +194,28 @@ export const GroupProfileContainer = styled.div`
     color: var(--dark-blue);
     background-color: var(--neon-blue);
     border-radius: 10px;
+  }
+`;
+
+export const ContainerSairGrupo = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  h2 {
+    height: 66px;
+    background: var(--dark-blue);
+    display: flex;
+    align-items: center;
+    color: white;
+    text-align: center;
+  }
+  .ContainerSairGrupoButtons {
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+  }
+  button {
+    width: 90px;
   }
 `;

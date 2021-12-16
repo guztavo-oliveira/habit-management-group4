@@ -124,9 +124,6 @@ const ListGroups = () => {
             <h2>{showAllGroups ? "Buscando novos grupos" : "Seus grupos"}</h2>
             <ModalDialog
               ele={<Button darkBlue>Criar grupo</Button>}
-              // msgButton={{ atualizar: "Criar um Grupo", cancelar: "Cancelar" }}
-              // callback={criarGrupo}
-              // style={{overflow:"hidden"}}
               setFechar={setFechar}
               fechar={fechar}
               darkBlue
@@ -198,7 +195,7 @@ const ListGroups = () => {
           <InfiniteScroll
             dataLength={groups?.results.length}
             next={getNextPage}
-            height={500}
+            height={430}
             hasMore={show}
             loader={<CircularProgress />}
             style={{overflowx:"hidden"}}

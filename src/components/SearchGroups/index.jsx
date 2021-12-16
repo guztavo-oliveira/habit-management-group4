@@ -69,7 +69,7 @@ const SearchGroups = () => {
           <InfiniteScroll
             dataLength={groups.results.length}
             next={getNextPage}
-            height={500}
+            height={430}
             hasMore={show}
             loader={<CircularProgress />}
           >
