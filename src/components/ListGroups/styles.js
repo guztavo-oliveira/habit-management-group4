@@ -1,34 +1,43 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  width: 95%;
+  /* width: 95%; */
   display: flex;
-  padding: 15px;
+  /* padding: 15px; */
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
+  overflow-x: hidden;
+  .containerCardGroups {
+    width: 320px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
   background: var(--background);
   margin-bottom: 90px;
-
-  .scrollInfinite {
-    justify-content: center;
-    align-items: center;
-    height: 400px;
-    display: flex;
-    overflow-y: auto;
-    flex-direction: column;
-    justify-content: flex-start;
-    margin-top: 25px;
+  h2 {
+    font-family: "Nova Round", cursive;
   }
-  .containerPesquisa{
-      width: 100%;
-    }
+  .infinite-scroll-component {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .infinite-scroll-component {
+    overflow-x: hidden;
+  }
+  .containerPesquisa {
+    width: 100%;
+    overflow: hidden;
+  }
   .headerPesquisaGroups {
     display: flex;
     justify-content: space-around;
     width: 100%;
     flex-direction: column;
+    margin-bottom: 25px;
   }
 
   .meusGrupos {
@@ -41,15 +50,17 @@ export const Container = styled.div`
   .containerCriarGrupo {
     display: flex;
     justify-content: space-between;
+    margin-bottom: 15px;
   }
   .inputCriarGrupo {
-    width: 95%;
   }
   @media (min-width: 1024px) {
-    width: 427px;
+    padding: 20px;
+    width: 500px;
     height: 617px;
     display: flex;
     overflow-y: auto;
+    overflow-x: hidden;
     justify-content: flex-start;
     .meusGrupos {
       ::-webkit-scrollbar-track {
@@ -64,7 +75,7 @@ export const Container = styled.div`
         border-radius: 15px 15px;
       }
     }
-    .scrollInfinite {
+    #scrollInfinite {
       ::-webkit-scrollbar-track {
         background-color: var(--light-blue);
       }
@@ -77,9 +88,18 @@ export const Container = styled.div`
         border-radius: 15px 15px;
       }
     }
-    .containerPesquisa{
+    .containerPesquisa {
       width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
+    .containerCardGroups {
+    width: 430px;
+  }
+    /* .infinite-scroll-component__outerdiv{
+      width: 450px;
+    } */
   }
 `;
 export const ModalCriarGrupo = styled.div`

@@ -14,7 +14,7 @@ export const Container = styled.div`
   background: var(--card-background);
   border: 1px var(--light-blue) solid;
   border-radius: 10px;
-
+  justify-content: space-between;
   box-shadow: 1px 3px 10px var(--gray);
 
   cursor: pointer;
@@ -51,6 +51,9 @@ export const Content = styled.div`
   justify-content: flex-end;
   height: 100%;
   box-sizing: content-box;
+  /* width: 270px; */
+  width: 140px;
+
   
   h2 {
     width: 80%;
@@ -85,7 +88,9 @@ export const Content = styled.div`
 
   }
 
-
+  @media (min-width: 1024px) {
+    min-width: 100%;
+  }
 `;
 
 export const ButtonGroup = styled.button`
@@ -118,6 +123,10 @@ export const ContainerOneGroup = styled.section`
     margin-top: 25px;
     display: flex;
     justify-content: space-around;
+    button {
+      font-size:14px;
+      width:130px;
+    }
   }
   .containerTituloEditar {
     display: flex;
@@ -177,3 +186,15 @@ export const ContainerEditarGrupo = styled.div`
 `;
 
 
+export const GroupProfileContainer = styled.div`
+  .group-icon {
+    width: 100px;
+    height: 100px;
+    background-image: url(${(props) => props.groupIcon});
+    background-size: contain;
+    background-repeat: no-repeat;
+    color: var(--dark-blue);
+    background-color: var(--neon-blue);
+    border-radius: 10px;
+  }
+`;
