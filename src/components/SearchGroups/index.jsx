@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { TextField } from "@mui/material";
-import CardGroups from "../CardGroups";
+import CardGroups, { RenderOneGroup } from "../CardGroups";
 import { useGroup } from "../../providers/JsonGroups";
 import InfiniteScroll from "react-infinite-scroll-component";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -14,6 +14,7 @@ const SearchGroups = () => {
   const [pode, setPode] = useState(true);
   const [show, setShow] = useState(true);
   const [showAllGroups, setShowAllGroups] = useState(false);
+  const [alvo, setAlvo] = useState("");
   useEffect(() => {
     updateGroup();
     api.get("/groups/").then((resp) => {
@@ -53,39 +54,33 @@ const SearchGroups = () => {
   }, [groups, search, pode]);
   return (
     <ContainerBuscar>
-      <h2>Buscando Novos grupos</h2>
-      <TextField
-        id="outlined-basic"
-        label="Pesquisar grupos"
-        value={search}
-        type="search"
-        variant="outlined"
-        // sx={{ marginTop: 5 }}
-        fullWidth
-        onChange={(evt) => setSearch(evt.target.value)}
-      />
-      {showAllGroups && (
-        <div className="scrollInfiniteGroups">
-          <InfiniteScroll
-            dataLength={groups.results.length}
-            next={getNextPage}
-            height={500}
-            hasMore={show}
-            loader={<CircularProgress />}
-          >
-            {!!search ? (
-              <>
-                {groups.results.filter(
-                  (ele) =>
-                    ele.name
-                      .toLocaleLowerCase()
-                      .includes(search.trim().toLocaleLowerCase()) ||
-                    ele.category
-                      .toLocaleLowerCase()
-                      .includes(search.trim().toLocaleLowerCase())
-                ).length > 0 ? (
-                  groups.results
-                    .filter(
+      {!!alvo ? (
+        <RenderOneGroup group={alvo} setAlvo={setAlvo} />
+      ) : (
+        <>
+          <h2>Buscando Novos grupos</h2>
+          <TextField
+            id="outlined-basic"
+            label="Pesquisar grupos"
+            value={search}
+            type="search"
+            variant="outlined"
+            // sx={{ marginTop: 5 }}
+            fullWidth
+            onChange={(evt) => setSearch(evt.target.value)}
+          />
+          {showAllGroups && (
+            <div className="scrollInfiniteGroups">
+              <InfiniteScroll
+                dataLength={groups.results.length}
+                next={getNextPage}
+                height={430}
+                hasMore={show}
+                loader={<CircularProgress />}
+              >
+                {!!search ? (
+                  <>
+                    {groups.results.filter(
                       (ele) =>
                         ele.name
                           .toLocaleLowerCase()
@@ -93,27 +88,47 @@ const SearchGroups = () => {
                         ele.category
                           .toLocaleLowerCase()
                           .includes(search.trim().toLocaleLowerCase())
-                    )
-                    .map((ele, ind) => (
+                    ).length > 0 ? (
+                      groups.results
+                        .filter(
+                          (ele) =>
+                            ele.name
+                              .toLocaleLowerCase()
+                              .includes(search.trim().toLocaleLowerCase()) ||
+                            ele.category
+                              .toLocaleLowerCase()
+                              .includes(search.trim().toLocaleLowerCase())
+                        )
+                        .map((ele, ind) => (
+                          <CardGroups
+                            group={ele}
+                            updateGroup={updateGroup}
+                            key={ind}
+                            setAlvo={setAlvo}
+                          />
+                        ))
+                    ) : (
+                      <>
+                        {!show && <h3>Não foi possivel encontrar o grupo</h3>}
+                      </>
+                    )}
+                  </>
+                ) : (
+                  <>
+                    {groups?.results?.map((ele, ind) => (
                       <CardGroups
+                        setAlvo={setAlvo}
                         group={ele}
                         updateGroup={updateGroup}
                         key={ind}
                       />
-                    ))
-                ) : (
-                  <>{!show && <h3>Não foi possivel encontrar o grupo</h3>}</>
+                    ))}
+                  </>
                 )}
-              </>
-            ) : (
-              <>
-                {groups?.results?.map((ele, ind) => (
-                  <CardGroups group={ele} updateGroup={updateGroup} key={ind} />
-                ))}
-              </>
-            )}
-          </InfiniteScroll>
-        </div>
+              </InfiniteScroll>
+            </div>
+          )}
+        </>
       )}
     </ContainerBuscar>
   );
