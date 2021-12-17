@@ -11,18 +11,20 @@ const Register = () => {
   const schema = yup.object().shape({
     username: yup
       .string()
-      //   .email("E-mail inválido")
+      .email("E-mail inválido")
       .required("Utilize seu e-mail cadastrado"),
     email: yup.string().email("E-mail inválido").required("Campo obrigatório"),
-    password: yup.string().required("Campo obrigatório"),
-    // .min(
-    //   8,
-    //   "A senha deve conter no mínimo 8 dígitos, entre números, letras maiúsculas e caracteres especiais (!@#$%^&*)"
-    // )
-    // .required()
-    // .matches(/(?=.*[0-9])(?=.{8,})/, "Sem número")
-    // .matches(/(?=.*[A-Z])(?=.{8,})/, "Sem letra maiúscula")
-    // .matches(/(?=.*[!@#$%^&*])(?=.{8,})/, "Sem caractere especial"),
+    password: yup
+      .string()
+      .required("Campo obrigatório")
+      .min(
+        8,
+        "A senha deve conter no mínimo 8 dígitos, entre números, letras maiúsculas e caracteres especiais (!@#$%^&*)"
+      )
+      .required()
+      .matches(/(?=.*[0-9])(?=.{8,})/, "Sem número")
+      .matches(/(?=.*[A-Z])(?=.{8,})/, "Sem letra maiúscula")
+      .matches(/(?=.*[!@#$%^&*])(?=.{8,})/, "Sem caractere especial"),
     passwordConfirm: yup
       .string()
       .oneOf([yup.ref("password")], "Senhas não conferem"),
@@ -39,7 +41,6 @@ const Register = () => {
   const history = useHistory();
 
   const onSubmitForm = (data) => {
-
     delete data.passwordConfirm;
 
     api
@@ -53,7 +54,6 @@ const Register = () => {
 
   return (
     <>
-      <Bar />
       <RegisterLogo />
       <Container>
         <InputContainer>
@@ -62,7 +62,7 @@ const Register = () => {
             <TextField
               id="outlined-basic"
               label="Nome"
-              // type="email"
+              type="email"
               variant="outlined"
               sx={{ marginTop: 5 }}
               fullWidth
