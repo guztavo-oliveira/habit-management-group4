@@ -11,8 +11,6 @@ export const Container = styled.div`
   box-sizing: border-box;
   min-width: 287px;
   width: 97%;
-  max-width: 400px;
-  justify-content: space-between;
   background: var(--card-background);
   border: 1px var(--light-blue) solid;
   border-radius: 10px;
@@ -41,16 +39,9 @@ export const Container = styled.div`
     background-color: var(--neon-blue);
     border-radius: 10px;
   }
-`;
 
-export const Content = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: left;
   justify-content: flex-end;
-  height: 100%;
-  box-sizing: content-box;
-  width: 90%;
+  box-sizing: border-box;
 
   h2 {
     width: 80%;
@@ -112,6 +103,7 @@ export const ListsContainer = styled(Box)`
 `;
 
 export const ContainerOneGroup = styled.section`
+  width: 100%;
   .containerEditar {
     margin-top: 25px;
     display: flex;
@@ -124,10 +116,11 @@ export const ContainerOneGroup = styled.section`
   .containerTituloEditar {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     span {
       display: flex;
       align-items: center;
-      width: 30%;
+      width: 75%;
       justify-content: space-between;
     }
   }
@@ -139,6 +132,9 @@ export const ContainerOneGroup = styled.section`
     .info {
       display: flex;
       flex-direction: column;
+      span {
+        color: var(--gray);
+      }
     }
   }
   .group-icon {
@@ -150,6 +146,48 @@ export const ContainerOneGroup = styled.section`
     color: var(--dark-blue);
     background-color: var(--neon-blue);
     border-radius: 10px;
+  }
+`;
+export const Content = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: flex-end;
+  height: 100%;
+  box-sizing: border-box;
+  width: 90%;
+
+  h2 {
+    width: 80%;
+    font-family: "infoFont", sans-serif;
+    color: var(--dark-blue);
+    font-size: 26px;
+    margin: 10px;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  p {
+    margin: 0;
+    color: var(--gray);
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+      monospace;
+  }
+  span {
+    margin: 0 5px;
+    color: var(--light-blue);
+    font-size: 16px;
+    font-family: "infoFont", sans-serif;
+  }
+  @media (min-width: 1024px) {
+    min-width: 100%;
   }
 `;
 
@@ -187,5 +225,28 @@ export const GroupProfileContainer = styled.div`
     color: var(--dark-blue);
     background-color: var(--neon-blue);
     border-radius: 10px;
+  }
+`;
+
+export const ContainerSairGrupo = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  h2 {
+    height: 66px;
+    background: var(--dark-blue);
+    display: flex;
+    align-items: center;
+    color: white;
+    text-align: center;
+  }
+  .ContainerSairGrupoButtons {
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+  }
+  button {
+    width: 90px;
   }
 `;

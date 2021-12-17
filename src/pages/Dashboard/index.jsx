@@ -69,7 +69,6 @@ const Dashboard = () => {
         setFechar(false);
       });
   };
-  console.log(larguraTela);
   //////////////////////////////////////////////////////////
 
   function useWindowSize() {
@@ -119,7 +118,6 @@ const Dashboard = () => {
           )) ||
             (choose.includes("groups") && (
               <ContainerGroups>
-                <h1>Groups</h1>
                 <ListGroups />
               </ContainerGroups>
             )) ||

@@ -6,23 +6,23 @@ import { TextField } from "@material-ui/core";
 import { useHistory, Link } from "react-router-dom";
 import { Container, InputContainer, Bar, RegisterLogo } from "./styles";
 import Button from "../../components/Button";
+import { toast } from "react-toastify";
 
 const Register = () => {
   const schema = yup.object().shape({
-    username: yup
-      .string()
-      //   .email("E-mail inválido")
-      .required("Utilize seu e-mail cadastrado"),
+    username: yup.string().required("Digite um username"),
     email: yup.string().email("E-mail inválido").required("Campo obrigatório"),
-    password: yup.string().required("Campo obrigatório"),
-    // .min(
-    //   8,
-    //   "A senha deve conter no mínimo 8 dígitos, entre números, letras maiúsculas e caracteres especiais (!@#$%^&*)"
-    // )
-    // .required()
-    // .matches(/(?=.*[0-9])(?=.{8,})/, "Sem número")
-    // .matches(/(?=.*[A-Z])(?=.{8,})/, "Sem letra maiúscula")
-    // .matches(/(?=.*[!@#$%^&*])(?=.{8,})/, "Sem caractere especial"),
+    password: yup
+      .string()
+      .required("Campo obrigatório")
+      .min(
+        8,
+        "A senha deve conter no mínimo 8 dígitos, entre números, letras maiúsculas e caracteres especiais (!@#$%^&*)"
+      )
+      .required()
+      .matches(/(?=.*[0-9])(?=.{8,})/, "Sem número")
+      .matches(/(?=.*[A-Z])(?=.{8,})/, "Sem letra maiúscula")
+      .matches(/(?=.*[!@#$%^&*])(?=.{8,})/, "Sem caractere especial"),
     passwordConfirm: yup
       .string()
       .oneOf([yup.ref("password")], "Senhas não conferem"),
@@ -39,13 +39,13 @@ const Register = () => {
   const history = useHistory();
 
   const onSubmitForm = (data) => {
-
     delete data.passwordConfirm;
 
     api
       .post("/users/", data)
       .then((response) => {
         console.log(response.data);
+        toast.success("Usuário criado com sucesso!");
         history.push("/login");
       })
       .catch((err) => console.log(err.response.data));
@@ -53,7 +53,6 @@ const Register = () => {
 
   return (
     <>
-      <Bar />
       <RegisterLogo />
       <Container>
         <InputContainer>
@@ -62,7 +61,6 @@ const Register = () => {
             <TextField
               id="outlined-basic"
               label="Nome"
-              // type="email"
               variant="outlined"
               sx={{ marginTop: 5 }}
               fullWidth

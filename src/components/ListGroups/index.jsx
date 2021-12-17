@@ -124,9 +124,6 @@ const ListGroups = () => {
             <h2>{showAllGroups ? "Buscando novos grupos" : "Seus grupos"}</h2>
             <ModalDialog
               ele={<Button darkBlue>Criar grupo</Button>}
-              msgButton={{ atualizar: "Criar um Grupo", cancelar: "Cancelar" }}
-              callback={criarGrupo}
-              style={{ overflow: "hidden" }}
               setFechar={setFechar}
               fechar={fechar}
               darkBlue
@@ -152,17 +149,17 @@ const ListGroups = () => {
                     fullWidth
                     onChange={(e) => setDescription(e.target.value)}
                   />
-                <SelectInput
-                  label="category"
-                  options={categoryOptions}
-                  onchange={setCategory}
-                  value={category}
-                />
+                  <SelectInput
+                    label="category"
+                    options={categoryOptions}
+                    onchange={setCategory}
+                    value={category}
+                  />
                   <span className="containerCriarGrupoButtons">
                     <Button
                       darkBlue
                       onClick={() => criarGrupo()}
-                      children="Atualizar"
+                      children="Criar grupo"
                     />
                     <Button red onClick={() => setFechar("fechar")}>
                       Cancelar
@@ -192,12 +189,12 @@ const ListGroups = () => {
         </div>
       )}
 
-      {showAllGroups ? (
+      {showAllGroups && width > 800 ? (
         <div className="containerPesquisa">
           <InfiniteScroll
             dataLength={groups?.results.length}
             next={getNextPage}
-            height={500}
+            height={430}
             hasMore={show}
             loader={<CircularProgress />}
             style={{ overflowx: "hidden" }}
@@ -229,6 +226,7 @@ const ListGroups = () => {
                           group={ele}
                           updateGroup={updateGroup}
                           key={ind}
+                          setAlvo={setAlvo}
                         />
                       ))
                   ) : (
@@ -240,6 +238,7 @@ const ListGroups = () => {
                   {groups.results.map((ele, ind) => (
                     <CardGroups
                       group={ele}
+                      setAlvo={setAlvo}
                       updateGroup={updateGroup}
                       key={ind}
                     />
