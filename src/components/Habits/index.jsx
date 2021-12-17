@@ -78,7 +78,6 @@ const Habits = () => {
         <ModalDialog
           ele={
             <div>
-              <h2>Habits</h2>
               <Button darkBlue>Add new</Button>
             </div>
           }

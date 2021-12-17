@@ -4,11 +4,12 @@ export const Container = styled.div`
   background-color: var(--card-background);
   border-radius: 15px;
   box-shadow: 5px 5px 15px 3px rgba(0, 0, 0, 0.58);
-  border: 2px solid var(--dark-blue);
+  border: 2px solid var(--light-blue);
   display: flex;
   justify-content: space-between;
   align-items: center;
   height: 100px;
+  /* max-width: 350px; */
   overflow: hidden;
   margin-bottom: 15px;
 
@@ -54,15 +55,16 @@ export const Container = styled.div`
     text-align: center;
 
     svg {
-      height: 30px;
+      height: 25px;
       margin: 12px 0;
+      color: gray;
 
       &:hover {
         transition: 1.5s ease;
       }
     }
 
-    h3 {
+    &:nth-child(2) > p {
       transform: translateY(-6px);
     }
   }
@@ -79,10 +81,6 @@ export const Controls = styled.div`
   span {
     width: inherit;
     height: inherit;
-    align-self: stretch;
-    margin: 0.5px 0;
-    color: var(--white);
-    background-color: var(--dark-blue);
     display: inline-flex;
     justify-content: center;
     align-items: center;
@@ -98,6 +96,9 @@ export const Controls = styled.div`
     }
   }
   svg {
-    padding: 5px;
+    background: var(--white);
+    border-radius: 5px;
+    color: var(--dark-blue);
+    padding: 2px;
   }
 `;

@@ -91,6 +91,7 @@ const ListGroups = () => {
     if (!!groups.next && groups.previous !== groups.next && !!search && pode) {
       getNextPage();
     }
+    console.log("aqui", alvo);
   }, [groups, search, pode]);
   // console.log(fechar);
 
@@ -112,7 +113,6 @@ const ListGroups = () => {
   }
 
   const [width] = ShowWindowDimensions();
-
 
   return (
     <Container>
@@ -149,12 +149,12 @@ const ListGroups = () => {
                     fullWidth
                     onChange={(e) => setDescription(e.target.value)}
                   />
-                <SelectInput
-                  label="category"
-                  options={categoryOptions}
-                  onchange={setCategory}
-                  value={category}
-                />
+                  <SelectInput
+                    label="category"
+                    options={categoryOptions}
+                    onchange={setCategory}
+                    value={category}
+                  />
                   <span className="containerCriarGrupoButtons">
                     <Button
                       darkBlue
@@ -168,9 +168,11 @@ const ListGroups = () => {
                 </div>
               </ModalCriarGrupo>
             </ModalDialog>
-            {width >= 800 &&  <Button green onClick={() => setShowAllGroups(!showAllGroups)}>
-              {showAllGroups ? "Meus grupos" : "Buscar mais grupos"}
-            </Button>}
+            {width >= 800 && (
+              <Button green onClick={() => setShowAllGroups(!showAllGroups)}>
+                {showAllGroups ? "Meus grupos" : "Buscar mais grupos"}
+              </Button>
+            )}
           </div>
           <div>
             <TextField
@@ -195,51 +197,55 @@ const ListGroups = () => {
             height={430}
             hasMore={show}
             loader={<CircularProgress />}
-            style={{overflowx:"hidden"}}
+            style={{ overflowx: "hidden" }}
           >
             <div className="containerCardGroups">
-          
-            {!!search ? (
+              {!!search ? (
                 <>
-                {groups.results.filter(
-                  (ele) =>
-                    ele.name
-                      .toLocaleLowerCase()
-                      .includes(search.trim().toLocaleLowerCase()) ||
-                    ele.category
-                      .toLocaleLowerCase()
-                      .includes(search.trim().toLocaleLowerCase())
-                ).length > 0 ? (
-                  groups.results
-                    .filter(
-                      (ele) =>
-                        ele.name
-                          .toLocaleLowerCase()
-                          .includes(search.trim().toLocaleLowerCase()) ||
-                        ele.category
-                          .toLocaleLowerCase()
-                          .includes(search.trim().toLocaleLowerCase())
-                    )
-                    .map((ele, ind) => (
-                      <CardGroups
-                        group={ele}
-                        updateGroup={updateGroup}
-                        key={ind}
-                        setAlvo={setAlvo}
-                      />
-                    ))
-                ) : (
-                  <>{!show && <h3>Não foi possivel encontrar o grupo</h3>}</>
-                )}
-              </>
-            ) : (
-              <>
-                {groups.results.map((ele, ind) => (
-                  <CardGroups  group={ele} setAlvo={setAlvo} updateGroup={updateGroup} key={ind} />
-                ))}
-              </>
-            )}
-             </div>
+                  {groups.results.filter(
+                    (ele) =>
+                      ele.name
+                        .toLocaleLowerCase()
+                        .includes(search.trim().toLocaleLowerCase()) ||
+                      ele.category
+                        .toLocaleLowerCase()
+                        .includes(search.trim().toLocaleLowerCase())
+                  ).length > 0 ? (
+                    groups.results
+                      .filter(
+                        (ele) =>
+                          ele.name
+                            .toLocaleLowerCase()
+                            .includes(search.trim().toLocaleLowerCase()) ||
+                          ele.category
+                            .toLocaleLowerCase()
+                            .includes(search.trim().toLocaleLowerCase())
+                      )
+                      .map((ele, ind) => (
+                        <CardGroups
+                          group={ele}
+                          updateGroup={updateGroup}
+                          key={ind}
+                          setAlvo={setAlvo}
+                        />
+                      ))
+                  ) : (
+                    <>{!show && <h3>Não foi possivel encontrar o grupo</h3>}</>
+                  )}
+                </>
+              ) : (
+                <>
+                  {groups.results.map((ele, ind) => (
+                    <CardGroups
+                      group={ele}
+                      setAlvo={setAlvo}
+                      updateGroup={updateGroup}
+                      key={ind}
+                    />
+                  ))}
+                </>
+              )}
+            </div>
           </InfiniteScroll>
         </div>
       ) : (

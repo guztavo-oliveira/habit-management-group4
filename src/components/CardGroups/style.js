@@ -8,35 +8,39 @@ export const Container = styled.div`
   flex-direction: column;
   align-items: center;
   min-height: 250px;
+<<<<<<< HEAD
   box-sizing:border-box;
   min-width:287px;
   width:97%;
   max-width:400px;
   justify-content:space-between;
+=======
+  box-sizing: border-box;
+  min-width: 287px;
+  width: 97%;
+>>>>>>> feature/card-habits
   background: var(--card-background);
   border: 1px var(--light-blue) solid;
   border-radius: 10px;
   box-shadow: 1px 3px 10px var(--gray);
   cursor: pointer;
 
-.image-button{
-  width: 100%;
-display:flex;
-flex-direction:row;
-justify-content:space-around;
+  .image-button {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
 
-.button{
-  align-self:center;
-
-}
-
-}
+    .button {
+      align-self: center;
+    }
+  }
 
   .group-icon {
-    background-color:red ;
+    background-color: red;
     width: 70px;
     height: 70px;
-    background-image: url(${props => props.groupIcon});
+    background-image: url(${(props) => props.groupIcon});
     background-size: contain;
     background-repeat: no-repeat;
     color: var(--dark-blue);
@@ -48,7 +52,7 @@ justify-content:space-around;
   box-sizing: border-box;
 
   h2 {
-    width:80%;
+    width: 80%;
     font-family: "infoFont", sans-serif;
     color: var(--dark-blue);
     font-size: 26px;
@@ -60,7 +64,6 @@ justify-content:space-around;
     text-overflow: ellipsis;
   }
   p {
-
     margin: 0;
     color: var(--gray);
     display: -webkit-box;
@@ -161,9 +164,9 @@ export const Content = styled.div`
   height: 100%;
   box-sizing: border-box;
   width: 90%;
-  
+
   h2 {
-    width:80%;
+    width: 80%;
     font-family: "infoFont", sans-serif;
     color: var(--dark-blue);
     font-size: 26px;
@@ -183,7 +186,7 @@ export const Content = styled.div`
     overflow: hidden;
     text-overflow: ellipsis;
     font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+      monospace;
   }
   span {
     margin: 0 5px;

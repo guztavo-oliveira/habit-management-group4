@@ -7,6 +7,7 @@ export const Container = styled.div`
   align-items: center;
   justify-content: center;
   overflow-x: hidden;
+
   .containerCardGroups {
     width: 320px;
     display: flex;
@@ -53,17 +54,27 @@ export const Container = styled.div`
     padding: 0 15px;
     align-items: center;
   }
+
   .inputCriarGrupo {
   }
+
   @media (min-width: 1024px) {
-    padding: 20px;
-    width: 500px;
-    height: 617px;
+    padding: 10px;
+    width: 100%;
+    /* height: 617px; */
+    height: 100%;
     display: flex;
     overflow-y: auto;
     overflow-x: hidden;
     justify-content: flex-start;
+<<<<<<< HEAD
+    box-shadow: 5px 5px 15px 3px rgba(0, 0, 0, 0.58);
+    border-radius: 10px;
+
+    .meusGrupos {
+=======
     /* .meusGrupos {
+>>>>>>> 963e7397a58ea328150e75ceac376b383e728621
       ::-webkit-scrollbar-track {
         background-color: var(--light-blue);
       }
@@ -96,8 +107,8 @@ export const Container = styled.div`
       align-items: center;
     }
     .containerCardGroups {
-    width: 430px;
-  }
+      width: 430px;
+    }
     /* .infinite-scroll-component__outerdiv{
       width: 450px;
     } */

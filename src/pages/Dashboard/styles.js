@@ -1,43 +1,96 @@
 import styled from "styled-components";
-import logoPreto from "../../assets/images/simbolo-preto.png";
+import logoBranco from "../../assets/images/logoBranco.svg";
+import logoBrancoCompleto from "../../assets/images/logoBrancoCompleto.svg";
 
 export const Container = styled.div`
-  height: 100%;
+  height: 100vh;
   display: flex;
+  flex-flow: column;
   align-items: center;
   flex-direction: column;
-  justify-content: center;
-  /* @media (min-width: ${({ width }) => `${width}px`}) {
-    flex-direction: row;
-  } */
-  @media (min-width: 1024px) {
 
-  background-color: var(--card-background);
-
+  background: rgb(52, 133, 255);
+  background: linear-gradient(
+    180deg,
+    rgba(52, 133, 255, 1) 0%,
+    rgba(84, 225, 255, 1) 100%
+  );
 
   @media (min-width: ${({ width }) => `${width}px`}) {
-    flex-direction: row;
+    flex-direction: column;
   }
+`;
 
+export const Wrapper = styled.div`
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-flow: row;
+  border: 2px solid;
+  padding: 10px 60px;
+  gap: 40px;
+`;
+
+export const ContainerHabits = styled.div`
+  flex: 1;
+  padding: 20px;
+  height: 100%;
+  max-width: 500px;
+`;
+
+export const ContainerGroups = styled.div`
+  flex: 1;
+  padding: 20px;
+  height: 100%;
 `;
 
 export const Header = styled.header`
-  width: 90%;
-  height: 50px;
-
-  margin-top: 10px;
+  width: 100%;
   display: flex;
   align-items: center;
+  padding: 0 20px;
+  transition: all ease 0.5s;
+
+  @media (min-width: ${({ width }) => `${width}px`}) {
+    background: rgba(196, 196, 196, 0.01);
+    box-shadow: 0px 5px 4px rgba(0, 0, 0, 0.3);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 60px;
+    transition: all ease 0.5s;
+
+    .adjustDivModal {
+      height: 36px;
+      transition: all ease 0.5s;
+    }
+  }
 
   .header__icon {
     width: 36px;
     height: 36px;
   }
 
+  .logo {
+    background-image: url(${logoBranco});
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 70px;
+    height: 80px;
+
+    @media (min-width: ${({ width }) => `${width}px`}) {
+      background-image: url(${logoBrancoCompleto});
+      background-size: contain;
+      background-repeat: no-repeat;
+      width: 240px;
+      height: 80px;
+    }
+  }
+
   svg {
     font-size: 36px;
-    background-color: var(--light-blue);
     border-radius: 50%;
+    outline: 2px solid var(--white);
     color: var(--white);
     padding: 7px;
   }
@@ -53,7 +106,6 @@ export const Header = styled.header`
   .gear {
     background-color: var(--white);
     color: black;
-    /* margin-left: 120px; */
     cursor: pointer;
   }
 
@@ -65,9 +117,9 @@ export const Header = styled.header`
 
 export const MenuBar = styled.div`
   width: 100%;
-  height: 45px;
+  height: 3px;
   position: fixed;
-  bottom: 0;
+  bottom: 40px;
   background-color: var(--dark-blue);
   display: flex;
   justify-content: center;
@@ -79,7 +131,7 @@ export const MenuBar = styled.div`
     color: var(--dark-blue);
     padding: 7px;
     cursor: pointer;
-    outline: 5px solid var(--dark-blue);
+    outline: 3px solid var(--dark-blue);
   }
 
   .icons {
@@ -89,42 +141,16 @@ export const MenuBar = styled.div`
     justify-content: space-between;
     align-items: center;
     position: absolute;
-    bottom: 22px;
+    bottom: 0;
   }
 
   .adjustDivModal {
     height: 55px;
+    transition: all ease 0.5s;
   }
-
-  .logo {
-    background-color: var(--light-blue);
-    background-image: url(${logoPreto});
-    background-size: contain;
-    background-repeat: no-repeat;
-    width: 100px;
-    height: 100px;
-    border-radius: 50% 50% 0 0;
-    position: absolute;
-    transform: translateX(-50%);
-    left: 50%;
-    bottom: -10px;
-  }
-`;
-
-export const ContainerHabits = styled.div`
-  width: 90%;
-  height: 100%;
-  /* border: 1px solid red; */
-`;
-
-export const ContainerGroups = styled.div`
-  width: 90%;
-  height: 100%;
-  /* border: 1px solid red; */
 `;
 
 export const ContainerEditUser = styled.div`
-  /* border: 1px solid chartreuse; */
   margin: 10px;
   border-radius: 10px;
 

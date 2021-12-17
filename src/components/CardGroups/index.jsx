@@ -121,7 +121,9 @@ const CardGroups = ({ group, updateGroup, setAlvo }) => {
         updateGroup();
         toast.success("Você saiu do grupo!");
       })
-      .catch((err) => toast.error("Algo deu errado ao tentar sair do grupo..."));
+      .catch((err) =>
+        toast.error("Algo deu errado ao tentar sair do grupo...")
+      );
   };
 
   return (
@@ -135,7 +137,7 @@ const CardGroups = ({ group, updateGroup, setAlvo }) => {
         }
       }}
     >
-      <div className='image-button'>
+      <div className="image-button">
         <div className="group-icon" />
         <ButtonGroup
           onClick={
@@ -149,29 +151,24 @@ const CardGroups = ({ group, updateGroup, setAlvo }) => {
             : "Entrar no grupo"}
         </ButtonGroup>
       </div>
-      
 
-   
-        <Content>
-         
+      <Content>
+        <h2>{group.name} </h2>
+        <p>
+          <span>Categoria: </span>
+          {group.category}
+        </p>
 
-          <h2>{group.name} </h2>
-          <p>
-            <span>Categoria: </span>
-            {group.category}
-          </p>
-
-          <p>
-            <span> Criador:</span> {group.creator.username}
-          </p>
-          <p>
-            <span>Descrição:</span> {group.description}
-          </p>
-          <p>
-            <span>Integrantes: </span> {group.users_on_group.length} membros
-          </p>
-        </Content>
-     
+        <p>
+          <span> Criador:</span> {group.creator.username}
+        </p>
+        <p>
+          <span>Descrição:</span> {group.description}
+        </p>
+        <p>
+          <span>Integrantes: </span> {group.users_on_group.length} membros
+        </p>
+      </Content>
     </Container>
   );
 };
@@ -236,10 +233,9 @@ export const RenderOneGroup = ({ group, setAlvo }) => {
     <ContainerOneGroup
       groupIcon={!!groupIcon ? groupIcon.image : groupIconDefault}
     >
-
       <div className="container">
         <div className="containerTituloEditar">
-        <div className="group-icon" />
+          <div className="group-icon" />
           <span>
             <h2>{group.name} </h2>
           </span>
@@ -294,21 +290,20 @@ export const RenderOneGroup = ({ group, setAlvo }) => {
           setFechar={setFechar}
         >
           <ContainerSairGrupo>
-          <h2>Voce tem certeza que deseja sair?</h2>
+            <h2>Voce tem certeza que deseja sair?</h2>
             <div className="ContainerSairGrupoButtons">
-
-          <Button
-            green
-            onClick={() => {
-              unsubscribe();
-              setAlvo("");
-            }}
-          >
-            Sim
-          </Button>
-          <Button red onClick={() => setFechar("fechar")}>
-            Não
-          </Button>
+              <Button
+                green
+                onClick={() => {
+                  unsubscribe();
+                  setAlvo("");
+                }}
+              >
+                Sim
+              </Button>
+              <Button red onClick={() => setFechar("fechar")}>
+                Não
+              </Button>
             </div>
           </ContainerSairGrupo>
         </ModalDialog>
