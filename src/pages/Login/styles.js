@@ -6,38 +6,29 @@ import loginLogo from "../../assets/images/loginLogo.svg";
 export const Container = styled.div`
   width: 100%;
   height: 100vh;
-  background-color: var(--dark-blue);
-  /* padding-top: 125px; */
+  /* background-color: var(--dark-blue); */
+  background: rgb(52, 133, 255);
+  background: linear-gradient(
+    180deg,
+    rgba(52, 133, 255, 1) 0%,
+    rgba(8, 246, 255, 1) 100%
+  );
+
+  @media (min-width: 1000px) {
+    background: rgb(8, 175, 255);
+    background: linear-gradient(
+      -90deg,
+      rgb(8, 175, 255) 0%,
+      rgb(255, 255, 255) 87%,
+      rgb(255, 255, 255) 100%
+    );
+  }
+
   position: relative;
   display: flex;
   align-items: center;
 `;
 
-// const hideScroll = keyframes`
-// from, to{ overflow: hidden; }
-
-// `;
-
-const appearFromTop = keyframes`
-
-  from {
-    transform: translateY(-100%);   
-  }
-  to {
-    transform: translateY(0);
-`;
-
-export const Bar = styled.div`
-  @media (min-width: 510px) {
-    width: calc(20% + 150px);
-    height: 100%;
-    z-index: 1;
-    animation: ${appearFromTop} 1s;
-    position: absolute;
-    background-color: var(--card-background);
-    left: 0;
-  }
-`;
 
 const logoFromRight = keyframes`
   from {

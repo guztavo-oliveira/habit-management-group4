@@ -20,17 +20,19 @@ const Login = () => {
   const schema = yup.object().shape({
     username: yup
       .string()
-      //   .email("E-mail inválido")
+      .email("E-mail inválido")
       .required("Utilize seu e-mail cadastrado"),
-    password: yup.string().required("Campo obrigatório"),
-    // .min(
-    //   8,
-    //   "A senha deve conter no mínimo 8 dígitos, entre números, letras maiúsculas e caracteres especiais (!@#$%^&*)"
-    // )
-    // .required()
-    // .matches(/(?=.*[0-9])(?=.{8,})/, "Sem número")
-    // .matches(/(?=.*[A-Z])(?=.{8,})/, "Sem letra maiúscula")
-    // .matches(/(?=.*[!@#$%^&*])(?=.{8,})/, "Sem caractere especial"),
+    password: yup
+      .string()
+      .required("Campo obrigatório")
+      .min(
+        8,
+        "A senha deve conter no mínimo 8 dígitos, entre números, letras maiúsculas e caracteres especiais (!@#$%^&*)"
+      )
+      .required()
+      .matches(/(?=.*[0-9])(?=.{8,})/, "Sem número")
+      .matches(/(?=.*[A-Z])(?=.{8,})/, "Sem letra maiúscula")
+      .matches(/(?=.*[!@#$%^&*])(?=.{8,})/, "Sem caractere especial"),
   });
 
   const {
@@ -66,8 +68,11 @@ const Login = () => {
 
   return (
     <>
+<<<<<<< Updated upstream
       <Bar />
 
+=======
+>>>>>>> Stashed changes
       <LoginLogo />
 
       <Container>
@@ -77,7 +82,7 @@ const Login = () => {
             <TextField
               id="outlined-basic"
               label="Login"
-              // type="email"
+              type="email"
               variant="outlined"
               sx={{ marginTop: 5 }}
               fullWidth
