@@ -1,9 +1,8 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  /* width: 95%; */
   display: flex;
-  /* padding: 15px; */
+  padding: 15px 0;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -51,6 +50,8 @@ export const Container = styled.div`
     display: flex;
     justify-content: space-between;
     margin-bottom: 15px;
+    padding: 0 15px;
+    align-items: center;
   }
   .inputCriarGrupo {
   }
@@ -62,7 +63,7 @@ export const Container = styled.div`
     overflow-y: auto;
     overflow-x: hidden;
     justify-content: flex-start;
-    .meusGrupos {
+    /* .meusGrupos {
       ::-webkit-scrollbar-track {
         background-color: var(--light-blue);
       }
@@ -74,8 +75,8 @@ export const Container = styled.div`
         background: blue;
         border-radius: 15px 15px;
       }
-    }
-    #scrollInfinite {
+    } */
+    /* #scrollInfinite {
       ::-webkit-scrollbar-track {
         background-color: var(--light-blue);
       }
@@ -87,7 +88,7 @@ export const Container = styled.div`
         background: blue;
         border-radius: 15px 15px;
       }
-    }
+    } */
     .containerPesquisa {
       width: 100%;
       display: flex;
@@ -113,7 +114,7 @@ export const ModalCriarGrupo = styled.div`
   }
   .bodyModalCriarGrupo {
     padding: 15px;
-    min-width: 300px;
+    min-width: 250px;
     height: 310px;
     display: flex;
     flex-direction: column;
@@ -124,5 +125,8 @@ export const ModalCriarGrupo = styled.div`
     display: flex;
     justify-content: space-between;
     width: 100%;
+    button{
+      width: 100px;
+    }
   }
 `;

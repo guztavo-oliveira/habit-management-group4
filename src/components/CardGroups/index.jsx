@@ -5,6 +5,7 @@ import {
   ListsContainer,
   ContainerOneGroup,
   ContainerEditarGrupo,
+  ContainerSairGrupo,
 } from "./style";
 import { useAuth } from "../../providers/AuthContext";
 import api from "../../services/api";
@@ -105,10 +106,10 @@ const CardGroups = ({ group, updateGroup, setAlvo }) => {
       .post(`/groups/${group.id}/subscribe/`, {}, tokenBearer)
       .then(() => {
         updateGroup();
-        toast("Você se increveu no grupo");
+        toast.success("Você se increveu no grupo");
       })
       .catch((err) =>
-        toast("Algo deu errado ao tentar se increver no grupo...")
+        toast.error("Algo deu errado ao tentar se increver no grupo...")
       );
   };
 
@@ -118,18 +119,16 @@ const CardGroups = ({ group, updateGroup, setAlvo }) => {
       .delete(`/groups/${group.id}/unsubscribe/`, tokenBearer)
       .then(() => {
         updateGroup();
-        toast("Você saiu do grupo!");
+        toast.success("Você saiu do grupo!");
       })
-      .catch((err) => toast("Algo deu errado ao tentar sair do grupo..."));
+      .catch((err) => toast.error("Algo deu errado ao tentar sair do grupo..."));
   };
 
   return (
     <Container
       groupIcon={!!groupIcon ? groupIcon.image : groupIconDefault}
       onClick={() => {
-        console.log('entrei na funcao click')
         if (myGroups.some((item) => item.name === group.name)) {
-          console.log('entrei no card')
           setAlvo(group);
         } else {
           toast.error("É necessário entrar no grupo para abrir a page...");
@@ -222,7 +221,6 @@ export const RenderOneGroup = ({ group, setAlvo }) => {
       .catch((err) => {
         console.log(err);
       });
-    console.log("atualizou");
   }, [refresh]);
 
   const unsubscribe = () => {
@@ -234,16 +232,14 @@ export const RenderOneGroup = ({ group, setAlvo }) => {
       })
       .catch((err) => toast("Algo deu errado ao tentar sair do grupo..."));
   };
-  console.log(openGoals);
-  console.log(activities);
   return (
     <ContainerOneGroup
       groupIcon={!!groupIcon ? groupIcon.image : groupIconDefault}
     >
-      <div className="group-icon" />
 
       <div className="container">
         <div className="containerTituloEditar">
+        <div className="group-icon" />
           <span>
             <h2>{group.name} </h2>
           </span>
@@ -269,7 +265,7 @@ export const RenderOneGroup = ({ group, setAlvo }) => {
               <span>Descrição:</span> {group.description}
             </p>
             <p>
-              <span> Categoria: {group.category}</span>
+              <span> Categoria:</span> {group.category}
             </p>
           </div>
           <div className="info">
@@ -297,7 +293,9 @@ export const RenderOneGroup = ({ group, setAlvo }) => {
           fechar={fechar}
           setFechar={setFechar}
         >
+          <ContainerSairGrupo>
           <h2>Voce tem certeza que deseja sair?</h2>
+            <div className="ContainerSairGrupoButtons">
 
           <Button
             green
@@ -311,6 +309,8 @@ export const RenderOneGroup = ({ group, setAlvo }) => {
           <Button red onClick={() => setFechar("fechar")}>
             Não
           </Button>
+            </div>
+          </ContainerSairGrupo>
         </ModalDialog>
         <Button green onClick={() => setAlvo("")}>
           Voltar

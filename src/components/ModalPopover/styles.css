@@ -1,0 +1,9 @@
+.modalPopover {
+  padding: 10px;
+}
+.modalPopover li {
+  list-style: none;
+}
+#simple-popover {
+  /* padding: 15px; */
+}
