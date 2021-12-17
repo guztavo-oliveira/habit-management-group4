@@ -3,10 +3,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { TextField } from "@material-ui/core";
 import { useHistory, Link } from "react-router-dom";
-import { Container, InputContainer, Bar, LoginLogo } from "./styles";
+import { Container, InputContainer, LoginLogo } from "./styles";
 import Button from "../../components/Button";
-
-import { useLayoutEffect, useState } from "react";
 
 import jwt_decode from "jwt-decode";
 import api from "../../services/api";
@@ -18,10 +16,7 @@ const Login = () => {
   const { atualizarToken } = useAuth();
 
   const schema = yup.object().shape({
-    username: yup
-      .string()
-      .email("E-mail inválido")
-      .required("Utilize seu e-mail cadastrado"),
+    username: yup.string().required("Utilize seu username cadastrado"),
     password: yup
       .string()
       .required("Campo obrigatório")
@@ -29,7 +24,6 @@ const Login = () => {
         8,
         "A senha deve conter no mínimo 8 dígitos, entre números, letras maiúsculas e caracteres especiais (!@#$%^&*)"
       )
-      .required()
       .matches(/(?=.*[0-9])(?=.{8,})/, "Sem número")
       .matches(/(?=.*[A-Z])(?=.{8,})/, "Sem letra maiúscula")
       .matches(/(?=.*[!@#$%^&*])(?=.{8,})/, "Sem caractere especial"),
@@ -53,28 +47,20 @@ const Login = () => {
 
     atualizarToken();
     history.push("/dashboard");
-  
   };
 
- 
   const handleSignIn = (data) => {
     api
       .post("/sessions/", data)
       .then((response) => {
         addData(response);
-          })
-      .catch((err) => console.log("invalid data"));
+      })
+      .catch((err) => console.log(err));
   };
 
   return (
     <>
-<<<<<<< Updated upstream
-      <Bar />
-
-=======
->>>>>>> Stashed changes
       <LoginLogo />
-
       <Container>
         <InputContainer>
           <form onSubmit={handleSubmit(handleSignIn)}>
@@ -82,7 +68,6 @@ const Login = () => {
             <TextField
               id="outlined-basic"
               label="Login"
-              type="email"
               variant="outlined"
               sx={{ marginTop: 5 }}
               fullWidth
