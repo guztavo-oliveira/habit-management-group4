@@ -5,32 +5,24 @@ import registerLogo from "../../assets/images/register-logo.png";
 export const Container = styled.div`
   width: 100vw;
   height: 100vh;
-  background-color: var(--dark-blue);
+  background: rgb(52, 133, 255);
+  background: linear-gradient(
+    180deg,
+    rgba(52, 133, 255, 1) 0%,
+    rgba(8, 246, 255, 1) 100%
+  );
   display: flex;
   align-items: center;
   position: relative;
-`;
 
-const appearFromTop = keyframes`
-
-  from {
-    transform: translateY(-100%);
-  }
-  to {
-    transform: translateY(0);
-  }
-
-`;
-
-export const Bar = styled.div`
-  @media (min-width: 510px) {
-    width: calc(20% + 175px);
-    height: 100%;
-    z-index: 1;
-    animation: ${appearFromTop} 1s;
-    position: absolute;
-    background-color: var(--card-background);
-    right: 0;
+  @media (min-width: 1000px) {
+    background: rgb(8, 175, 255);
+    background: linear-gradient(
+      90deg,
+      rgb(8, 175, 255) 0%,
+      rgb(255, 255, 255) 87%,
+      rgb(255, 255, 255) 100%
+    );
   }
 `;
 
