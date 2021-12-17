@@ -21,7 +21,7 @@ import { RiDeleteBin6Line, RiEdit2Fill } from "react-icons/ri";
 const GroupActivities = ({ groupId, activities }) => {
   const { tokenBearer, refresh, setRefresh } = useAuth();
   const [userInput, setUserInput] = useState("");
-
+  const [close, setClose] = useState(false);
   const { handleSubmit, control } = useForm();
 
   const addActiv = (data) => {
@@ -31,9 +31,11 @@ const GroupActivities = ({ groupId, activities }) => {
       .then((response) => {
         toast.success("Tudo certo!", "Atividade adicionada com sucesso.");
         refresh === true ? setRefresh(false) : setRefresh(true);
+        setClose("fechar");
       })
       .catch((err) => {
         toast.error("Oops!", "Se o erro persistir, faça login novamente.");
+        setClose(false);
       });
   };
 
@@ -50,11 +52,14 @@ const GroupActivities = ({ groupId, activities }) => {
   };
 
   const editActiv = (activId, data) => {
+    let newData = { title: data };
+
     api
-      .patch(`activities/${activId}/`, data, tokenBearer)
-      .then((response) => {
+      .patch(`activities/${activId}/`, newData, tokenBearer)
+      .then((_) => {
         toast.success("A atividade foi modificada com sucesso.");
         refresh === true ? setRefresh(false) : setRefresh(true);
+        
       })
       .catch((err) => {
         console.log(err);
@@ -65,19 +70,17 @@ const GroupActivities = ({ groupId, activities }) => {
       <AtvHeader>
         <AtvTitle>Atividades</AtvTitle>
         <ModalPopover
+          callback={handleSubmit(addActiv)}
+          classe="AddActivForm"
+          msgButton={{ atualizar: "Adicionar", cancelar: "cancelar" }}
+          setFechar={setClose}
+          fechar={close}
           ele={<AddButton variant="contained">+</AddButton>}
-          anchorReference="anchorPosition"
-          anchorPosition={{ top: 200, left: 200 }}
-          anchorOrigin={{
-            vertical: "top",
-            horizontal: "center",
-          }}
-          transformOrigin={{
-            vertical: "top",
-            horizontal: "left",
-          }}
+          darkBlue
         >
-          <AddActivForm onSubmit={handleSubmit(addActiv)}>
+          <AddActivForm
+          >
+            <span>Alterar título</span>
             <Controller
               render={({ field }) => (
                 <TextField
@@ -85,7 +88,7 @@ const GroupActivities = ({ groupId, activities }) => {
                   label="Título da atividade"
                   variant="outlined"
                   type="text"
-                  sx={{ width: "80%" }}
+                  sx={{ width: "100%", backgroundColor: "black" }}
                   {...field}
                 />
               )}
@@ -109,14 +112,15 @@ const GroupActivities = ({ groupId, activities }) => {
               control={control}
               defaultValue=""
             />
-            <Button variant="contained" type="submit">
-              ADICIONAR
-            </Button>
+
           </AddActivForm>
         </ModalPopover>
       </AtvHeader>
       <CardsList>
         {activities.map((item, index) => {
+          const editRequest = () =>{
+            return editActiv(item.id, userInput)
+          }
           return (
             <Card key={index}>
               <CardInfo>
@@ -129,6 +133,11 @@ const GroupActivities = ({ groupId, activities }) => {
               </CardInfo>
               <CardButtons>
                 <ModalPopover
+                  callback={editRequest}
+                  msgButton={{ atualizar: "atualizar", cancelar: "cancelar" }}
+                  setFechar={setClose}
+                  fechar={close}
+                  classe="EditActivForm"
                   ele={<RiEdit2Fill fill="var(--dark-blue)" />}
                   anchorReference="anchorPosition"
                   anchorPosition={{ top: 200, left: 200 }}
@@ -140,6 +149,7 @@ const GroupActivities = ({ groupId, activities }) => {
                     vertical: "top",
                     horizontal: "left",
                   }}
+                  darkBlue
                 >
                   <EditActivForm>
                     <TextField
@@ -148,13 +158,7 @@ const GroupActivities = ({ groupId, activities }) => {
                       value={userInput}
                       onChange={(e) => setUserInput(e.currentTarget.value)}
                     />
-                    <Button
-                      variant="contained"
-                      type="submit"
-                      onClick={() => editActiv(item.id, userInput)}
-                    >
-                      SALVAR
-                    </Button>
+
                   </EditActivForm>
                 </ModalPopover>
                 <Button onClick={() => deleteActiv(item.id)}>

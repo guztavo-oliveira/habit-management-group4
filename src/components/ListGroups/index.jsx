@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { useGroup } from "../../providers/JsonGroups";
 import CardGroups, { RenderOneGroup } from "../CardGroups";
 import { Container, ModalCriarGrupo } from "./styles";
@@ -11,7 +11,12 @@ import { ModalDialog } from "../ModalDialog";
 import { TextField } from "@mui/material";
 import { useAuth } from "../../providers/AuthContext";
 import Button from "../Button";
+import SelectInput from "../SelectInput";
+import { useCategoryOptions } from "../../providers/CategoryOptions";
+
 const ListGroups = () => {
+  const { categoryOptions } = useCategoryOptions();
+
   const { myGroups, updateGroup } = useGroup();
   const { tokenBearer } = useAuth();
   const [fechar, setFechar] = useState(false);
@@ -24,6 +29,7 @@ const ListGroups = () => {
   const [description, setDescription] = useState("");
   const [alvo, setAlvo] = useState("");
   const [pode, setPode] = useState(true);
+
   const getGroups = () => {
     api.get("/groups/").then((resp) => setGroups(resp.data));
   };
@@ -43,10 +49,8 @@ const ListGroups = () => {
           previous: resp.data.previous,
           results: [...groups.results, ...resp.data.results],
         });
-        console.log("setei true", groups.next);
         if (resp.data.next === null) {
           setShow(false);
-          console.log("false dentro");
         } else {
           setPode(true);
           setShow(true);
@@ -55,7 +59,6 @@ const ListGroups = () => {
     }
     if (groups.next === null) {
       setShow(false);
-      console.log("false dentro");
     }
   };
   const criarGrupo = () => {
@@ -81,6 +84,7 @@ const ListGroups = () => {
       .catch(() => {
         toast("Adcione todas a informaçoes para criar!");
         setFechar(false);
+        return false;
       });
   };
   useEffect(() => {
@@ -88,61 +92,85 @@ const ListGroups = () => {
       getNextPage();
     }
   }, [groups, search, pode]);
+  // console.log(fechar);
+
+  function useWindowSize() {
+    const [size, setSize] = useState([0, 0]);
+    useLayoutEffect(() => {
+      function updateSize() {
+        setSize([window.innerWidth, window.innerHeight]);
+      }
+      window.addEventListener("resize", updateSize);
+      updateSize();
+      return () => window.removeEventListener("resize", updateSize);
+    }, []);
+    return size;
+  }
+
+  function ShowWindowDimensions(props) {
+    return useWindowSize();
+  }
+
+  const [width] = ShowWindowDimensions();
+
 
   return (
     <Container>
-      {!!!alvo && (
+      {!!alvo ? (
+        <RenderOneGroup group={alvo} setAlvo={setAlvo} />
+      ) : (
         <div className="headerPesquisaGroups">
           <div className="containerCriarGrupo">
-            <h1>{showAllGroups ? "Buscando novos grupos" : "Seus grupos"}</h1>
+            <h2>{showAllGroups ? "Buscando novos grupos" : "Seus grupos"}</h2>
             <ModalDialog
-              // ele="Criar um Grupo"
               ele={<Button darkBlue>Criar grupo</Button>}
-              msgButton={["Criar um Grupo", "Cancelar"]}
-              callback={criarGrupo}
               setFechar={setFechar}
               fechar={fechar}
               darkBlue
             >
               <ModalCriarGrupo>
                 <h2>Criar um grupo novo</h2>
-                <TextField
-                  className="inputCriarGrupo"
-                  id="outlined-basic"
-                  label="Name group"
-                  type="text"
-                  variant="outlined"
-                  sx={{ marginTop: 5 }}
-                  fullWidth
-                  onChange={(e) => setName(e.target.value)}
-                />
-                <TextField
-                  className="inputCriarGrupo"
-                  id="outlined-basic"
-                  label="description"
-                  type="text"
-                  variant="outlined"
-                  sx={{ marginTop: 5 }}
-                  fullWidth
-                  onChange={(e) => setDescription(e.target.value)}
-                />
-                <TextField
-                  className="inputCriarGrupo"
-                  id="outlined-basic"
+                <div className="bodyModalCriarGrupo">
+                  <TextField
+                    className="inputCriarGrupo"
+                    id="outlined-basic"
+                    label="Name group"
+                    type="text"
+                    variant="outlined"
+                    fullWidth
+                    onChange={(e) => setName(e.target.value)}
+                  />
+                  <TextField
+                    className="inputCriarGrupo"
+                    id="outlined-basic"
+                    label="description"
+                    type="text"
+                    variant="outlined"
+                    fullWidth
+                    onChange={(e) => setDescription(e.target.value)}
+                  />
+                <SelectInput
                   label="category"
-                  type="text"
-                  variant="outlined"
-                  sx={{ marginTop: 5 }}
-                  fullWidth
-                  onChange={(e) => setCategory(e.target.value)}
+                  options={categoryOptions}
+                  onchange={setCategory}
+                  value={category}
                 />
+                  <span className="containerCriarGrupoButtons">
+                    <Button
+                      darkBlue
+                      onClick={() => criarGrupo()}
+                      children="Atualizar"
+                    />
+                    <Button red onClick={() => setFechar("fechar")}>
+                      Cancelar
+                    </Button>
+                  </span>
+                </div>
               </ModalCriarGrupo>
             </ModalDialog>
-            <Button green  onClick={() => setShowAllGroups(!showAllGroups)}>
-              {showAllGroups
-                ? "Meus grupos"
-                : "Buscar mais grupos"}
-            </Button>
+            {width >= 800 &&  <Button green onClick={() => setShowAllGroups(!showAllGroups)}>
+              {showAllGroups ? "Meus grupos" : "Buscar mais grupos"}
+            </Button>}
           </div>
           <div>
             <TextField
@@ -151,7 +179,7 @@ const ListGroups = () => {
               value={search}
               type="search"
               variant="outlined"
-              sx={{ marginTop: 5 }}
+              // sx={{ marginTop: 5 }}
               fullWidth
               onChange={(evt) => setSearch(evt.target.value)}
             />
@@ -163,64 +191,79 @@ const ListGroups = () => {
         <div className="containerPesquisa">
           <InfiniteScroll
             dataLength={groups?.results.length}
-            next={() => {
-              getNextPage();
-              console.log("carregou mais");
-            }}
-            height={400}
+            next={getNextPage}
+            height={430}
             hasMore={show}
             loader={<CircularProgress />}
-            className="scrollInfinite"
+            style={{overflowx:"hidden"}}
           >
+            <div className="containerCardGroups">
+          
             {!!search ? (
-              <>
-                {groups.results
-                  .filter(
-                    (ele) =>
-                      ele.name
-                        .toLocaleLowerCase()
-                        .includes(search.trim().toLocaleLowerCase()) ||
-                      ele.category
-                        .toLocaleLowerCase()
-                        .includes(search.trim().toLocaleLowerCase())
-                  )
-                  .map((ele, ind) => (
-                    <CardGroups
-                      group={ele}
-                      updateGroup={updateGroup}
-                      key={ind}
-                    />
-                  ))}
+                <>
+                {groups.results.filter(
+                  (ele) =>
+                    ele.name
+                      .toLocaleLowerCase()
+                      .includes(search.trim().toLocaleLowerCase()) ||
+                    ele.category
+                      .toLocaleLowerCase()
+                      .includes(search.trim().toLocaleLowerCase())
+                ).length > 0 ? (
+                  groups.results
+                    .filter(
+                      (ele) =>
+                        ele.name
+                          .toLocaleLowerCase()
+                          .includes(search.trim().toLocaleLowerCase()) ||
+                        ele.category
+                          .toLocaleLowerCase()
+                          .includes(search.trim().toLocaleLowerCase())
+                    )
+                    .map((ele, ind) => (
+                      <CardGroups
+                        group={ele}
+                        updateGroup={updateGroup}
+                        key={ind}
+                        setAlvo={setAlvo}
+                      />
+                    ))
+                ) : (
+                  <>{!show && <h3>Não foi possivel encontrar o grupo</h3>}</>
+                )}
               </>
             ) : (
               <>
                 {groups.results.map((ele, ind) => (
-                  <CardGroups group={ele} updateGroup={updateGroup} key={ind} />
+                  <CardGroups  group={ele} setAlvo={setAlvo} updateGroup={updateGroup} key={ind} />
                 ))}
               </>
             )}
+             </div>
           </InfiniteScroll>
         </div>
       ) : (
-        <ul className="meusGrupos">
+        <>
           {!!search ? (
-            <>
+            <ul className="meusGrupos">
               {myGroups
-                .filter((ele) =>
-                  ele.name
-                    .toLocaleLowerCase()
-                    .includes(search.trim().toLocaleLowerCase())
+                .filter(
+                  (ele) =>
+                    ele.name
+                      .toLocaleLowerCase()
+                      .includes(search.trim().toLocaleLowerCase()) ||
+                    ele.category
+                      .toLocaleLowerCase()
+                      .includes(search.trim().toLocaleLowerCase())
                 )
                 .map((ele, ind) => (
                   <CardGroups group={ele} updateGroup={updateGroup} key={ind} />
                 ))}
-            </>
+            </ul>
           ) : (
             <>
-              {!!alvo ? (
-                <RenderOneGroup group={alvo} setAlvo={setAlvo} />
-              ) : (
-                <>
+              {!!!alvo && (
+                <ul className="meusGrupos">
                   {myGroups.map((ele, ind) => (
                     <CardGroups
                       setAlvo={setAlvo}
@@ -229,11 +272,11 @@ const ListGroups = () => {
                       key={ind}
                     />
                   ))}
-                </>
+                </ul>
               )}
             </>
           )}
-        </ul>
+        </>
       )}
     </Container>
   );

@@ -6,6 +6,14 @@ export const Container = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
+  overflow: hidden;
+  background: rgb(255, 255, 255);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(8, 246, 255, 1) 50%,
+    rgba(52, 133, 255, 1) 100%
+  );
 `;
 
 export const ImagemM = styled.img`
@@ -40,14 +48,13 @@ export const SectionB = styled.section`
   }
   button {
     width: 198px;
-    height: 50px;
     border-radius: 8px;
-    color:white;
+    color: white;
+    border: 2px solid #fff;
+    font-size: 18px;
+    background-color: #0870ff;
     &:nth-child(2) {
       background-color: #08afff;
-    }
-    &:nth-child(1) {
-      background-color: #0870ff;
     }
   }
 `;

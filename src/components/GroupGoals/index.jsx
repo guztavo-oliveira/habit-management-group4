@@ -1,8 +1,7 @@
 import { useState } from "react";
 import api from "../../services/api";
 import { useForm, Controller } from "react-hook-form";
-import Toastify from "toastify";
-import { Button, TextField } from "@material-ui/core";
+import { TextField } from "@material-ui/core";
 import { ToggleButtonGroup, ToggleButton } from "@mui/material";
 import { useAuth } from "../../providers/AuthContext";
 import {
@@ -18,13 +17,15 @@ import {
 import { ModalPopover } from "../ModalPopover";
 import OpenGoals from "./OpenGoals";
 import AchievedGoals from "./AchievedGoals";
+import { toast } from "react-toastify";
 
 const GroupGoals = ({ groupId, openGoals, achievedGoals }) => {
   const [difficultyValue, setDifficultyValue] = useState("Fácil");
   const { tokenBearer, refresh, setRefresh } = useAuth();
-  const [data, setData] = useState("");
+  const [data, setData] = useState("achieved: true");
   const [alternate, setAlternate] = useState(true);
   const { handleSubmit, control } = useForm();
+  const [close, setClose] = useState(false);
 
   const handleAlternate = () => {
     alternate === true ? setAlternate(false) : setAlternate(true);
@@ -36,22 +37,24 @@ const GroupGoals = ({ groupId, openGoals, achievedGoals }) => {
     api
       .delete(`/goals/${goalId}/`, tokenBearer)
       .then((response) => {
-        Toastify.success("Tudo certo!", "Meta removida com sucesso.");
+        toast.success("Tudo certo!", "Meta removida com sucesso.");
         refresh === true ? setRefresh(false) : setRefresh(true);
       })
       .catch((err) => {
-        Toastify.error("Oops!", "Caso o erro persista, faça login novamente.");
+        toast.error("Oops!", "Caso o erro persista, faça login novamente.");
       });
   };
 
   const editGoal = (goalId, achieved) => {
-    achieved === false ? setData("achieved: true") : setData("achieved: false");
+    achieved === false
+      ? setData({ achieved: true })
+      : setData({ achieved: false });
     api
       .patch(`goals/${goalId}/`, data, tokenBearer)
       .then((response) => {
         data === "achieved: true"
-          ? Toastify.success("Meta concluída!")
-          : Toastify.success("Meta reativada.");
+          ? toast.success("Meta concluída!")
+          : toast.success("Meta reativada.");
         refresh === true ? setRefresh(false) : setRefresh(true);
       })
       .catch((err) => {
@@ -69,11 +72,13 @@ const GroupGoals = ({ groupId, openGoals, achievedGoals }) => {
     api
       .post("/goals/", data, tokenBearer)
       .then((response) => {
-        Toastify.success("Tudo certo!", "Meta adicionada com sucesso.");
+        toast.success("Tudo certo!", "Meta adicionada com sucesso.");
         refresh === true ? setRefresh(false) : setRefresh(true);
+        setClose("fechar");
       })
       .catch((err) => {
-        Toastify.error("Oops!", "Caso o erro permaneça, faça login novamente.");
+        toast.error("Oops!", "Caso o erro permaneça, faça login novamente.");
+        setClose(false);
       });
   };
 
@@ -91,8 +96,17 @@ const GroupGoals = ({ groupId, openGoals, achievedGoals }) => {
               METAS ATUAIS
             </ShowOpen>
           )}
-          <ModalPopover ele={<AddButton variant="contained">+</AddButton>}>
-            <AddGoalsForm onSubmit={handleSubmit(addGoal)}>
+          <ModalPopover
+            callback={handleSubmit(addGoal)}
+            classe="AddGoalForm"
+            msgButton={{ atualizar: "Adicionar", cancelar: "cancelar" }}
+            setFechar={setClose}
+            fechar={close}
+            ele={<AddButton variant="contained">+</AddButton>}
+            darkBlue
+          >
+            <AddGoalsForm>
+              <span>Meta</span>
               <Controller
                 render={({ field }) => (
                   <TextField
@@ -108,6 +122,7 @@ const GroupGoals = ({ groupId, openGoals, achievedGoals }) => {
                 control={control}
                 defaultValue=""
               />
+              <span>Dificuldade</span>
               <Controller
                 render={({ field }) => (
                   <ToggleButtonGroup
@@ -135,9 +150,9 @@ const GroupGoals = ({ groupId, openGoals, achievedGoals }) => {
                 defaultValue=""
               />
 
-              <Button variant="contained" type="submit">
+              {/*<Button variant="contained" type="submit">
                 ADICIONAR
-              </Button>
+                </Button>*/}
             </AddGoalsForm>
           </ModalPopover>
         </MainButtons>

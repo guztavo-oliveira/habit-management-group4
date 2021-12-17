@@ -1,79 +1,132 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  width: 95%;
   display: flex;
-  padding: 15px;
+  padding: 15px 0;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
+  overflow-x: hidden;
+  .containerCardGroups {
+    width: 320px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
   background: var(--background);
   margin-bottom: 90px;
-
-  .scrollInfinite {
-    justify-content: center;
-    align-items: center;
-    height: 400px;
+  h2 {
+    font-family: "Nova Round", cursive;
+  }
+  .infinite-scroll-component {
     display: flex;
-    overflow-y: auto;
     flex-direction: column;
-    justify-content: flex-start;
-    margin-top: 25px;
-    ::-webkit-scrollbar-track {
-      background-color: var(--light-blue);
-    }
-    ::-webkit-scrollbar {
-      width: 12px;
-      background: blue;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: blue;
-      border-radius: 15px 15px;
-    }
+    align-items: center;
   }
 
+  .infinite-scroll-component {
+    overflow-x: hidden;
+  }
+  .containerPesquisa {
+    width: 100%;
+    overflow: hidden;
+  }
   .headerPesquisaGroups {
     display: flex;
     justify-content: space-around;
     width: 100%;
     flex-direction: column;
+    margin-bottom: 25px;
   }
 
   .meusGrupos {
     overflow-y: auto;
     height: 400px;
-
-    ::-webkit-scrollbar-track {
-      background-color: var(--light-blue);
-    }
-    ::-webkit-scrollbar {
-      width: 5px;
-      background: blue;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: blue;
-      border-radius: 15px 15px;
-    }
+    margin-top: 20px;
+    width: 100%;
   }
 
   .containerCriarGrupo {
     display: flex;
     justify-content: space-between;
+    margin-bottom: 15px;
+    padding: 0 15px;
+    align-items: center;
   }
-  .inputCriarGrupo{
-    width: 95%;
+  .inputCriarGrupo {
   }
-
+  @media (min-width: 1024px) {
+    padding: 20px;
+    width: 500px;
+    height: 617px;
+    display: flex;
+    overflow-y: auto;
+    overflow-x: hidden;
+    justify-content: flex-start;
+    /* .meusGrupos {
+      ::-webkit-scrollbar-track {
+        background-color: var(--light-blue);
+      }
+      ::-webkit-scrollbar {
+        width: 12px;
+        background: blue;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: blue;
+        border-radius: 15px 15px;
+      }
+    } */
+    /* #scrollInfinite {
+      ::-webkit-scrollbar-track {
+        background-color: var(--light-blue);
+      }
+      ::-webkit-scrollbar {
+        width: 12px;
+        background: blue;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: blue;
+        border-radius: 15px 15px;
+      }
+    } */
+    .containerPesquisa {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .containerCardGroups {
+    width: 430px;
+  }
+    /* .infinite-scroll-component__outerdiv{
+      width: 450px;
+    } */
+  }
 `;
 export const ModalCriarGrupo = styled.div`
+  h2 {
+    height: 50px;
+    background: var(--dark-blue);
+    display: flex;
+    align-items: center;
+    padding-left: 15px;
+    color: white;
+  }
+  .bodyModalCriarGrupo {
     padding: 15px;
-    min-width: 300px;
-    height: 350px;
+    min-width: 250px;
+    height: 310px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-
-
-` 
+    justify-content: space-between;
+  }
+  .containerCriarGrupoButtons {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    button{
+      width: 100px;
+    }
+  }
+`;

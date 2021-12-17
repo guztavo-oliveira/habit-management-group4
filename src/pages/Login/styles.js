@@ -1,9 +1,10 @@
 import { css, keyframes } from "styled-components";
 import styled from "styled-components";
-import loginLogo from "../../assets/images/login-logo.png";
+// import loginLogo from "../../assets/images/login-logo.png";
+import loginLogo from "../../assets/images/loginLogo.svg";
 
 export const Container = styled.div`
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   /* background-color: var(--dark-blue); */
   background: rgb(52, 133, 255);
@@ -26,8 +27,8 @@ export const Container = styled.div`
   position: relative;
   display: flex;
   align-items: center;
-  overflow: hidden;
 `;
+
 
 const logoFromRight = keyframes`
   from {
@@ -38,7 +39,6 @@ const logoFromRight = keyframes`
   to {
     transform: translate(-50%,-50%);
     opacity: 1;
-    
   }
 
 
@@ -49,6 +49,7 @@ export const LoginLogo = styled.div`
     width: 55%;
     height: 55%;
     background: url(${loginLogo}) no-repeat center;
+    /* background-size: 1000px; */
     background-size: contain;
     animation: ${logoFromRight} 1s;
     position: absolute;
