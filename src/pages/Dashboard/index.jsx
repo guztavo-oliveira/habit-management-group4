@@ -9,7 +9,7 @@ import {
 } from "./styles";
 import { BiUser, BiGroup } from "react-icons/bi";
 import { GoHome, GoPerson, GoSearch } from "react-icons/go";
-import { BsGear } from "react-icons/bs";
+import { MdOutlineExitToApp } from "react-icons/md";
 import { useEffect, useState, useLayoutEffect } from "react";
 import api from "../../services/api";
 import { useAuth } from "../../providers/AuthContext";
@@ -50,7 +50,7 @@ const Dashboard = () => {
   const [larguraTela] = useState(window.innerWidth);
 
   const submit = () => {
-    if (!!newUser || !!newEmail) {
+    if (!!!newUser || !!!newEmail) {
       return toast.error("Preencha todos os campos");
     }
     const data = {
@@ -94,10 +94,71 @@ const Dashboard = () => {
   return (
     <>
       {width >= resize ? (
-        // <Container width={resivze}>
-        <Container>
-          <Header>
+        <Container width={resize}>
+          <Header width={resize}>
             <div className="logo" />
+            <div className="adjustDivModal">
+              <ModalPopover
+                icon={<BiUser />}
+                classe="userProfile"
+                darkBlue
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "right",
+                }}
+                setFechar={setFechar}
+                fechar={fechar}
+              >
+                <p>{user.username}</p>
+                <p>{user.email}</p>
+                <div className="editProfile">
+                  <ModalDialog
+                    ele={"Editar perfil"}
+                    msgButton={{
+                      atualizar: "Atualizar",
+                      cancelar: "Cancelar",
+                    }}
+                    fechar={fechar}
+                    setFechar={setFechar}
+                    callback={submit}
+                    classe="editUserModal"
+                    darkBlue
+                  >
+                    <div className="header">
+                      <h3>Alterar dados do usuário</h3>
+                    </div>
+                    <div className="edit">
+                      <TextField
+                        label="Nome"
+                        variant="outlined"
+                        defaultValue={user.username}
+                        onChange={(e) => setNewUser(e.target.value)}
+                      />
+                      <TextField
+                        label="E-mail"
+                        variant="outlined"
+                        defaultValue={user.email}
+                        onChange={(e) => setNewEmail(e.target.value)}
+                      />
+                    </div>
+                  </ModalDialog>
+                </div>
+                <div
+                  className="exitButton"
+                  onClick={() => {
+                    signOut();
+                  }}
+                >
+                  <p>
+                    Sair <MdOutlineExitToApp />
+                  </p>
+                </div>
+              </ModalPopover>
+            </div>
           </Header>
           <Wrapper>
             <ContainerHabits>
@@ -110,6 +171,9 @@ const Dashboard = () => {
         </Container>
       ) : (
         <Container>
+          <Header width={resize}>
+            <div className="logo" />
+          </Header>
           {(choose.includes("home") && (
             <ContainerHabits>
               <h1>Hábitos</h1>
@@ -192,12 +256,14 @@ const Dashboard = () => {
                     </ModalDialog>
                   </div>
                   <div
-                    id="exitButton"
+                    className="exitButton"
                     onClick={() => {
                       signOut();
                     }}
                   >
-                    <p>Sair</p>
+                    <p>
+                      Sair <MdOutlineExitToApp />
+                    </p>
                   </div>
                 </ModalPopover>
               </div>
