@@ -6,13 +6,11 @@ import { TextField } from "@material-ui/core";
 import { useHistory, Link } from "react-router-dom";
 import { Container, InputContainer, Bar, RegisterLogo } from "./styles";
 import Button from "../../components/Button";
+import { toast } from "react-toastify";
 
 const Register = () => {
   const schema = yup.object().shape({
-    username: yup
-      .string()
-      .email("E-mail inválido")
-      .required("Utilize seu e-mail cadastrado"),
+    username: yup.string().required("Digite um username"),
     email: yup.string().email("E-mail inválido").required("Campo obrigatório"),
     password: yup
       .string()
@@ -47,6 +45,7 @@ const Register = () => {
       .post("/users/", data)
       .then((response) => {
         console.log(response.data);
+        toast.success("Usuário criado com sucesso!");
         history.push("/login");
       })
       .catch((err) => console.log(err.response.data));
@@ -62,7 +61,6 @@ const Register = () => {
             <TextField
               id="outlined-basic"
               label="Nome"
-              type="email"
               variant="outlined"
               sx={{ marginTop: 5 }}
               fullWidth
