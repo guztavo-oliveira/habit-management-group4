@@ -44,7 +44,6 @@ justify-content:space-around;
   }
 
   justify-content: flex-end;
-  height: 100%;
   box-sizing: border-box;
 
   h2 {

@@ -68,7 +68,6 @@ const Dashboard = () => {
         setFechar(false);
       });
   };
-  console.log(larguraTela);
   //////////////////////////////////////////////////////////
 
   function useWindowSize() {

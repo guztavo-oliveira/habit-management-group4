@@ -128,9 +128,7 @@ const CardGroups = ({ group, updateGroup, setAlvo }) => {
     <Container
       groupIcon={!!groupIcon ? groupIcon.image : groupIconDefault}
       onClick={() => {
-        console.log('entrei na funcao click')
         if (myGroups.some((item) => item.name === group.name)) {
-          console.log('entrei no card')
           setAlvo(group);
         } else {
           toast.error("É necessário entrar no grupo para abrir a page...");
@@ -223,7 +221,6 @@ export const RenderOneGroup = ({ group, setAlvo }) => {
       .catch((err) => {
         console.log(err);
       });
-    console.log("atualizou");
   }, [refresh]);
 
   const unsubscribe = () => {
@@ -235,8 +232,6 @@ export const RenderOneGroup = ({ group, setAlvo }) => {
       })
       .catch((err) => toast("Algo deu errado ao tentar sair do grupo..."));
   };
-  console.log(openGoals);
-  console.log(activities);
   return (
     <ContainerOneGroup
       groupIcon={!!groupIcon ? groupIcon.image : groupIconDefault}

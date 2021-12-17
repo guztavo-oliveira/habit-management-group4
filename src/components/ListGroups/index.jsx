@@ -159,7 +159,7 @@ const ListGroups = () => {
                     <Button
                       darkBlue
                       onClick={() => criarGrupo()}
-                      children="Atualizar"
+                      children="Criar grupo"
                     />
                     <Button red onClick={() => setFechar("fechar")}>
                       Cancelar
@@ -187,7 +187,7 @@ const ListGroups = () => {
         </div>
       )}
 
-      {showAllGroups ? (
+      {showAllGroups && width > 800 ? (
         <div className="containerPesquisa">
           <InfiniteScroll
             dataLength={groups?.results.length}

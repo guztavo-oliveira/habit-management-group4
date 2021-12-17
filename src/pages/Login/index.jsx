@@ -68,11 +68,6 @@ const Login = () => {
 
   return (
     <>
-<<<<<<< Updated upstream
-      <Bar />
-
-=======
->>>>>>> Stashed changes
       <LoginLogo />
 
       <Container>
